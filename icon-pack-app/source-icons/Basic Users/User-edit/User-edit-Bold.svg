@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/User-edit/Bold</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-Users" transform="translate(-168, -530)" fill-rule="nonzero">
+            <g id="User-edit" transform="translate(148, 414)" xlink:href="#path-1">
+                <g id="Icon/User-edit/Bold" transform="translate(20, 116)" xlink:href="#path-2">
+                    <path d="M11.8,17 C11.8,15.9 12.1000001,14.9000004 12.6000001,14.1000004 C12.3000001,14.1000004 11.9000002,14.1000004 11.6000001,14.1000004 C6.50000024,14.1000004 2.39999991,17.499999 2.49999991,21.7999992 C2.49999991,21.9999992 2.7,22.1000004 2.90000001,22.1000004 L14.6999996,22.1000004 C12.9999995,21.1000004 11.8,19.2000003 11.8,17.1000004 L11.8,17 Z" id="Vector" fill="CURRENTCOLOR"></path>
+                    <path d="M17.7793956,13.7617482 L14.2393565,17.3017874 C14.0993565,17.4417874 13.9693687,17.7017532 13.9393687,17.8917532 L13.7493663,19.2417288 C13.6793663,19.7317288 14.019376,20.0717385 14.509376,20.0017385 L15.8593516,19.8117361 C16.0493516,19.7817361 16.3193785,19.6517483 16.4493785,19.5117483 L19.9893565,15.97177 C20.5993565,15.36177 20.8893565,14.6517384 19.9893565,13.7517384 C19.0993565,12.8617384 18.3893956,13.1517482 17.7793956,13.7617482 Z" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M17.2695312,14.2717285 C17.5695313,15.3517286 18.4095019,16.1916992 19.489502,16.4916992" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M11.5,12 C14.3,12 16.5,9.79999995 16.5,7 C16.5,4.20000005 14.3,2 11.5,2 C8.70000005,2 6.5,4.20000005 6.5,7 C6.5,9.79999995 8.70000005,12 11.5,12 Z" id="Vector" fill="CURRENTCOLOR"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

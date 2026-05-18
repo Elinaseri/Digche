@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/GridView/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="View-Controls" transform="translate(-788, -234)" fill-rule="nonzero">
+            <g id="Grid-View" transform="translate(768, 166)" xlink:href="#path-1">
+                <g id="Icon/GridView/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <path d="M22,8.52000046 L22,3.98000002 C22,2.57000005 21.3600005,2 19.7700005,2 L15.7299995,2 C14.1399995,2 13.5,2.57000005 13.5,3.98000002 L13.5,8.51000023 C13.5,9.93000019 14.1399995,10.4899998 15.7299995,10.4899998 L19.7700005,10.4899998 C21.3600005,10.5 22,9.93000042 22,8.52000046 Z" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M22,19.7700005 L22,15.7299995 C22,14.1399995 21.3600005,13.5 19.7700005,13.5 L15.7299995,13.5 C14.1399995,13.5 13.5,14.1399995 13.5,15.7299995 L13.5,19.7700005 C13.5,21.3600005 14.1399995,22 15.7299995,22 L19.7700005,22 C21.3600005,22 22,21.3600005 22,19.7700005 Z" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M10.5,8.52000046 L10.5,3.98000002 C10.5,2.57000005 9.86000049,2 8.27000046,2 L4.23000002,2 C2.63999999,2 2,2.57000005 2,3.98000002 L2,8.51000023 C2,9.93000019 2.63999999,10.4899998 4.23000002,10.4899998 L8.27000046,10.4899998 C9.86000049,10.5 10.5,9.93000042 10.5,8.52000046 Z" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M10.5,19.7700005 L10.5,15.7299995 C10.5,14.1399995 9.86000049,13.5 8.27000046,13.5 L4.23000002,13.5 C2.63999999,13.5 2,14.1399995 2,15.7299995 L2,19.7700005 C2,21.3600005 2.63999999,22 4.23000002,22 L8.27000046,22 C9.86000049,22 10.5,21.3600005 10.5,19.7700005 Z" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <polygon id="Vector" opacity="0" points="0 0 24 0 24 24 0 24"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

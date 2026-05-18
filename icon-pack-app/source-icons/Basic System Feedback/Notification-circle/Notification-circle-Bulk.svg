@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Notification-circle/Bulk</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-System-feedback" transform="translate(-688, -330)" fill="CURRENTCOLOR" fill-rule="nonzero">
+            <g id="notification-circle" transform="translate(668, 166)" xlink:href="#path-1">
+                <g id="Icon/Notification-circle/Bulk" transform="translate(20, 164)" xlink:href="#path-2">
+                    <path d="M22,5 C22,6.65685427 20.6568543,8 19,8 C17.3431457,8 16,6.65685427 16,5 C16,3.34314573 17.3431457,2 19,2 C20.6568543,2 22,3.34314573 22,5 Z" id="Vector"></path>
+                    <path d="M19,9.5 C16.52,9.5 14.5,7.48000002 14.5,5 C14.5,4.08999997 14.7699998,3.24999994 15.2399998,2.54999995 C14.2199998,2.19999996 13.13,2 12,2 C6.48999977,2 2,6.48999977 2,12 C2,17.5100002 6.48999977,22 12,22 C17.5100002,22 22,17.5100002 22,12 C22,10.87 21.8000008,9.78000021 21.4500008,8.76000023 C20.7500008,9.23000023 19.91,9.5 19,9.5 Z" id="Vector" opacity="0.400000006"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

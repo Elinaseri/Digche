@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Filter-edit/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-Search" transform="translate(-376, -234)" fill-rule="nonzero">
+            <g id="Filter-edit" transform="translate(356, 166)" xlink:href="#path-1">
+                <g id="Icon/Filter-edit/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <path d="M13.4095459,20.7900085 L11.9995728,21.7000122 C10.6895728,22.5100098 8.86956787,21.600011 8.86956787,19.980011 L8.86956787,14.6300049 C8.86956787,13.9200049 8.46957031,13.0100098 8.05957031,12.5100098 L4.21954346,8.47000122 C3.70954347,7.96000123 3.30957031,7.06001222 3.30957031,6.45001221 L3.30957031,4.13000488 C3.30957031,2.92000484 4.21958983,2.01000977 5.32958984,2.01000977 L18.6695557,2.01000977 C19.7795557,2.01000977 20.6895752,2.91999876 20.6895752,4.02999878 L20.6895752,6.25 C20.6895752,7.06 20.1795654,8.07000732 19.6795654,8.57000732" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M17.0799937,11.8900136 L13.5399546,15.4299917 C13.3999546,15.5699917 13.2699669,15.8299881 13.2399669,16.0199881 L13.0499644,17.3699942 C12.9799644,17.8599942 13.3199742,18.2000039 13.8099742,18.1300039 L15.1599498,17.9400015 C15.3499498,17.9100015 15.6199766,17.7800137 15.7499766,17.6400137 L19.2899547,14.1000049 C19.8999547,13.4900049 20.1899546,12.7800038 19.2899547,11.8800038 C18.3999547,10.9900038 17.6899937,11.2800136 17.0799937,11.8900136 Z" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M16.5800171,12.3900146 C16.8800171,13.4700147 17.7199878,14.3099853 18.7999878,14.6099854" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <polygon id="Vector" opacity="0" transform="translate(12, 12) rotate(-180) translate(-12, -12)" points="0 0 24 0 24 24 0 24"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

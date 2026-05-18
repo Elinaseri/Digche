@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/User-edit/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Basic-Users" transform="translate(-168, -482)" fill-rule="nonzero" stroke="CURRENTCOLOR" stroke-width="1.5">
+            <g id="User-edit" transform="translate(148, 414)" xlink:href="#path-1">
+                <g id="Icon/User-edit/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <path d="M17,7 C17,9.76142383 14.7614238,12 12,12 C9.23857617,12 7,9.76142383 7,7 C7,4.23857617 9.23857617,2 12,2 C14.7614238,2 17,4.23857617 17,7 Z" id="Vector"></path>
+                    <path d="M3.40997314,22 C3.40997314,18.1300001 7.26000023,15 12,15" id="Vector"></path>
+                    <path d="M18.8292003,15.3618459 L15.2891612,18.901885 C15.1491612,19.041885 15.0191734,19.3018509 14.9891734,19.4918509 L14.799171,20.8418264 C14.729171,21.3318264 15.0691807,21.6718362 15.5591807,21.6018362 L16.9091563,21.4118338 C17.0991563,21.3818338 17.3691832,21.251846 17.4991832,21.111846 L21.0391612,17.5718677 C21.6491612,16.9618677 21.9391612,16.2518361 21.0391612,15.3518361 C20.1491612,14.4618361 19.4392003,14.7518458 18.8292003,15.3618459 Z" id="Vector"></path>
+                    <path d="M18.3193359,15.8718262 C18.6193359,16.9518262 19.4593066,17.7917969 20.5393066,18.0917969" id="Vector"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

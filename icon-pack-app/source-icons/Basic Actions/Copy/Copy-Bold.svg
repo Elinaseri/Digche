@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Copy/Bold</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-Actions" transform="translate(-584, -530)" fill="CURRENTCOLOR" fill-rule="nonzero">
+            <g id="Copy" transform="translate(564, 414)" xlink:href="#path-1">
+                <g id="Icon/Copy/Bold" transform="translate(20, 116)" xlink:href="#path-2">
+                    <path d="M12,8 C14.2091389,8 16,9.79086113 16,12 L16,18 C16,20.2091389 14.2091389,22 12,22 L6,22 C3.79086089,22 2,20.2091389 2,18 L2,12 C2,9.79086113 3.79086113,8 6,8 Z M18,2 C20.2091389,2 22,3.79086113 22,6 L22,12 C22,14.2091389 20.2091389,16 18,16 L17.5,16 L17.5,11.3571424 C17.5,8.67461681 15.3253822,6.5 12.6428566,6.5 L8,6.5 L8,6 C8,3.79086113 9.79086113,2 12,2 Z" id="Combo-shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

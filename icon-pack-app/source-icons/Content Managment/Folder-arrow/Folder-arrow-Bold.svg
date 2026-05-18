@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Folder-arrow/Bold</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Content-Managment" transform="translate(-480, -528)" fill-rule="nonzero">
+            <g id="Folder-Arrow" transform="translate(460, 412)" xlink:href="#path-1">
+                <g id="Icon/Folder-arrow/Bold" transform="translate(20, 116)" xlink:href="#path-2">
+                    <path d="M21.6700001,9.25 L3,9.25 C2.44771525,9.25 2,8.80228475 2,8.25 L2,6.42000008 L2,6.42000008 C2,3.98000002 3.98000002,2 6.42000008,2 L8.73999977,2 C10.3699998,2 10.8799998,2.53000009 11.5299997,3.4000001 L12.9300003,5.26000023 C13.2400003,5.67000023 13.2799997,5.71999979 13.8599997,5.71999979 L16.6499996,5.71999979 C18.9599996,5.71999979 20.9300001,7.19000006 21.6700001,9.25 Z" id="Vector" fill="CURRENTCOLOR"></path>
+                    <path d="M20.9833654,10.7494607 C21.5343338,10.7494509 21.9815097,11.1951058 21.9833773,11.746071 L21.9999995,16.649796 C21.9999995,19.5997961 19.5999992,21.999795 16.6499991,21.999795 L7.34999943,21.999795 C4.39999938,21.999795 1.99999952,19.5997961 1.99999952,16.649796 L2.00001719,11.7497961 C2.00001719,11.1975182 2.44772167,10.7498058 2.99999952,10.7497961 Z M11.9998861,12.9998093 L11.9998861,18.9998093 L13.9998861,16.9998093 L11.9998861,12.9998093 Z" id="Subtract" fill="CURRENTCOLOR"></path>
+                    <path d="" id="Subtract" fill="#FFFFFF"></path>
+                    <polygon id="Vector" opacity="0" transform="translate(12, 12) rotate(-180) translate(-12, -12)" points="0 0 24 0 24 24 0 24"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

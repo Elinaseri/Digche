@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/User-search/Bold</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-Users" transform="translate(-64, -530)" fill-rule="nonzero">
+            <g id="User-search" transform="translate(44, 414)" xlink:href="#path-1">
+                <g id="Icon/User-search/Bold" transform="translate(20, 116)" xlink:href="#path-2">
+                    <path d="M11.8,17 C11.8,15.9 12.1000001,14.9000004 12.6000001,14.1000004 C12.3000001,14.1000004 11.9000002,14.1000004 11.6000001,14.1000004 C6.50000024,14.1000004 2.39999991,17.499999 2.49999991,21.7999992 C2.49999991,21.9999992 2.7,22.1000004 2.90000001,22.1000004 L14.6999996,22.1000004 C12.9999995,21.1000004 11.8,19.2000003 11.8,17.1000004 L11.8,17 Z" id="Vector" fill="CURRENTCOLOR"></path>
+                    <path d="M20.3502197,16.5999146 C20.3502197,18.3672258 18.9175187,19.7999268 17.1502075,19.7999268 C15.3828963,19.7999268 13.9501953,18.3672258 13.9501953,16.5999146 C13.9501953,14.8326033 15.3828963,13.3999023 17.1502075,13.3999023 C18.9175187,13.3999023 20.3502197,14.8326033 20.3502197,16.5999146 Z" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <line x1="20.9501953" y1="20.3999023" x2="19.9501953" y2="19.3999023" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line>
+                    <path d="M11.5,12 C14.3,12 16.5,9.79999995 16.5,7 C16.5,4.20000005 14.3,2 11.5,2 C8.70000005,2 6.5,4.20000005 6.5,7 C6.5,9.79999995 8.70000005,12 11.5,12 Z" id="Vector" fill="CURRENTCOLOR"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

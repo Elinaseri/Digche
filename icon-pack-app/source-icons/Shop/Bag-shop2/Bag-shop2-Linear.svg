@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Bag-shop2/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Shop" transform="translate(-272, -233)" fill-rule="nonzero" stroke="CURRENTCOLOR" stroke-width="1.5">
+            <g id="bag-Shop-2" transform="translate(252, 165)" xlink:href="#path-1">
+                <g id="Icon/Bag-shop2/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <path d="M7.25080323,7.66170788 L7.25080323,6.69170761 C7.25080323,4.44170761 9.06080365,2.23170796 11.3108037,2.02170797 C13.9908037,1.76170798 16.2508032,3.87170792 16.2508032,6.50170803 L16.2508032,7.88170767" id="Vector"></path>
+                    <path d="M8.75080347,21.991708 L14.750803,21.991708 C18.770803,21.991708 19.4908038,20.3817084 19.7008038,18.4217083 L20.4508038,12.4217083 C20.7208038,9.98170829 20.020803,7.99170804 15.750803,7.99170804 L7.75080347,7.99170804 C3.48080349,7.99170804 2.78080322,9.98170829 3.05080323,12.4217083 L3.80080348,18.4217083 C4.01080348,20.3817084 4.73080349,21.991708 8.75080347,21.991708 Z" id="Vector"></path>
+                    <line x1="15.2462871" y1="11.991708" x2="15.2552691" y2="11.991708" id="Vector"></line>
+                    <line x1="8.24531056" y1="11.991708" x2="8.2542925" y2="11.991708" id="Vector"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

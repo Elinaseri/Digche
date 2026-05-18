@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Mnue-horizontal/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-Navigation" transform="translate(-376, -482)" fill-rule="nonzero" stroke="CURRENTCOLOR">
+            <g id="More-horizontal" transform="translate(356, 414)" xlink:href="#path-1">
+                <g id="Icon/Mnue-horizontal/Linear" transform="translate(20, 68)" xlink:href="#path-2" fill-rule="evenodd">
+                    <g id="Vector" transform="translate(2, 10)">
+                        <path d="M10,4 C8.89543045,4 8,3.10456944 8,2 C8,0.895430326 8.89543045,0 10,0 C11.1045696,0 12,0.895430446 12,2 C12,3.10456955 11.1045696,4 10,4 Z" stroke-width="1.5" fill-rule="nonzero"></path>
+                        <path d="M18,4 C16.8954304,4 16,3.10456944 16,2 C16,0.895430326 16.8954304,0 18,0 C19.1045696,0 20,0.895430446 20,2 C20,3.10456955 19.1045696,4 18,4 Z" stroke-width="1.5" fill-rule="nonzero"></path>
+                        <path d="M2,4 C0.895430326,4 0,3.10456944 0,2 C0,0.895430326 0.895430446,0 2,0 C3.10456955,0 4,0.895430446 4,2 C4,3.10456955 3.10456944,4 2,4 Z" stroke-width="1.5" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

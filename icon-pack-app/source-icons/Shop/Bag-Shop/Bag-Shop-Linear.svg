@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Bag-Shop/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <g id="Shop" transform="translate(-64, -233)" fill-rule="nonzero" stroke="CURRENTCOLOR" stroke-width="1.5">
+            <g id="bag-Shop" transform="translate(44, 165)" xlink:href="#path-1">
+                <g id="Icon/Bag-Shop/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <path d="M4.56972754,9.26284695 C4.92445722,7.37095535 6.57635617,6 8.50121641,6 L15.8618069,6 C17.7866671,6 19.4385652,7.37095439 19.7932949,9.26284599 L21.2932949,17.2628431 C21.7548551,19.7244976 19.866359,22 17.3618069,22 L7.00121689,22 C4.49666476,22 2.60816736,19.7245004 3.06972758,17.262846 L4.56972754,9.26284695 Z" id="Vector"></path>
+                    <path d="M16.1815109,6 C16.1815109,3.79086113 14.3906498,2 12.1815109,2 C9.97237206,2 8.1815114,3.79086113 8.1815114,6" id="Vector"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Copy/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <g id="Basic-Actions" transform="translate(-584, -482)" fill-rule="nonzero" stroke="CURRENTCOLOR">
+            <g id="Copy" transform="translate(564, 414)" xlink:href="#path-1">
+                <g id="Icon/Copy/Linear" transform="translate(20, 68)" xlink:href="#path-2" fill-rule="evenodd">
+                    <g id="Vector/linear" transform="translate(2, 2)">
+                        <path d="M0,10 C0,7.79086113 1.79086113,6 4,6 L6,6 L10,6 C12.2091389,6 14,7.79086113 14,10 L14,14 L14,16 C14,18.2091389 12.2091389,20 10,20 L4,20 C1.79086089,20 0,18.2091389 0,16 L0,10 Z" stroke-width="1.5" fill-rule="nonzero"></path>
+                        <path d="M6,6 L6,4 C6,1.79086113 7.79086113,0 10,0 L16,0 C18.2091389,0 20,1.79086113 20,4 L20,10 C20,12.2091389 18.2091389,14 16,14 L14,14" stroke-width="1.5" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

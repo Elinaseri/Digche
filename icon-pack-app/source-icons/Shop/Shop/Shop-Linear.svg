@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Shop/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Shop" transform="translate(-168, -481)" fill-rule="nonzero" stroke="CURRENTCOLOR">
+            <g transform="translate(148, 413)" xlink:href="#path-1" id="Icon/Shop/Linear">
+                <g transform="translate(20, 68)" xlink:href="#path-2" fill-rule="evenodd">
+                    <g id="Group" transform="translate(2, 2)">
+                        <path d="M0.712833134,9.22000027 L0.712833134,13.71 C0.712833134,18.1999998 2.57751823,20 7.22887086,20 L12.8125656,20 C17.4639182,20 19.3286033,18.1999998 19.3286033,13.71 L19.3286033,9.22000027" id="Vector" stroke-width="1.5" fill-rule="nonzero"></path>
+                        <path d="M10.0258983,10 C11.9216613,10 13.3201749,8.51000035 13.1337064,6.68000031 L12.4499888,0 L7.61216733,0 L6.91809013,6.68000031 C6.73162163,8.51000035 8.13013523,10 10.0258983,10 Z" id="Vector" stroke-width="1.5" fill-rule="nonzero"></path>
+                        <path d="M16.5626542,10 C18.655245,10 20.1884316,8.36000037 19.9812443,6.35000038 L19.6911815,3.5999999 C19.3182445,0 18.2823089,0 15.5681565,0 L12.4085514,0 L13.1337064,7.01000023 C13.3098155,8.66000021 14.8533597,10 16.5626542,10 Z" id="Vector" stroke-width="1.5" fill-rule="nonzero"></path>
+                        <path d="M3.43734482,10 C5.14663928,10 6.69018373,8.66000021 6.8559335,7.01000023 L7.08383971,4.80000019 L7.58108953,0 L4.42148437,0 C1.70733203,0 0.671395485,0 0.298458491,3.5999999 L0.0187557865,6.35000038 C-0.188431427,8.36000037 1.34475402,10 3.43734482,10 Z" id="Vector" stroke-width="1.5" fill-rule="nonzero"></path>
+                        <path d="M10.0258983,15 C8.29588509,15 7.43605812,15.83 7.43605812,17.5 L7.43605812,20 L12.6157384,20 L12.6157384,17.5 C12.6157384,15.83 11.7559114,15 10.0258983,15 Z" id="Vector" stroke-width="1.5" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

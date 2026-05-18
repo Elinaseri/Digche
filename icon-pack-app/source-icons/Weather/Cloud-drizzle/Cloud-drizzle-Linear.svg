@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Cloud-drizzle/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather" transform="translate(-64, -482)" fill-rule="nonzero">
+            <g id="cloud-drizzle-" transform="translate(44, 414)" xlink:href="#path-1">
+                <g id="Icon/Cloud-drizzle/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                    <path d="M16.6100006,19.0001469 C17.9500006,19.01 19.2399995,18.5100006 20.2299995,17.6100006 C23.4999995,14.7500007 21.7500005,9.01000029 17.4400005,8.47000027 C15.9000006,-0.869999886 2.4299998,2.67000008 5.61999986,11.5600004" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                    <path d="M7.28000021,11.9700003 C6.75000024,11.7000003 6.16000015,11.5599998 5.57000017,11.5699998 C0.910000324,11.8999998 0.920000076,18.6800002 5.57000017,19.0100002" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                    <path d="M15.8199997,8.89000034 C16.3399997,8.63000035 16.8999996,8.48999954 17.4799995,8.47999954" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                    <line x1="9.97000027" y1="19" x2="7.96999979" y2="21" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></line>
+                    <line x1="13.9699993" y1="19" x2="11.9699993" y2="21" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></line>
+                    <line x1="13.9699993" y1="15" x2="11.9699993" y2="17" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></line>
+                    <line x1="9.97000027" y1="15" x2="7.96999979" y2="17" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

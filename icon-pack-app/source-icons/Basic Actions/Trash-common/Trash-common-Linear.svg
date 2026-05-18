@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Trash-common/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-Actions" transform="translate(-376, -234)" fill-rule="nonzero" stroke="CURRENTCOLOR">
+            <g id="Trash-common" transform="translate(356, 166)" xlink:href="#path-1">
+                <g id="Icon/Trash-common/Linear" transform="translate(20, 68)" xlink:href="#path-2" fill-rule="evenodd">
+                    <g id="trash" transform="translate(4, 2)">
+                        <rect id="Rectangle-48" stroke-width="1.5" fill-rule="nonzero" x="0" y="3" width="16" height="4" rx="1.5"></rect>
+                        <path d="M4.5,2.96999979 L4.72000027,1.66000009 C4.88000026,0.710000098 5,0 6.68999958,0 L9.31000042,0 C11,0 11.1299997,0.75000006 11.2799997,1.67000008 L11.5,2.96999979" id="Vector" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                        <path d="M14.8500009,7.14000034 L14.2000012,17.2099991 C14.0900012,18.7799991 13.9999995,20 11.2099996,20 L4.78999996,20 C2,20 1.91000019,18.7799991 1.80000019,17.2099991 L1.1500001,7.14000034" id="Vector" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                        <line x1="4.33499997" y1="12.494956" x2="7.66499989" y2="12.494956" id="Vector" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero" transform="translate(6, 12.545) scale(-1, -1) rotate(-90) translate(-6, -12.545)"></line>
+                        <line x1="7.49999989" y1="12.5" x2="12.4999999" y2="12.5" id="Vector" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero" transform="translate(10, 12.55) scale(-1, -1) rotate(-90) translate(-10, -12.55)"></line>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

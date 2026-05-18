@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Folder-change/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Content-Managment" transform="translate(-168, -480)" fill-rule="nonzero">
+            <g id="Folder-change" transform="translate(148, 412)" xlink:href="#path-1">
+                <g id="Icon/Folder-change/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <path d="M9,22 L7,22 C3,22 2,21 2,17 L2,7 C2,3 3,2 7,2 L8.5,2 C10,2 10.3300244,2.44001222 10.9000244,3.20001221 L12.4000244,5.20001221 C12.7800244,5.70001221 13,6 14,6 L17,6 C21,6 22,7 22,11 L22,13" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                    <g id="Group" fill-rule="evenodd" stroke-width="1" transform="translate(13.7461, 14.1716)" stroke="CURRENTCOLOR" stroke-linecap="round" stroke-linejoin="round">
+                        <g id="Group-770" fill-rule="nonzero" stroke-width="1.5">
+                            <path d="M0,1.2199707 L5.33999634,1.2199707 C5.97999632,1.2199707 6.5,1.73994386 6.5,2.37994385 L6.5,3.65997314" id="Vector"></path>
+                            <polyline id="Vector" points="1.22000122 0 0 1.2199707 1.22000122 2.43994141"></polyline>
+                            <path d="M6.5,6.50006104 L1.16000366,6.50006104 C0.520003676,6.50006104 0,5.98002684 0,5.34002686 L0,4.06005859" id="Vector"></path>
+                            <polyline id="Vector" points="5.28125 7.72027588 6.50125122 6.50030518 5.28125 5.28027344"></polyline>
+                        </g>
+                    </g>
+                    <polygon id="Vector" opacity="0" fill-rule="nonzero" points="0 0 24 0 24 24 0 24"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

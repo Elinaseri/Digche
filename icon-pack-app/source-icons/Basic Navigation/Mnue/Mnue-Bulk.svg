@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Mnue/Bulk</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-Navigation" transform="translate(-64, -578)" fill="CURRENTCOLOR" fill-rule="nonzero">
+            <g id="Menu" transform="translate(44, 414)" xlink:href="#path-1">
+                <g id="Icon/Mnue/Bulk" transform="translate(20, 164)" xlink:href="#path-2">
+                    <path d="M16.1900005,2 L7.80999994,2 C4.16999984,2 2,4.16999984 2,7.80999994 L2,16.1800003 C2,19.8300004 4.16999984,22 7.80999994,22 L16.1800003,22 C19.8200004,22 21.9900341,19.8300006 21.9900341,16.1900005 L21.9900341,7.80999994 C22,4.16999984 19.8300006,2 16.1900005,2 Z" id="Vector" opacity="0.400000006"></path>
+                    <path d="M17,8.25 L7,8.25 C6.59,8.25 6.25,7.91 6.25,7.5 C6.25,7.09 6.59,6.75 7,6.75 L17,6.75 C17.41,6.75 17.75,7.09 17.75,7.5 C17.75,7.91 17.41,8.25 17,8.25 Z" id="Vector"></path>
+                    <path d="M17,12.75 L7,12.75 C6.59,12.75 6.25,12.41 6.25,12 C6.25,11.59 6.59,11.25 7,11.25 L17,11.25 C17.41,11.25 17.75,11.59 17.75,12 C17.75,12.41 17.41,12.75 17,12.75 Z" id="Vector"></path>
+                    <path d="M17,17.25 L7,17.25 C6.59,17.25 6.25,16.91 6.25,16.5 C6.25,16.09 6.59,15.75 7,15.75 L17,15.75 C17.41,15.75 17.75,16.09 17.75,16.5 C17.75,16.91 17.41,17.25 17,17.25 Z" id="Vector"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

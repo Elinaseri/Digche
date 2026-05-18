@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>bag-cross.linear</title>
+    <defs>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-1"></path>
+    </defs>
+    <g id="bag-cross.linear" stroke="none" fill="none" xlink:href="#path-1" stroke-width="1.5">
+        <path d="M7,6.72858067 L7,5.72858067 C7,3.42858067 9,1.22858067 11.5,1.02858067 C14.5,0.728580669 17,2.82858067 17,5.52858067 L17,6.72858067" id="Vector" stroke="CURRENTCOLOR" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M2,8.82858067 C2,6.92858067 3,6.82858067 4.2,6.82858067 L19.8,6.82858067 C21,6.82858067 22,7.02858067 22,8.82858067 C22,10.9285807 21,10.8285807 19.8,10.8285807 L4.2,10.8285807 C3,10.8285807 2,11.0285807 2,8.82858067 Z" id="Vector_00000136402954533550220280000017774770787211903360_" stroke="CURRENTCOLOR"></path>
+        <path d="M3.5,11.0285807 L4.9,19.6285807 C5.2,21.6285807 6,23.0285807 8.9,23.0285807 L14.9,23.0285807 C18,23.0285807 18.5,21.6285807 18.8,19.8285807 L20.5,11.0285807" id="Vector_00000158001583325931707370000014372908154056526466_" stroke="CURRENTCOLOR" stroke-linecap="round"></path>
+        <line x1="13.4" y1="18.4285807" x2="10.6" y2="15.6285807" id="Vector_00000021083030187330190640000009725352089535830461_" stroke="CURRENTCOLOR" stroke-linecap="round" stroke-linejoin="round"></line>
+        <line x1="13.4" y1="15.6285807" x2="10.6" y2="18.4285807" id="Vector_00000132051038949961033670000004634640969233916044_" stroke="CURRENTCOLOR" stroke-linecap="round" stroke-linejoin="round"></line>
+    </g>
+</svg>

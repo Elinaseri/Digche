@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Shop-remove/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Shop" transform="translate(-272, -481)" fill-rule="nonzero">
+            <g id="shop-remove-" transform="translate(252, 413)" xlink:href="#path-1">
+                <g id="Icon/Shop-remove/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <path d="M22.0100098,11.2199707 L22.0100098,15.7099609 C22.0100098,20.1999607 20.2199707,22 15.7199707,22 L10.3300171,22 C9.75001711,22 9.21998048,21.9700244 8.72998047,21.9000244" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" fill-rule="nonzero"></path>
+                    <line x1="4.03997803" y1="15.5200195" x2="4.03997803" y2="11.2199707" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" fill-rule="nonzero"></line>
+                    <path d="M13.0300376,12 C14.8600377,12 16.2100374,10.5100538 16.0300374,8.68005371 L15.3599935,2 L10.6900107,2 L10.0200278,8.68005371 C9.84002779,10.5100538 11.2000376,12 13.0300376,12 Z" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" fill-rule="nonzero"></path>
+                    <path d="M19.3300171,12 C21.3500171,12 22.8300049,10.3599756 22.6300049,8.34997559 L22.3499756,5.59997559 C21.9899756,2.99997568 20.989995,2 18.3699951,2 L15.3200073,2 L16.0200195,9.01000977 C16.2000195,10.6600097 17.6800171,12 19.3300171,12 Z" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" fill-rule="nonzero"></path>
+                    <path d="M6.66997695,12 C8.31997693,12 9.80996498,10.6600097 9.96996498,9.01000977 L10.1899967,6.80004883 L10.6699772,2 L7.6199894,2 C4.99998951,2 4.00000876,2.99997568 3.64000875,5.59997559 L3.35997944,8.34997559 C3.15997944,10.3599756 4.64997697,12 6.66997695,12 Z" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" fill-rule="nonzero"></path>
+                    <path d="M10,19 C10,19.75 9.78998291,20.4600586 9.41998291,21.0600586 C9.22998291,21.3800586 8.99998048,21.6700244 8.72998047,21.9000244 C8.69998047,21.9400244 8.67000488,21.97 8.63000488,22 C7.93000489,22.63 7.00999999,23 6,23 C4.77999997,23 3.68997073,22.4499658 2.9699707,21.5899658 C2.9499707,21.5599658 2.92002441,21.5400098 2.90002441,21.5100098 C2.78002442,21.3700098 2.67001709,21.2200586 2.58001709,21.0600586 C2.21001709,20.4600586 2,19.75 2,19 C2,17.74 2.57999998,16.6100049 3.5,15.8800049 C3.67,15.7400049 3.84997803,15.6200195 4.03997803,15.5200195 C4.61997801,15.1900195 5.29000002,15 6,15 C7,15 7.8999756,15.3599707 8.59997559,15.9699707 C8.71997558,16.0599707 8.82999267,16.1700293 8.92999268,16.2800293 C9.5899927,17.0000293 10,17.95 10,19 Z" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" fill-rule="nonzero"></path>
+                    <g id="Group" fill-rule="evenodd" stroke-width="1" transform="translate(4.51, 18.98)" stroke="#292D32">
+                        <line x1="2.97998047" y1="0" x2="0" y2="0" id="Vector" stroke-width="1.5" fill-rule="nonzero"></line>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Sort-circle/Bold</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="View-Controls" transform="translate(-684, -282)" fill="CURRENTCOLOR" fill-rule="nonzero">
+            <g id="Sort-circle" transform="translate(664, 166)" xlink:href="#path-1">
+                <g id="Icon/Sort-circle/Bold" transform="translate(20, 116)" xlink:href="#path-2">
+                    <path d="M14,6.99975586 C14,5.34290171 15.3431458,3.99975586 17,3.99975586 C18.6568542,3.99975586 20,5.34290171 20,6.99975586 C20,8.65661001 18.6568542,9.99975586 17,9.99975586 C15.3431458,9.99975586 14,8.65661001 14,6.99975586 Z M14,16.9997559 C14,15.3429017 15.3431458,13.9997559 17,13.9997559 C18.6568542,13.9997559 20,15.3429017 20,16.9997559 C20,18.65661 18.6568542,19.9997559 17,19.9997559 C15.3431458,19.9997559 14,18.65661 14,16.9997559 Z M10.3495983,16.6498671 L6.99959791,19.9998674 L3.64959753,16.6498671 L10.3495983,16.6498671 Z M6.99959791,3.99993944 L10.3495983,7.34993982 L3.64959753,7.34993982 L6.99959791,3.99993944 Z" id="combo-shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

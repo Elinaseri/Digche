@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Chevron-right/Bulk</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-Navigation" transform="translate(-794, -330)" fill="CURRENTCOLOR" fill-rule="nonzero">
+            <g id="Chevron-right" transform="translate(774, 166)" xlink:href="#path-1">
+                <g id="Icon/Chevron-right/Bulk" transform="translate(20, 164)" xlink:href="#path-2">
+                    <path d="M22,12 C22,17.5228477 17.5228477,22 12,22 C6.47715235,22 2,17.5228477 2,12 C2,6.47715235 6.47715235,2 12,2 C17.5228477,2 22,6.47715235 22,12 Z" id="Vector" opacity="0.400000006"></path>
+                    <path d="M10.74,16.2800007 C10.55,16.2800007 10.3600003,16.2099995 10.2100003,16.0599995 C9.92000031,15.7699995 9.92000031,15.29 10.2100003,15 L13.2100003,12 L10.2100003,8.99999976 C9.92000031,8.70999977 9.92000031,8.22999984 10.2100003,7.93999985 C10.5000003,7.64999986 10.9800007,7.64999986 11.2700007,7.93999985 L14.8000007,11.47 C15.0900007,11.76 15.0900007,12.2399997 14.8000007,12.5299997 L11.2700007,16.0599995 C11.1200007,16.2099995 10.93,16.2800007 10.74,16.2800007 Z" id="Vector"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
