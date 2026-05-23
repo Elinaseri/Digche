@@ -2,17 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: light;
-}
-
 html,
 body {
   height: 100%;
 }
 
 body {
-  @apply bg-ink-50 text-ink-900 antialiased;
+  @apply bg-ink-50 text-ink-900 antialiased dark:bg-ink-900 dark:text-ink-100;
 }
 
 /* Subtle scrollbar */
@@ -30,6 +26,14 @@ body {
   background: rgba(15, 15, 18, 0.32);
   background-clip: padding-box;
   border: 2px solid transparent;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  background-clip: padding-box;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+  background-clip: padding-box;
 }
 
 /* Icons should always inherit currentColor cleanly */

@@ -11,6 +11,17 @@ const OUT_DATA = path.join(ROOT, "src", "data");
 
 const STYLES = ["Bold", "Bulk", "Linear", "Outline"];
 
+// Demo premium set. Icons whose slug is listed here are flagged
+// `isPremium: true` in the manifest so the placeholder access layer locks
+// them. Edit this list (or clear it) freely — real entitlement logic should
+// live in src/lib/access.ts, not here.
+const PREMIUM_SLUGS = new Set([
+  "export",
+  "disk",
+  "bag-happy",
+  "bag-tick",
+]);
+
 function slug(s) {
   return s
     .trim()
@@ -140,6 +151,7 @@ async function main() {
       category: icon.category,
       categorySlug: icon.categorySlug,
       availableStyles: styleList,
+      ...(PREMIUM_SLUGS.has(icon.slug) ? { isPremium: true } : {}),
     });
     manifest.categories[icon.categorySlug] = icon.category;
   }

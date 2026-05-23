@@ -1,14 +1,17 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { IconBodies, IconMeta, IconStyle, Manifest } from "@/lib/types";
+import { canDownloadIcon } from "@/lib/access";
+import { useSelection } from "@/hooks/useSelection";
+import { useIconDownloads } from "@/hooks/useIconDownloads";
+import type { ExportOptions, IconExportInput } from "@/lib/export-engine";
 import IconDetail from "./IconDetail";
 import IconTile from "./IconTile";
 import Toolbar from "./Toolbar";
 import Sidebar from "./Sidebar";
 
 const STYLES: IconStyle[] = ["Bold", "Bulk", "Linear", "Outline"];
-
 const SIZE_OPTIONS = [16, 20, 24, 32, 48];
 
 interface Props {
@@ -22,8 +25,16 @@ export default function IconGallery({ manifest, bodies }: Props) {
   const [size, setSize] = useState<number>(24);
   const [color, setColor] = useState("#0F0F12");
   const [category, setCategory] = useState<string | null>(null);
-  const [selected, setSelected] = useState<IconMeta | null>(null);
+  const [activeIcon, setActiveIcon] = useState<IconMeta | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const selection = useSelection();
+  const downloads = useIconDownloads();
+
+  const exportOpts: ExportOptions = useMemo(
+    () => ({ size, color }),
+    [size, color]
+  );
 
   const categories = useMemo(() => {
     const map = new Map<string, { slug: string; label: string; count: number }>();
@@ -53,15 +64,49 @@ export default function IconGallery({ manifest, bodies }: Props) {
     });
   }, [manifest, query, style, category]);
 
+  // Build a downloadable input for a meta in the chosen style (falls back to
+  // the first available style if the active one is missing).
+  const buildInput = useCallback(
+    (meta: IconMeta): IconExportInput | null => {
+      const useStyle = meta.availableStyles.includes(style)
+        ? style
+        : meta.availableStyles[0];
+      const svg = bodies[meta.slug]?.[useStyle];
+      if (!svg) return null;
+      return { slug: meta.slug, name: meta.name, style: useStyle, svg };
+    },
+    [style, bodies]
+  );
+
+  // Selected, downloadable (non-premium) icons as export inputs.
+  const selectedInputs = useMemo(() => {
+    return manifest.icons
+      .filter((i) => selection.isSelected(i.slug) && canDownloadIcon(i))
+      .map(buildInput)
+      .filter((x): x is IconExportInput => x !== null);
+  }, [manifest.icons, selection, buildInput]);
+
+  const downloadSelectedZip = useCallback(() => {
+    void downloads.zipMany(selectedInputs, exportOpts);
+  }, [downloads, selectedInputs, exportOpts]);
+
+  const downloadEntirePack = useCallback(() => {
+    const inputs = manifest.icons
+      .filter(canDownloadIcon)
+      .map(buildInput)
+      .filter((x): x is IconExportInput => x !== null);
+    void downloads.zipMany(inputs, exportOpts, ["svg"]);
+  }, [downloads, manifest.icons, buildInput, exportOpts]);
+
   // close detail with Esc
   useEffect(() => {
-    if (!selected) return;
+    if (!activeIcon) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setSelected(null);
+      if (e.key === "Escape") setActiveIcon(null);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [selected]);
+  }, [activeIcon]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -79,6 +124,10 @@ export default function IconGallery({ manifest, bodies }: Props) {
         totalShown={filtered.length}
         total={manifest.total}
         onToggleSidebar={() => setSidebarOpen((v) => !v)}
+        selectionCount={selection.count}
+        onClearSelection={selection.clear}
+        onDownloadSelected={downloadSelectedZip}
+        onDownloadEntirePack={downloadEntirePack}
       />
 
       <div className="flex-1 flex">
@@ -101,8 +150,7 @@ export default function IconGallery({ manifest, bodies }: Props) {
             <div
               className="grid gap-2"
               style={{
-                gridTemplateColumns:
-                  "repeat(auto-fill, minmax(96px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fill, minmax(96px, 1fr))",
               }}
             >
               {filtered.map((icon) => (
@@ -112,7 +160,9 @@ export default function IconGallery({ manifest, bodies }: Props) {
                   body={bodies[icon.slug]?.[style] ?? ""}
                   size={size}
                   color={color}
-                  onClick={() => setSelected(icon)}
+                  selected={selection.isSelected(icon.slug)}
+                  onToggleSelect={() => selection.toggle(icon.slug)}
+                  onOpen={() => setActiveIcon(icon)}
                 />
               ))}
             </div>
@@ -120,16 +170,18 @@ export default function IconGallery({ manifest, bodies }: Props) {
         </main>
       </div>
 
-      {selected && (
+      {activeIcon && (
         <IconDetail
-          icon={selected}
-          bodies={bodies[selected.slug] ?? {}}
+          icon={activeIcon}
+          bodies={bodies[activeIcon.slug] ?? {}}
           initialStyle={style}
           initialSize={size}
           initialColor={color}
           sizeOptions={SIZE_OPTIONS}
           styles={STYLES}
-          onClose={() => setSelected(null)}
+          selectionCount={selection.count}
+          onDownloadSelected={downloadSelectedZip}
+          onClose={() => setActiveIcon(null)}
         />
       )}
     </div>
@@ -139,13 +191,15 @@ export default function IconGallery({ manifest, bodies }: Props) {
 function EmptyState({ query, style }: { query: string; style: IconStyle }) {
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
-      <div className="w-16 h-16 rounded-full bg-ink-100 grid place-items-center mb-4 text-ink-400">
+      <div className="w-16 h-16 rounded-full bg-ink-100 dark:bg-ink-800 grid place-items-center mb-4 text-ink-400">
         <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="11" cy="11" r="7" />
           <path d="M20 20l-3.5-3.5" />
         </svg>
       </div>
-      <p className="text-ink-700 font-medium">No icons match your search</p>
+      <p className="text-ink-700 dark:text-ink-200 font-medium">
+        No icons match your search
+      </p>
       <p className="text-ink-500 text-sm mt-1">
         {query
           ? `Nothing found for "${query}" in ${style}.`

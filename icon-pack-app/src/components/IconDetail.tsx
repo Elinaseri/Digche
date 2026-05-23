@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import type { IconMeta, IconStyle } from "@/lib/types";
-import {
-  buildCss,
-  buildJsx,
-  buildStandaloneSvg,
-  downloadDataUrl,
-  downloadString,
-  svgToPngDataUrl,
-} from "@/lib/svg";
+import type { IconStyle, IconMeta } from "@/lib/types";
+import { buildCss, buildJsx, buildStandaloneSvg } from "@/lib/svg";
+import { canCopyIcon, canDownloadIcon, isPremiumIcon, PREMIUM_LOCKED_MESSAGE } from "@/lib/access";
+import { useToast } from "./Toast";
+import { useIconDownloads } from "@/hooks/useIconDownloads";
+import type { ExportOptions, IconExportInput } from "@/lib/export-engine";
+import DownloadDropdown from "./DownloadDropdown";
+import type { DownloadItem } from "./DownloadMenuItem";
+import PremiumBadge from "./PremiumBadge";
 
 interface Props {
   icon: IconMeta;
@@ -19,6 +19,8 @@ interface Props {
   initialColor: string;
   sizeOptions: number[];
   styles: IconStyle[];
+  selectionCount: number;
+  onDownloadSelected: () => void;
   onClose: () => void;
 }
 
@@ -32,6 +34,8 @@ export default function IconDetail({
   initialColor,
   sizeOptions,
   styles,
+  selectionCount,
+  onDownloadSelected,
   onClose,
 }: Props) {
   const initial = icon.availableStyles.includes(initialStyle)
@@ -44,7 +48,13 @@ export default function IconDetail({
   const [tab, setTab] = useState<Tab>("SVG");
   const [copied, setCopied] = useState<Tab | null>(null);
 
-  // Keep the selected style valid if the icon changes (also handles availability).
+  const toast = useToast();
+  const downloads = useIconDownloads();
+
+  const premium = isPremiumIcon(icon);
+  const allowCopy = canCopyIcon(icon);
+  const allowDownload = canDownloadIcon(icon);
+
   useEffect(() => {
     if (!icon.availableStyles.includes(style)) {
       setStyle(icon.availableStyles[0]);
@@ -58,16 +68,24 @@ export default function IconDetail({
     [icon.slug, style]
   );
 
+  const exportOpts: ExportOptions = useMemo(
+    () => ({ size, color }),
+    [size, color]
+  );
+
+  const exportInput: IconExportInput = useMemo(
+    () => ({ slug: icon.slug, name: icon.name, style, svg: body }),
+    [icon.slug, icon.name, style, body]
+  );
+
   const svgCode = useMemo(
     () => (body ? buildStandaloneSvg(body, { size, color }) : ""),
     [body, size, color]
   );
-
   const jsxCode = useMemo(
     () => (body ? buildJsx(body, { pascalName: icon.pascalName, style }) : ""),
     [body, icon.pascalName, style]
   );
-
   const cssCode = useMemo(
     () => (body ? buildCss(body, { size, color, className }) : ""),
     [body, size, color, className]
@@ -80,23 +98,60 @@ export default function IconDetail({
   };
 
   const handleCopy = async (which: Tab) => {
+    if (!allowCopy) {
+      toast.error(PREMIUM_LOCKED_MESSAGE);
+      return;
+    }
     try {
       await navigator.clipboard.writeText(codeByTab[which]);
       setCopied(which);
       setTimeout(() => setCopied(null), 1400);
+      toast.success(`Copied ${which} code`);
     } catch {
-      /* ignore */
+      toast.error("Clipboard unavailable");
     }
   };
 
-  const handleDownloadSvg = () => {
-    downloadString(svgCode, `${icon.slug}-${style.toLowerCase()}.svg`);
-  };
-
-  const handleDownloadPng = async () => {
-    const dataUrl = await svgToPngDataUrl(svgCode, size);
-    downloadDataUrl(dataUrl, `${icon.slug}-${style.toLowerCase()}-${size}.png`);
-  };
+  const downloadItems: DownloadItem[] = useMemo(
+    () => [
+      {
+        id: "svg",
+        label: "Download as SVG",
+        description: "Vector, scalable",
+        onSelect: () => downloads.single(exportInput, exportOpts, "svg"),
+      },
+      {
+        id: "png",
+        label: "Download as PNG",
+        description: "Transparent raster",
+        onSelect: () => downloads.single(exportInput, exportOpts, "png"),
+      },
+      {
+        id: "jpeg",
+        label: "Download as JPEG",
+        description: "Opaque raster",
+        onSelect: () => downloads.single(exportInput, exportOpts, "jpeg"),
+      },
+      {
+        id: "all",
+        label: "Download all formats",
+        description: "SVG + PNG + JPEG (.zip)",
+        separated: true,
+        onSelect: () => downloads.allFormats(exportInput, exportOpts),
+      },
+      {
+        id: "zip",
+        label: "Download selected icons as ZIP",
+        description:
+          selectionCount > 0
+            ? `${selectionCount} selected`
+            : "No icons selected",
+        disabled: selectionCount === 0,
+        onSelect: onDownloadSelected,
+      },
+    ],
+    [downloads, exportInput, exportOpts, selectionCount, onDownloadSelected]
+  );
 
   return (
     <div
@@ -104,17 +159,22 @@ export default function IconDetail({
       onClick={onClose}
     >
       <div
-        className="w-full sm:max-w-xl bg-white shadow-2xl h-full overflow-y-auto"
+        className="w-full sm:max-w-xl bg-white dark:bg-ink-900 shadow-2xl h-full overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="sticky top-0 bg-white/95 backdrop-blur border-b border-ink-200 px-6 py-4 flex items-center justify-between z-10">
+        <div className="sticky top-0 bg-white/95 dark:bg-ink-900/95 backdrop-blur border-b border-ink-200 dark:border-ink-700 px-6 py-4 flex items-center justify-between z-10">
           <div className="min-w-0">
-            <div className="text-xs text-ink-500">{icon.category}</div>
-            <div className="text-lg font-semibold truncate">{icon.name}</div>
+            <div className="text-xs text-ink-500 flex items-center gap-2">
+              {icon.category}
+              {premium && <PremiumBadge />}
+            </div>
+            <div className="text-lg font-semibold truncate dark:text-white">
+              {icon.name}
+            </div>
           </div>
           <button
             onClick={onClose}
-            className="w-9 h-9 rounded-lg hover:bg-ink-100 grid place-items-center text-ink-600"
+            className="w-9 h-9 rounded-lg hover:bg-ink-100 dark:hover:bg-ink-800 grid place-items-center text-ink-600 dark:text-ink-300"
             aria-label="Close"
           >
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
@@ -125,13 +185,19 @@ export default function IconDetail({
 
         <div className="px-6 py-6 space-y-6">
           {/* Preview */}
-          <div className="rounded-2xl bg-ink-50 border border-ink-200 p-6 flex items-center justify-center min-h-[200px]">
+          <div className="rounded-2xl bg-ink-50 dark:bg-ink-800 border border-ink-200 dark:border-ink-700 p-6 flex items-center justify-center min-h-[200px]">
             <span
-              className="icon-svg"
+              className={"icon-svg " + (premium ? "opacity-40" : "")}
               style={{ width: size * 2.5, height: size * 2.5, color }}
               dangerouslySetInnerHTML={{ __html: body }}
             />
           </div>
+
+          {premium && (
+            <div className="rounded-xl border border-amber-300 dark:border-amber-400/30 bg-amber-50 dark:bg-amber-400/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-300">
+              {PREMIUM_LOCKED_MESSAGE}
+            </div>
+          )}
 
           {/* Controls */}
           <div className="grid grid-cols-1 gap-4">
@@ -156,9 +222,9 @@ export default function IconDetail({
             </ControlRow>
 
             <ControlRow label="Color">
-              <label className="inline-flex items-center gap-2 h-9 px-2.5 rounded-lg border border-ink-200 bg-white cursor-pointer hover:border-ink-300">
+              <label className="inline-flex items-center gap-2 h-9 px-2.5 rounded-lg border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-800 cursor-pointer hover:border-ink-300">
                 <span
-                  className="w-5 h-5 rounded-md border border-ink-200"
+                  className="w-5 h-5 rounded-md border border-ink-200 dark:border-ink-600"
                   style={{ background: color }}
                 />
                 <input
@@ -168,26 +234,30 @@ export default function IconDetail({
                   className="sr-only"
                   aria-label="Pick color"
                 />
-                <span className="text-xs text-ink-700 font-mono uppercase">
+                <span className="text-xs text-ink-700 dark:text-ink-200 font-mono uppercase">
                   {color.replace("#", "")}
                 </span>
               </label>
             </ControlRow>
           </div>
 
-          {/* Downloads */}
-          <div className="flex flex-wrap gap-2">
-            <ActionButton onClick={handleDownloadSvg} icon="download">
-              Download SVG
-            </ActionButton>
-            <ActionButton onClick={handleDownloadPng} icon="download">
-              Download PNG
-            </ActionButton>
+          {/* Download dropdown */}
+          <div className="flex items-center gap-3">
+            <DownloadDropdown
+              items={downloadItems}
+              disabled={!allowDownload}
+              disabledReason={premium ? PREMIUM_LOCKED_MESSAGE : undefined}
+              align="start"
+              ariaLabel={`Download ${icon.name}`}
+            />
+            {!allowDownload && (
+              <span className="text-xs text-ink-500">Locked</span>
+            )}
           </div>
 
           {/* Code tabs */}
-          <div className="rounded-2xl border border-ink-200 overflow-hidden">
-            <div className="flex items-center justify-between border-b border-ink-200 bg-ink-50">
+          <div className="rounded-2xl border border-ink-200 dark:border-ink-700 overflow-hidden">
+            <div className="flex items-center justify-between border-b border-ink-200 dark:border-ink-700 bg-ink-50 dark:bg-ink-800">
               <div className="flex">
                 {(["SVG", "JSX", "CSS"] as Tab[]).map((t) => {
                   const active = t === tab;
@@ -198,8 +268,8 @@ export default function IconDetail({
                       className={
                         "px-4 h-10 text-sm font-medium border-b-2 transition-colors " +
                         (active
-                          ? "border-ink-900 text-ink-900"
-                          : "border-transparent text-ink-500 hover:text-ink-900")
+                          ? "border-ink-900 dark:border-white text-ink-900 dark:text-white"
+                          : "border-transparent text-ink-500 hover:text-ink-900 dark:hover:text-white")
                       }
                     >
                       {t}
@@ -209,13 +279,15 @@ export default function IconDetail({
               </div>
               <button
                 onClick={() => handleCopy(tab)}
-                className="mr-2 my-1.5 inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium bg-ink-900 text-white hover:bg-ink-700"
+                disabled={!allowCopy}
+                title={!allowCopy ? PREMIUM_LOCKED_MESSAGE : undefined}
+                className="mr-2 my-1.5 inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium bg-ink-900 text-white hover:bg-ink-700 dark:bg-white dark:text-ink-900 dark:hover:bg-ink-100 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <CopyIcon />
                 {copied === tab ? "Copied!" : `Copy ${tab}`}
               </button>
             </div>
-            <pre className="m-0 px-4 py-3 text-xs leading-relaxed bg-ink-900 text-ink-100 overflow-x-auto max-h-72">
+            <pre className="m-0 px-4 py-3 text-xs leading-relaxed bg-ink-900 dark:bg-black text-ink-100 overflow-x-auto max-h-72">
               <code>{codeByTab[tab]}</code>
             </pre>
           </div>
@@ -252,7 +324,7 @@ function Segmented({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="inline-flex items-center bg-ink-100 p-1 rounded-lg">
+    <div className="inline-flex items-center bg-ink-100 dark:bg-ink-800 p-1 rounded-lg">
       {options.map((opt) => {
         const active = opt.value === value;
         return (
@@ -263,10 +335,10 @@ function Segmented({
             className={
               "px-3 h-7 text-xs rounded-md transition-colors " +
               (active
-                ? "bg-white text-ink-900 shadow-sm font-medium"
+                ? "bg-white dark:bg-ink-600 text-ink-900 dark:text-white shadow-sm font-medium"
                 : opt.disabled
-                ? "text-ink-300 cursor-not-allowed"
-                : "text-ink-600 hover:text-ink-900")
+                ? "text-ink-300 dark:text-ink-600 cursor-not-allowed"
+                : "text-ink-600 dark:text-ink-300 hover:text-ink-900 dark:hover:text-white")
             }
           >
             {opt.value}
@@ -274,36 +346,6 @@ function Segmented({
         );
       })}
     </div>
-  );
-}
-
-function ActionButton({
-  onClick,
-  children,
-  icon,
-}: {
-  onClick: () => void;
-  children: React.ReactNode;
-  icon: "download" | "copy";
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-white border border-ink-200 text-sm font-medium text-ink-800 hover:border-ink-900 hover:bg-ink-50 transition-colors"
-    >
-      {icon === "download" ? <DownloadIcon /> : <CopyIcon />}
-      {children}
-    </button>
-  );
-}
-
-function DownloadIcon() {
-  return (
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 4v12" />
-      <path d="M7 11l5 5 5-5" />
-      <path d="M4 20h16" />
-    </svg>
   );
 }
 

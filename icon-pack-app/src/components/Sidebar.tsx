@@ -34,7 +34,7 @@ export default function Sidebar({
       )}
       <aside
         className={
-          "shrink-0 w-60 border-r border-ink-200 bg-white md:bg-transparent md:static fixed inset-y-0 left-0 z-50 transition-transform md:translate-x-0 " +
+          "shrink-0 w-60 border-r border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-900 md:bg-transparent md:dark:bg-transparent md:static fixed inset-y-0 left-0 z-50 transition-transform md:translate-x-0 " +
           (open ? "translate-x-0" : "-translate-x-full md:translate-x-0")
         }
       >
@@ -61,10 +61,11 @@ export default function Sidebar({
           </nav>
 
           <div className="mt-8 px-2 text-xs text-ink-500 leading-relaxed">
-            <p className="mb-2 font-medium text-ink-700">Tips</p>
+            <p className="mb-2 font-medium text-ink-700 dark:text-ink-200">Tips</p>
             <ul className="space-y-1">
               <li>· Click an icon for code & downloads</li>
-              <li>· Use <kbd className="px-1 py-0.5 bg-ink-100 rounded text-[10px]">Esc</kbd> to close</li>
+              <li>· Hover an icon to select it for ZIP</li>
+              <li>· Use <kbd className="px-1 py-0.5 bg-ink-100 dark:bg-ink-800 rounded text-[10px]">Esc</kbd> to close</li>
             </ul>
           </div>
         </div>
@@ -90,15 +91,15 @@ function CategoryButton({
       className={
         "flex items-center justify-between px-3 h-9 rounded-lg text-sm transition-colors text-left " +
         (active
-          ? "bg-ink-900 text-white"
-          : "text-ink-700 hover:bg-ink-100")
+          ? "bg-ink-900 text-white dark:bg-white dark:text-ink-900"
+          : "text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-800")
       }
     >
       <span className="truncate">{label}</span>
       <span
         className={
           "ml-2 tabular-nums text-xs " +
-          (active ? "text-white/70" : "text-ink-400")
+          (active ? "text-white/70 dark:text-ink-900/60" : "text-ink-400")
         }
       >
         {count}
