@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { IconBodies, IconMeta, IconStyle, Manifest } from "@/lib/types";
 import { canDownloadIcon } from "@/lib/access";
 import { useTheme } from "@/lib/theme";
@@ -32,8 +32,10 @@ export default function IconGallery({ manifest, bodies }: Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const { theme } = useTheme();
+  const { t } = useI18n();
   const selection = useSelection();
   const downloads = useIconDownloads();
+  const lastOpenedSlugRef = useRef<string | null>(null);
 
   // Until the user picks a color, keep icons legible by following the theme.
   useEffect(() => {
@@ -104,6 +106,21 @@ export default function IconGallery({ manifest, bodies }: Props) {
     void downloads.zipMany(selectedInputs, exportOpts);
   }, [downloads, selectedInputs, exportOpts]);
 
+  const handleOpenIcon = useCallback((icon: IconMeta) => {
+    lastOpenedSlugRef.current = icon.slug;
+    setActiveIcon(icon);
+  }, []);
+
+  const handleCloseDetail = useCallback(() => {
+    setActiveIcon(null);
+    const slug = lastOpenedSlugRef.current;
+    if (slug) {
+      requestAnimationFrame(() => {
+        document.querySelector<HTMLElement>(`[data-icon-open="${slug}"]`)?.focus();
+      });
+    }
+  }, []);
+
   const downloadEntirePack = useCallback(() => {
     const inputs = manifest.icons
       .filter(canDownloadIcon)
@@ -112,15 +129,15 @@ export default function IconGallery({ manifest, bodies }: Props) {
     void downloads.zipMany(inputs, exportOpts, ["svg"]);
   }, [downloads, manifest.icons, buildInput, exportOpts]);
 
-  // close detail with Esc
+  // close detail with Esc and return focus to the originating tile
   useEffect(() => {
     if (!activeIcon) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setActiveIcon(null);
+      if (e.key === "Escape") handleCloseDetail();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [activeIcon]);
+  }, [activeIcon, handleCloseDetail]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -157,7 +174,7 @@ export default function IconGallery({ manifest, bodies }: Props) {
           onClose={() => setSidebarOpen(false)}
         />
 
-        <main className="flex-1 min-w-0 px-5 py-6 md:px-8">
+        <main id="main-content" className="flex-1 min-w-0 px-5 py-6 md:px-8">
           {filtered.length === 0 ? (
             <EmptyState query={query} style={style} />
           ) : (
@@ -176,7 +193,7 @@ export default function IconGallery({ manifest, bodies }: Props) {
                   color={color}
                   selected={selection.isSelected(icon.slug)}
                   onToggleSelect={() => selection.toggle(icon.slug)}
-                  onOpen={() => setActiveIcon(icon)}
+                  onOpen={() => handleOpenIcon(icon)}
                 />
               ))}
             </div>
@@ -195,8 +212,30 @@ export default function IconGallery({ manifest, bodies }: Props) {
           styles={STYLES}
           selectionCount={selection.count}
           onDownloadSelected={downloadSelectedZip}
-          onClose={() => setActiveIcon(null)}
+          onClose={handleCloseDetail}
         />
+      )}
+
+      {selection.count > 0 && (
+        <div className="fixed bottom-0 inset-x-0 z-40 bg-white/95 dark:bg-ink-900/95 backdrop-blur border-t border-ink-200 dark:border-ink-700 px-5 md:px-8 py-3 flex items-center justify-between gap-3">
+          <span className="text-sm font-medium text-ink-900 dark:text-white">
+            {t("selection.bar.count", { n: selection.count })}
+          </span>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={selection.clear}
+              className="text-sm text-ink-500 hover:text-ink-900 dark:text-ink-400 dark:hover:text-white"
+            >
+              {t("selection.bar.clear")}
+            </button>
+            <button
+              onClick={downloadSelectedZip}
+              className="inline-flex items-center gap-1.5 h-9 px-4 rounded-xl bg-ink-900 dark:bg-white text-white dark:text-ink-900 text-sm font-medium hover:bg-ink-700 dark:hover:bg-ink-100"
+            >
+              {t("selection.bar.download")}
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -16,6 +16,10 @@ export const fa: Translations = {
   "bulk.entirePack.desc": "همه آیکون‌ها · استایل فعلی · SVG",
   "selection.selected": "انتخاب‌شده",
   "selection.clear": "پاک‌کردن انتخاب",
+  "selection.bar.count": "{n} آیکون انتخاب‌شده",
+  "selection.bar.download": "دانلود ZIP",
+  "selection.bar.clear": "لغو انتخاب",
+  "skipToContent": "رفتن به آیکون‌ها",
 
   // Sidebar
   "sidebar.categories": "دسته‌بندی‌ها",
@@ -42,13 +46,13 @@ export const fa: Translations = {
 
   // Download menu items
   "item.svg.label": "دانلود SVG",
-  "item.svg.desc": "وکتور و مقیاس‌پذیر",
+  "item.svg.desc": "برای طراحی و توسعه وب (Figma، کد)",
   "item.png.label": "دانلود PNG",
-  "item.png.desc": "تصویر با پس‌زمینه‌ی شفاف",
+  "item.png.desc": "برای اپ‌ها و ارائه‌ها (پس‌زمینه شفاف)",
   "item.jpeg.label": "دانلود JPEG",
-  "item.jpeg.desc": "تصویر با پس‌زمینه‌ی تو‌پر",
+  "item.jpeg.desc": "برای اسناد و عکس‌ها (پس‌زمینه سفید)",
   "item.all.label": "دانلود همه فرمت‌ها",
-  "item.all.desc": "SVG + PNG + JPEG (فایل zip)",
+  "item.all.desc": "یک فایل .zip با SVG، PNG و JPEG",
 
   // Premium
   "premium.locked": "این آیکون فقط برای کاربران پریمیوم در دسترس است",
@@ -68,6 +72,7 @@ export const fa: Translations = {
 
   // Tile
   "tile.select": "انتخاب {name}",
+  "tile.copySvg": "کپی SVG",
 
   // Toasts
   "toast.downloaded": "{name} با فرمت {fmt} دانلود شد",

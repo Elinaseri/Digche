@@ -22,6 +22,12 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: directionInitScript }} />
       </head>
       <body>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:start-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-ink-900 focus:rounded-lg focus:shadow-lg focus:text-sm focus:font-medium focus:ring-2 focus:ring-ink-900"
+        >
+          Skip to icons
+        </a>
         <ThemeProvider>
           <DirectionProvider>
             <ToastProvider>{children}</ToastProvider>

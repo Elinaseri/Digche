@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { IconStyle, IconMeta } from "@/lib/types";
 import { buildCss, buildJsx, buildStandaloneSvg } from "@/lib/svg";
 import { canCopyIcon, canDownloadIcon, isPremiumIcon } from "@/lib/access";
@@ -52,16 +52,49 @@ export default function IconDetail({
   const toast = useToast();
   const downloads = useIconDownloads();
   const { t } = useI18n();
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const premium = isPremiumIcon(icon);
   const allowCopy = canCopyIcon(icon);
   const allowDownload = canDownloadIcon(icon);
+
+  // Move focus into the dialog when it opens
+  useEffect(() => {
+    closeButtonRef.current?.focus();
+  }, []);
 
   useEffect(() => {
     if (!icon.availableStyles.includes(style)) {
       setStyle(icon.availableStyles[0]);
     }
   }, [icon, style]);
+
+  // Focus trap: keep Tab cycling within the panel
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== "Tab") return;
+    const panel = panelRef.current;
+    if (!panel) return;
+    const focusable = Array.from(
+      panel.querySelectorAll<HTMLElement>(
+        "button:not([disabled]),input:not([disabled]),[tabindex]:not([tabindex=\"-1\"])"
+      )
+    );
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }, []);
 
   const body = bodies[style] ?? "";
 
@@ -161,8 +194,13 @@ export default function IconDetail({
       onClick={onClose}
     >
       <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="icon-detail-title"
         className="w-full sm:max-w-xl bg-white dark:bg-ink-900 shadow-2xl h-full overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={handleKeyDown}
       >
         <div className="sticky top-0 bg-white/95 dark:bg-ink-900/95 backdrop-blur border-b border-ink-200 dark:border-ink-700 px-6 py-4 flex items-center justify-between z-10">
           <div className="min-w-0">
@@ -170,11 +208,15 @@ export default function IconDetail({
               {icon.category}
               {premium && <PremiumBadge />}
             </div>
-            <div className="text-lg font-semibold truncate dark:text-white">
+            <div
+              id="icon-detail-title"
+              className="text-lg font-semibold truncate dark:text-white"
+            >
               {icon.name}
             </div>
           </div>
           <button
+            ref={closeButtonRef}
             onClick={onClose}
             className="w-9 h-9 rounded-lg hover:bg-ink-100 dark:hover:bg-ink-800 grid place-items-center text-ink-600 dark:text-ink-300"
             aria-label={t("detail.close")}
@@ -189,6 +231,7 @@ export default function IconDetail({
           {/* Preview */}
           <div className="rounded-2xl bg-ink-50 dark:bg-ink-800 border border-ink-200 dark:border-ink-700 p-6 flex items-center justify-center min-h-[200px]">
             <span
+              aria-hidden="true"
               className={"icon-svg " + (premium ? "opacity-40" : "")}
               style={{ width: size * 2.5, height: size * 2.5, color }}
               dangerouslySetInnerHTML={{ __html: body }}
@@ -236,7 +279,7 @@ export default function IconDetail({
                   className="sr-only"
                   aria-label="Pick color"
                 />
-                <span className="text-xs text-ink-700 dark:text-ink-200 font-mono uppercase">
+                <span dir="ltr" className="text-xs text-ink-700 dark:text-ink-200 font-mono uppercase">
                   {color.replace("#", "")}
                 </span>
               </label>
@@ -290,7 +333,7 @@ export default function IconDetail({
                 {copied === tab ? t("detail.copied") : t("detail.copy", { tab })}
               </button>
             </div>
-            <pre className="m-0 px-4 py-3 text-xs leading-relaxed bg-ink-900 dark:bg-black text-ink-100 overflow-x-auto max-h-72">
+            <pre dir="ltr" className="m-0 px-4 py-3 text-xs leading-relaxed bg-ink-900 dark:bg-black text-ink-100 overflow-x-auto max-h-72">
               <code>{codeByTab[tab]}</code>
             </pre>
           </div>

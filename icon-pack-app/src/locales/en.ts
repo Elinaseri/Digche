@@ -14,6 +14,10 @@ export const en = {
   "bulk.entirePack.desc": "All icons · current style · SVG",
   "selection.selected": "selected",
   "selection.clear": "Clear selection",
+  "selection.bar.count": "{n} icons selected",
+  "selection.bar.download": "Download ZIP",
+  "selection.bar.clear": "Deselect all",
+  "skipToContent": "Skip to icons",
 
   // Sidebar
   "sidebar.categories": "Categories",
@@ -40,13 +44,13 @@ export const en = {
 
   // Download menu items
   "item.svg.label": "Download as SVG",
-  "item.svg.desc": "Vector, scalable",
+  "item.svg.desc": "For design tools & web (Figma, code)",
   "item.png.label": "Download as PNG",
-  "item.png.desc": "Transparent raster",
+  "item.png.desc": "For apps & presentations (transparent bg)",
   "item.jpeg.label": "Download as JPEG",
-  "item.jpeg.desc": "Opaque raster",
+  "item.jpeg.desc": "For docs & photos (white background)",
   "item.all.label": "Download all formats",
-  "item.all.desc": "SVG + PNG + JPEG (.zip)",
+  "item.all.desc": "Downloads a .zip with SVG, PNG & JPEG",
 
   // Premium
   "premium.locked": "Premium icon. Upgrade access required.",
@@ -66,6 +70,7 @@ export const en = {
 
   // Tile
   "tile.select": "Select {name}",
+  "tile.copySvg": "Copy SVG",
 
   // Toasts
   "toast.downloaded": "Downloaded {name} as {fmt}",

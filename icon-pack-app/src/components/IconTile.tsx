@@ -1,8 +1,11 @@
 "use client";
 
+import { useCallback, useState } from "react";
 import type { IconMeta } from "@/lib/types";
 import { isPremiumIcon } from "@/lib/access";
 import { useI18n } from "@/lib/i18n";
+import { useToast } from "./Toast";
+import { buildStandaloneSvg } from "@/lib/svg";
 import PremiumBadge from "./PremiumBadge";
 
 interface Props {
@@ -25,7 +28,25 @@ export default function IconTile({
   onOpen,
 }: Props) {
   const { t } = useI18n();
+  const toast = useToast();
   const premium = isPremiumIcon(icon);
+  const [svgCopied, setSvgCopied] = useState(false);
+
+  const handleCopySvg = useCallback(
+    async (e: React.MouseEvent) => {
+      e.stopPropagation();
+      try {
+        const standalone = buildStandaloneSvg(body, { size, color });
+        await navigator.clipboard.writeText(standalone);
+        setSvgCopied(true);
+        setTimeout(() => setSvgCopied(false), 1400);
+        toast.success(t("toast.copied", { tab: "SVG" }));
+      } catch {
+        toast.error(t("toast.clipboardError"));
+      }
+    },
+    [body, size, color, toast, t]
+  );
 
   return (
     <div
@@ -65,6 +86,7 @@ export default function IconTile({
 
       <button
         type="button"
+        data-icon-open={icon.slug}
         onClick={onOpen}
         title={
           premium
@@ -74,6 +96,7 @@ export default function IconTile({
         className="w-full h-full flex flex-col items-center justify-center gap-2 p-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 dark:focus-visible:ring-white rounded-xl"
       >
         <span
+          aria-hidden="true"
           className={"icon-svg grid place-items-center " + (premium ? "opacity-40" : "")}
           style={{ width: size, height: size, color }}
           dangerouslySetInnerHTML={{ __html: body }}
@@ -82,6 +105,23 @@ export default function IconTile({
           {icon.name}
         </span>
       </button>
+
+      {/* Copy SVG shortcut — visible on hover for free icons */}
+      {!premium && (
+        <button
+          type="button"
+          onClick={handleCopySvg}
+          aria-label={`${t("tile.copySvg")} — ${icon.name}`}
+          className={
+            "absolute bottom-1.5 end-1.5 z-10 h-6 px-2 rounded-md text-[10px] font-medium bg-ink-900 dark:bg-white text-white dark:text-ink-900 transition-opacity " +
+            (svgCopied
+              ? "opacity-100"
+              : "opacity-0 max-md:opacity-100 group-hover:opacity-100 focus-within:opacity-100")
+          }
+        >
+          {svgCopied ? "✓" : t("tile.copySvg")}
+        </button>
+      )}
     </div>
   );
 }
