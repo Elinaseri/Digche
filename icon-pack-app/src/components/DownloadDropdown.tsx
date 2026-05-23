@@ -192,7 +192,7 @@ export default function DownloadDropdown({
           onKeyDown={onMenuKeyDown}
           className={
             "absolute z-50 mt-2 w-64 p-1.5 rounded-2xl bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 shadow-soft " +
-            (align === "end" ? "right-0" : "left-0")
+            (align === "end" ? "end-0" : "start-0")
           }
         >
           {items.map((item, i) => (

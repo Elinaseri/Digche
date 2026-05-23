@@ -33,7 +33,7 @@ const DownloadMenuItem = forwardRef<HTMLButtonElement, DownloadMenuItemProps>(
         onClick={onActivate}
         onMouseEnter={onHover}
         className={
-          "w-full flex items-start gap-2.5 px-3 py-2 text-sm text-left rounded-lg transition-colors " +
+          "w-full flex items-start gap-2.5 px-3 py-2 text-sm text-start rounded-lg transition-colors " +
           (item.disabled
             ? "text-ink-300 dark:text-ink-600 cursor-not-allowed"
             : active

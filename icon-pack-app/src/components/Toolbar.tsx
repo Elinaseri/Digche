@@ -3,6 +3,7 @@
 import type { IconStyle } from "@/lib/types";
 import DigLogo from "./DigLogo";
 import ThemeToggle from "./ThemeToggle";
+import DirectionToggle from "./DirectionToggle";
 import DownloadDropdown from "./DownloadDropdown";
 import type { DownloadItem } from "./DownloadMenuItem";
 
@@ -86,7 +87,7 @@ export default function Toolbar({
 
         <div className="flex-1 min-w-[220px] max-w-xl relative">
           <svg
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-400"
+            className="absolute start-3 top-1/2 -translate-y-1/2 text-ink-400"
             viewBox="0 0 24 24"
             width="18"
             height="18"
@@ -104,7 +105,7 @@ export default function Toolbar({
             onChange={(e) => onQueryChange(e.target.value)}
             type="search"
             placeholder="Search icons..."
-            className="w-full h-10 pl-10 pr-3 rounded-xl bg-ink-100 dark:bg-ink-800 border border-transparent focus:bg-white dark:focus:bg-ink-900 focus:border-ink-300 dark:focus:border-ink-600 focus:outline-none text-sm placeholder:text-ink-400 dark:text-ink-100"
+            className="w-full h-10 ps-10 pe-3 rounded-xl bg-ink-100 dark:bg-ink-800 border border-transparent focus:bg-white dark:focus:bg-ink-900 focus:border-ink-300 dark:focus:border-ink-600 focus:outline-none text-sm placeholder:text-ink-400 dark:text-ink-100"
           />
         </div>
 
@@ -119,13 +120,13 @@ export default function Toolbar({
         <ColorPicker value={color} onChange={onColorChange} />
 
         {selectionCount > 0 && (
-          <div className="inline-flex items-center gap-1.5 h-10 pl-3 pr-1.5 rounded-xl bg-ink-100 dark:bg-ink-800 text-sm text-ink-700 dark:text-ink-200">
+          <div className="inline-flex items-center gap-1.5 h-10 ps-3 pe-1.5 rounded-xl bg-ink-100 dark:bg-ink-800 text-sm text-ink-700 dark:text-ink-200">
             <span className="tabular-nums font-medium">{selectionCount}</span>
             <span className="text-ink-500">selected</span>
             <button
               onClick={onClearSelection}
               aria-label="Clear selection"
-              className="ml-1 w-7 h-7 grid place-items-center rounded-lg hover:bg-ink-200 dark:hover:bg-ink-700"
+              className="ms-1 w-7 h-7 grid place-items-center rounded-lg hover:bg-ink-200 dark:hover:bg-ink-700"
             >
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
                 <path d="M6 6l12 12M18 6l-12 12" />
@@ -137,6 +138,7 @@ export default function Toolbar({
         <DownloadDropdown items={bulkItems} ariaLabel="Bulk download options" />
 
         <ThemeToggle />
+        <DirectionToggle />
       </div>
     </header>
   );

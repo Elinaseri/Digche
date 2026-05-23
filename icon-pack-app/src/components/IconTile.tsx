@@ -38,10 +38,10 @@ export default function IconTile({
       {!premium && (
         <label
           className={
-            "absolute top-1.5 left-1.5 z-10 transition-opacity " +
+            "absolute top-1.5 start-1.5 z-10 transition-opacity " +
             (selected
               ? "opacity-100"
-              : "opacity-0 group-hover:opacity-100 focus-within:opacity-100")
+              : "opacity-0 max-md:opacity-100 group-hover:opacity-100 focus-within:opacity-100")
           }
           onClick={(e) => e.stopPropagation()}
         >
@@ -56,7 +56,7 @@ export default function IconTile({
       )}
 
       {premium && (
-        <span className="absolute top-1.5 right-1.5 z-10">
+        <span className="absolute top-1.5 end-1.5 z-10">
           <PremiumBadge />
         </span>
       )}

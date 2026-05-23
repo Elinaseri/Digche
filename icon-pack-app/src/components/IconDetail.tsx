@@ -218,7 +218,7 @@ export default function IconDetail({
                 value={String(size)}
                 onChange={(v) => setSize(Number(v))}
               />
-              <span className="ml-3 text-sm text-ink-500">px</span>
+              <span className="ms-3 text-sm text-ink-500">px</span>
             </ControlRow>
 
             <ControlRow label="Color">
@@ -281,7 +281,7 @@ export default function IconDetail({
                 onClick={() => handleCopy(tab)}
                 disabled={!allowCopy}
                 title={!allowCopy ? PREMIUM_LOCKED_MESSAGE : undefined}
-                className="mr-2 my-1.5 inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium bg-ink-900 text-white hover:bg-ink-700 dark:bg-white dark:text-ink-900 dark:hover:bg-ink-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="me-2 my-1.5 inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium bg-ink-900 text-white hover:bg-ink-700 dark:bg-white dark:text-ink-900 dark:hover:bg-ink-100 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <CopyIcon />
                 {copied === tab ? "Copied!" : `Copy ${tab}`}

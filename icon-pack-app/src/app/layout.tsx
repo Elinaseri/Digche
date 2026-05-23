@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider, themeInitScript } from "@/lib/theme";
+import { DirectionProvider, directionInitScript } from "@/lib/direction";
 import { ToastProvider } from "@/components/Toast";
 
 export const metadata: Metadata = {
@@ -18,10 +19,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script dangerouslySetInnerHTML={{ __html: directionInitScript }} />
       </head>
       <body>
         <ThemeProvider>
-          <ToastProvider>{children}</ToastProvider>
+          <DirectionProvider>
+            <ToastProvider>{children}</ToastProvider>
+          </DirectionProvider>
         </ThemeProvider>
       </body>
     </html>

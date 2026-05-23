@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { IconBodies, IconMeta, IconStyle, Manifest } from "@/lib/types";
 import { canDownloadIcon } from "@/lib/access";
+import { useTheme } from "@/lib/theme";
 import { useSelection } from "@/hooks/useSelection";
 import { useIconDownloads } from "@/hooks/useIconDownloads";
 import type { ExportOptions, IconExportInput } from "@/lib/export-engine";
@@ -24,12 +25,24 @@ export default function IconGallery({ manifest, bodies }: Props) {
   const [style, setStyle] = useState<IconStyle>("Linear");
   const [size, setSize] = useState<number>(24);
   const [color, setColor] = useState("#0F0F12");
+  const [colorTouched, setColorTouched] = useState(false);
   const [category, setCategory] = useState<string | null>(null);
   const [activeIcon, setActiveIcon] = useState<IconMeta | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const { theme } = useTheme();
   const selection = useSelection();
   const downloads = useIconDownloads();
+
+  // Until the user picks a color, keep icons legible by following the theme.
+  useEffect(() => {
+    if (!colorTouched) setColor(theme === "dark" ? "#E5E7EB" : "#0F0F12");
+  }, [theme, colorTouched]);
+
+  const handleColorChange = useCallback((c: string) => {
+    setColorTouched(true);
+    setColor(c);
+  }, []);
 
   const exportOpts: ExportOptions = useMemo(
     () => ({ size, color }),
@@ -118,7 +131,7 @@ export default function IconGallery({ manifest, bodies }: Props) {
         size={size}
         onSizeChange={setSize}
         color={color}
-        onColorChange={setColor}
+        onColorChange={handleColorChange}
         sizeOptions={SIZE_OPTIONS}
         styles={STYLES}
         totalShown={filtered.length}

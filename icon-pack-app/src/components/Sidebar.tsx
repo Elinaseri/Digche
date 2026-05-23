@@ -34,8 +34,10 @@ export default function Sidebar({
       )}
       <aside
         className={
-          "shrink-0 w-60 border-r border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-900 md:bg-transparent md:dark:bg-transparent md:static fixed inset-y-0 left-0 z-50 transition-transform md:translate-x-0 " +
-          (open ? "translate-x-0" : "-translate-x-full md:translate-x-0")
+          "shrink-0 w-60 border-e border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-900 md:bg-transparent md:dark:bg-transparent md:static fixed inset-y-0 start-0 z-50 transition-transform md:translate-x-0 " +
+          (open
+            ? "translate-x-0"
+            : "-translate-x-full rtl:translate-x-full md:translate-x-0 md:rtl:translate-x-0")
         }
       >
         <div className="px-4 py-5 sticky top-0 max-h-screen overflow-y-auto">
@@ -89,7 +91,7 @@ function CategoryButton({
     <button
       onClick={onClick}
       className={
-        "flex items-center justify-between px-3 h-9 rounded-lg text-sm transition-colors text-left " +
+        "flex items-center justify-between px-3 h-9 rounded-lg text-sm transition-colors text-start " +
         (active
           ? "bg-ink-900 text-white dark:bg-white dark:text-ink-900"
           : "text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-800")
@@ -98,7 +100,7 @@ function CategoryButton({
       <span className="truncate">{label}</span>
       <span
         className={
-          "ml-2 tabular-nums text-xs " +
+          "ms-2 tabular-nums text-xs " +
           (active ? "text-white/70 dark:text-ink-900/60" : "text-ink-400")
         }
       >
