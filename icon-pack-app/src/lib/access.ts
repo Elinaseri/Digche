@@ -21,5 +21,3 @@ export function canDownloadIcon(icon: IconMeta): boolean {
 export function canCopyIcon(icon: IconMeta): boolean {
   return !isPremiumIcon(icon);
 }
-
-export const PREMIUM_LOCKED_MESSAGE = "Premium icon. Upgrade access required.";

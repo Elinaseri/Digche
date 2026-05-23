@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { IconBodies, IconMeta, IconStyle, Manifest } from "@/lib/types";
 import { canDownloadIcon } from "@/lib/access";
 import { useTheme } from "@/lib/theme";
+import { useI18n } from "@/lib/i18n";
 import { useSelection } from "@/hooks/useSelection";
 import { useIconDownloads } from "@/hooks/useIconDownloads";
 import type { ExportOptions, IconExportInput } from "@/lib/export-engine";
@@ -202,6 +203,7 @@ export default function IconGallery({ manifest, bodies }: Props) {
 }
 
 function EmptyState({ query, style }: { query: string; style: IconStyle }) {
+  const { t } = useI18n();
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
       <div className="w-16 h-16 rounded-full bg-ink-100 dark:bg-ink-800 grid place-items-center mb-4 text-ink-400">
@@ -211,12 +213,12 @@ function EmptyState({ query, style }: { query: string; style: IconStyle }) {
         </svg>
       </div>
       <p className="text-ink-700 dark:text-ink-200 font-medium">
-        No icons match your search
+        {t("empty.title")}
       </p>
       <p className="text-ink-500 text-sm mt-1">
         {query
-          ? `Nothing found for "${query}" in ${style}.`
-          : `No ${style} icons in this category.`}
+          ? t("empty.query", { query, style })
+          : t("empty.category", { style })}
       </p>
     </div>
   );

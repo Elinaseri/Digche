@@ -1,6 +1,7 @@
 "use client";
 
 import type { IconStyle } from "@/lib/types";
+import { useI18n } from "@/lib/i18n";
 import DigLogo from "./DigLogo";
 import ThemeToggle from "./ThemeToggle";
 import DirectionToggle from "./DirectionToggle";
@@ -46,19 +47,23 @@ export default function Toolbar({
   onDownloadSelected,
   onDownloadEntirePack,
 }: Props) {
+  const { t } = useI18n();
+
   const bulkItems: DownloadItem[] = [
     {
       id: "selected",
-      label: "Download selected icons as ZIP",
+      label: t("bulk.selectedZip.label"),
       description:
-        selectionCount > 0 ? `${selectionCount} selected` : "No icons selected",
+        selectionCount > 0
+          ? t("bulk.selectedZip.count", { n: selectionCount })
+          : t("bulk.selectedZip.empty"),
       disabled: selectionCount === 0,
       onSelect: onDownloadSelected,
     },
     {
       id: "pack",
-      label: "Download entire pack",
-      description: "All icons · current style · SVG",
+      label: t("bulk.entirePack.label"),
+      description: t("bulk.entirePack.desc"),
       separated: true,
       onSelect: onDownloadEntirePack,
     },
@@ -71,7 +76,7 @@ export default function Toolbar({
           type="button"
           onClick={onToggleSidebar}
           className="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-lg border border-ink-200 dark:border-ink-700 text-ink-700 dark:text-ink-200 hover:bg-ink-50 dark:hover:bg-ink-800"
-          aria-label="Toggle categories"
+          aria-label={t("nav.toggleCategories")}
         >
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
             <path d="M4 7h16M4 12h16M4 17h16" />
@@ -104,7 +109,7 @@ export default function Toolbar({
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
             type="search"
-            placeholder="Search icons..."
+            placeholder={t("search.placeholder")}
             className="w-full h-10 ps-10 pe-3 rounded-xl bg-ink-100 dark:bg-ink-800 border border-transparent focus:bg-white dark:focus:bg-ink-900 focus:border-ink-300 dark:focus:border-ink-600 focus:outline-none text-sm placeholder:text-ink-400 dark:text-ink-100"
           />
         </div>
@@ -122,10 +127,10 @@ export default function Toolbar({
         {selectionCount > 0 && (
           <div className="inline-flex items-center gap-1.5 h-10 ps-3 pe-1.5 rounded-xl bg-ink-100 dark:bg-ink-800 text-sm text-ink-700 dark:text-ink-200">
             <span className="tabular-nums font-medium">{selectionCount}</span>
-            <span className="text-ink-500">selected</span>
+            <span className="text-ink-500">{t("selection.selected")}</span>
             <button
               onClick={onClearSelection}
-              aria-label="Clear selection"
+              aria-label={t("selection.clear")}
               className="ms-1 w-7 h-7 grid place-items-center rounded-lg hover:bg-ink-200 dark:hover:bg-ink-700"
             >
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
@@ -135,7 +140,11 @@ export default function Toolbar({
           </div>
         )}
 
-        <DownloadDropdown items={bulkItems} ariaLabel="Bulk download options" />
+        <DownloadDropdown
+          items={bulkItems}
+          label={t("download")}
+          ariaLabel={t("bulk.aria")}
+        />
 
         <ThemeToggle />
         <DirectionToggle />

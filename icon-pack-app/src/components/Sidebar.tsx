@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 interface CategoryEntry {
   slug: string;
   label: string;
@@ -23,6 +25,7 @@ export default function Sidebar({
   open,
   onClose,
 }: Props) {
+  const { t, tCategory } = useI18n();
   return (
     <>
       {open && (
@@ -42,11 +45,11 @@ export default function Sidebar({
       >
         <div className="px-4 py-5 sticky top-0 max-h-screen overflow-y-auto">
           <div className="text-xs uppercase tracking-wider text-ink-400 font-semibold mb-2 px-2">
-            Categories
+            {t("sidebar.categories")}
           </div>
           <nav className="flex flex-col gap-0.5">
             <CategoryButton
-              label="All icons"
+              label={t("sidebar.allIcons")}
               count={total}
               active={active === null}
               onClick={() => onSelect(null)}
@@ -54,7 +57,7 @@ export default function Sidebar({
             {categories.map((c) => (
               <CategoryButton
                 key={c.slug}
-                label={c.label}
+                label={tCategory(c.slug, c.label)}
                 count={c.count}
                 active={active === c.slug}
                 onClick={() => onSelect(c.slug)}
@@ -63,11 +66,18 @@ export default function Sidebar({
           </nav>
 
           <div className="mt-8 px-2 text-xs text-ink-500 leading-relaxed">
-            <p className="mb-2 font-medium text-ink-700 dark:text-ink-200">Tips</p>
+            <p className="mb-2 font-medium text-ink-700 dark:text-ink-200">
+              {t("sidebar.tips")}
+            </p>
             <ul className="space-y-1">
-              <li>· Click an icon for code & downloads</li>
-              <li>· Hover an icon to select it for ZIP</li>
-              <li>· Use <kbd className="px-1 py-0.5 bg-ink-100 dark:bg-ink-800 rounded text-[10px]">Esc</kbd> to close</li>
+              <li>· {t("sidebar.tip.open")}</li>
+              <li>· {t("sidebar.tip.select")}</li>
+              <li>
+                · {t("sidebar.tip.esc")}{" "}
+                <kbd className="px-1 py-0.5 bg-ink-100 dark:bg-ink-800 rounded text-[10px]">
+                  Esc
+                </kbd>
+              </li>
             </ul>
           </div>
         </div>

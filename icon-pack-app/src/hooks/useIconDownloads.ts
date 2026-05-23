@@ -2,6 +2,7 @@
 
 import { useCallback } from "react";
 import { useToast } from "@/components/Toast";
+import { useI18n } from "@/lib/i18n";
 import {
   downloadBlob,
   exportIconAs,
@@ -26,20 +27,21 @@ const FORMAT_LABEL: Record<ExportFormat, string> = {
  */
 export function useIconDownloads() {
   const toast = useToast();
+  const { t } = useI18n();
 
   const single = useCallback(
     async (input: IconExportInput, opts: ExportOptions, format: ExportFormat) => {
       try {
         const result = await exportIconAs(input, opts, format);
         downloadBlob(result.blob, result.filename);
-        toast.success(`Downloaded ${input.name} as ${FORMAT_LABEL[format]}`);
-      } catch (err) {
-        toast.error(
-          err instanceof Error ? err.message : `Failed to export ${format}`
+        toast.success(
+          t("toast.downloaded", { name: input.name, fmt: FORMAT_LABEL[format] })
         );
+      } catch {
+        toast.error(t("toast.exportFailed"));
       }
     },
-    [toast]
+    [toast, t]
   );
 
   const allFormats = useCallback(
@@ -48,14 +50,12 @@ export function useIconDownloads() {
         const results = await exportIconFormats(input, opts);
         const blob = await zipResults(results, `digche-${input.slug}`);
         downloadBlob(blob, `${input.slug}-${input.style.toLowerCase()}-all-formats.zip`);
-        toast.success(`Downloaded ${input.name} (SVG + PNG + JPEG)`);
-      } catch (err) {
-        toast.error(
-          err instanceof Error ? err.message : "Failed to export all formats"
-        );
+        toast.success(t("toast.downloadedAll", { name: input.name }));
+      } catch {
+        toast.error(t("toast.exportFailed"));
       }
     },
-    [toast]
+    [toast, t]
   );
 
   const zipMany = useCallback(
@@ -65,22 +65,18 @@ export function useIconDownloads() {
       formats: ExportFormat[] = ["svg", "png", "jpeg"]
     ) => {
       if (inputs.length === 0) {
-        toast.error("No icons selected");
+        toast.error(t("toast.noSelection"));
         return;
       }
       try {
         const blob = await exportIconsAsZip(inputs, opts, formats);
         downloadBlob(blob, `digche-icons-${inputs.length}.zip`);
-        toast.success(
-          `Downloaded ${inputs.length} icon${inputs.length > 1 ? "s" : ""} as ZIP`
-        );
-      } catch (err) {
-        toast.error(
-          err instanceof Error ? err.message : "Failed to export ZIP"
-        );
+        toast.success(t("toast.downloadedZip", { n: inputs.length }));
+      } catch {
+        toast.error(t("toast.exportFailed"));
       }
     },
-    [toast]
+    [toast, t]
   );
 
   return { single, allFormats, zipMany };

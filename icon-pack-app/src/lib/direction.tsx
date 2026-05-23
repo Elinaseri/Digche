@@ -21,11 +21,14 @@ interface DirectionContextValue {
 const DirectionContext = createContext<DirectionContextValue | null>(null);
 
 function applyDirection(dir: Direction) {
-  document.documentElement.setAttribute("dir", dir);
+  const root = document.documentElement;
+  root.setAttribute("dir", dir);
+  // Keep the document language in sync so screen readers switch voice/locale.
+  root.setAttribute("lang", dir === "rtl" ? "fa" : "en");
 }
 
-/** Render-blocking script that sets `dir` before paint (no layout flash). */
-export const directionInitScript = `(function(){try{var d=localStorage.getItem('${STORAGE_KEY}')||'ltr';document.documentElement.setAttribute('dir',d);}catch(e){}})();`;
+/** Render-blocking script that sets `dir` + `lang` before paint (no flash). */
+export const directionInitScript = `(function(){try{var d=localStorage.getItem('${STORAGE_KEY}')||'ltr';var r=document.documentElement;r.setAttribute('dir',d);r.setAttribute('lang',d==='rtl'?'fa':'en');}catch(e){}})();`;
 
 export function DirectionProvider({ children }: { children: React.ReactNode }) {
   const [dir, setDirState] = useState<Direction>("ltr");

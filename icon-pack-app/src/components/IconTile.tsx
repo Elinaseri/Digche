@@ -1,7 +1,8 @@
 "use client";
 
 import type { IconMeta } from "@/lib/types";
-import { isPremiumIcon, PREMIUM_LOCKED_MESSAGE } from "@/lib/access";
+import { isPremiumIcon } from "@/lib/access";
+import { useI18n } from "@/lib/i18n";
 import PremiumBadge from "./PremiumBadge";
 
 interface Props {
@@ -23,6 +24,7 @@ export default function IconTile({
   onToggleSelect,
   onOpen,
 }: Props) {
+  const { t } = useI18n();
   const premium = isPremiumIcon(icon);
 
   return (
@@ -49,7 +51,7 @@ export default function IconTile({
             type="checkbox"
             checked={selected}
             onChange={onToggleSelect}
-            aria-label={`Select ${icon.name}`}
+            aria-label={t("tile.select", { name: icon.name })}
             className="w-4 h-4 rounded border-ink-300 dark:border-ink-600 text-ink-900 focus:ring-ink-900 cursor-pointer accent-ink-900 dark:accent-white"
           />
         </label>
@@ -66,7 +68,7 @@ export default function IconTile({
         onClick={onOpen}
         title={
           premium
-            ? `${icon.name} — ${PREMIUM_LOCKED_MESSAGE}`
+            ? `${icon.name} — ${t("premium.locked")}`
             : `${icon.name} — ${icon.category}`
         }
         className="w-full h-full flex flex-col items-center justify-center gap-2 p-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 dark:focus-visible:ring-white rounded-xl"
