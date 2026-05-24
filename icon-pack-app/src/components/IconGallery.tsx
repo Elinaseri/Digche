@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { IconBodies, IconMeta, IconStyle, Manifest } from "@/lib/types";
 import { canDownloadIcon } from "@/lib/access";
 import { useTheme } from "@/lib/theme";
+import { useAuth } from "@/lib/auth";
 import { useSelection } from "@/hooks/useSelection";
 import { useIconDownloads } from "@/hooks/useIconDownloads";
 import type { ExportOptions, IconExportInput } from "@/lib/export-engine";
@@ -31,6 +32,7 @@ export default function IconGallery({ manifest, bodies }: Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const { theme } = useTheme();
+  const { plan } = useAuth();
   const selection = useSelection();
   const downloads = useIconDownloads();
   const lastOpenedSlugRef = useRef<string | null>(null);
@@ -92,10 +94,10 @@ export default function IconGallery({ manifest, bodies }: Props) {
     [style, bodies]
   );
 
-  // Selected, downloadable (non-premium) icons as export inputs.
+  // Selected, downloadable icons as export inputs (respects user plan).
   const selectedInputs = useMemo(() => {
     return manifest.icons
-      .filter((i) => selection.isSelected(i.slug) && canDownloadIcon(i))
+      .filter((i) => selection.isSelected(i.slug) && canDownloadIcon(i, plan))
       .map(buildInput)
       .filter((x): x is IconExportInput => x !== null);
   }, [manifest.icons, selection, buildInput]);
@@ -121,7 +123,7 @@ export default function IconGallery({ manifest, bodies }: Props) {
 
   const downloadEntirePack = useCallback(() => {
     const inputs = manifest.icons
-      .filter(canDownloadIcon)
+      .filter((i) => canDownloadIcon(i, plan))
       .map(buildInput)
       .filter((x): x is IconExportInput => x !== null);
     void downloads.zipMany(inputs, exportOpts, ["svg"]);

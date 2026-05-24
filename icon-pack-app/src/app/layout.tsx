@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider, themeInitScript } from "@/lib/theme";
 import { ToastProvider } from "@/components/Toast";
+import { AuthProvider } from "@/lib/auth";
+import AuthModal from "@/components/AuthModal";
 
 export const metadata: Metadata = {
   title: "Digche Icons — A beautiful icon pack for designers & developers",
@@ -27,7 +29,12 @@ export default function RootLayout({
           Skip to icons
         </a>
         <ThemeProvider>
-          <ToastProvider>{children}</ToastProvider>
+          <AuthProvider>
+            <ToastProvider>
+              {children}
+              <AuthModal />
+            </ToastProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

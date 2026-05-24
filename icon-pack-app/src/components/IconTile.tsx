@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import type { IconMeta } from "@/lib/types";
 import { isPremiumIcon } from "@/lib/access";
+import { useAuth } from "@/lib/auth";
 import { useToast } from "./Toast";
 import { buildStandaloneSvg } from "@/lib/svg";
 import PremiumBadge from "./PremiumBadge";
@@ -27,7 +28,9 @@ export default function IconTile({
   onOpen,
 }: Props) {
   const toast = useToast();
+  const { plan } = useAuth();
   const premium = isPremiumIcon(icon);
+  const locked = premium && plan !== "premium";
   const [svgCopied, setSvgCopied] = useState(false);
 
   const handleCopySvg = useCallback(
@@ -56,7 +59,7 @@ export default function IconTile({
       }
     >
       {/* Selection checkbox — hidden until hover/selected to keep cards clean */}
-      {!premium && (
+      {!locked && (
         <label
           className={
             "absolute top-1.5 left-1.5 z-10 transition-opacity " +
@@ -82,12 +85,13 @@ export default function IconTile({
         </span>
       )}
 
+
       <button
         type="button"
         data-icon-open={icon.slug}
         onClick={onOpen}
         title={
-          premium
+          locked
             ? `${icon.name} — Premium icon. Upgrade access required.`
             : `${icon.name} — ${icon.category}`
         }
@@ -95,7 +99,7 @@ export default function IconTile({
       >
         <span
           aria-hidden="true"
-          className={"icon-svg grid place-items-center " + (premium ? "opacity-40" : "")}
+          className={"icon-svg grid place-items-center " + (locked ? "opacity-40" : "")}
           style={{ width: size, height: size, color }}
           dangerouslySetInnerHTML={{ __html: body }}
         />
@@ -104,8 +108,8 @@ export default function IconTile({
         </span>
       </button>
 
-      {/* Copy SVG shortcut — visible on hover for free icons */}
-      {!premium && (
+      {/* Copy SVG shortcut — visible on hover for unlocked icons */}
+      {!locked && (
         <button
           type="button"
           onClick={handleCopySvg}

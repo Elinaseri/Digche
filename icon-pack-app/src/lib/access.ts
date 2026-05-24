@@ -1,23 +1,16 @@
 import type { IconMeta } from "./types";
-
-/**
- * Placeholder entitlement layer for future premium support.
- *
- * Today this only reads the static `isPremium` flag on the icon. Later this can
- * be replaced with real user-entitlement logic (auth, subscriptions, teams)
- * without touching any UI component — keep all gating decisions here.
- */
+import type { Plan } from "./auth";
 
 export function isPremiumIcon(icon: IconMeta): boolean {
   return icon.isPremium === true;
 }
 
-/** Whether the current user may download the given icon. */
-export function canDownloadIcon(icon: IconMeta): boolean {
-  return !isPremiumIcon(icon);
+/** Whether the given plan may download this icon. */
+export function canDownloadIcon(icon: IconMeta, plan: Plan = "free"): boolean {
+  return !isPremiumIcon(icon) || plan === "premium";
 }
 
-/** Whether the current user may copy the given icon's code. */
-export function canCopyIcon(icon: IconMeta): boolean {
-  return !isPremiumIcon(icon);
+/** Whether the given plan may copy this icon's code. */
+export function canCopyIcon(icon: IconMeta, plan: Plan = "free"): boolean {
+  return !isPremiumIcon(icon) || plan === "premium";
 }

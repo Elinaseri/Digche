@@ -10,6 +10,7 @@ import type { ExportOptions, IconExportInput } from "@/lib/export-engine";
 import DownloadDropdown from "./DownloadDropdown";
 import type { DownloadItem } from "./DownloadMenuItem";
 import PremiumBadge from "./PremiumBadge";
+import { useAuth } from "@/lib/auth";
 
 interface Props {
   icon: IconMeta;
@@ -46,12 +47,13 @@ export default function IconDetail({
 
   const toast = useToast();
   const downloads = useIconDownloads();
+  const { user, plan, openAuthModal } = useAuth();
   const panelRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const premium = isPremiumIcon(icon);
-  const allowCopy = canCopyIcon(icon);
-  const allowDownload = canDownloadIcon(icon);
+  const allowCopy = canCopyIcon(icon, plan);
+  const allowDownload = canDownloadIcon(icon, plan);
 
   // Move focus into the dialog when it opens
   useEffect(() => {
@@ -128,7 +130,11 @@ export default function IconDetail({
 
   const handleCopy = async (which: Tab) => {
     if (!allowCopy) {
-      toast.error("Premium icon. Upgrade access required.");
+      if (!user) {
+        openAuthModal();
+      } else {
+        toast.error("Upgrade to Premium to access this icon.");
+      }
       return;
     }
     try {
@@ -221,12 +227,26 @@ export default function IconDetail({
             />
           </div>
 
-          {premium && (
+          {premium && !allowDownload && (
             <div className="rounded-xl border border-amber-300 dark:border-amber-400/30 bg-amber-50 dark:bg-amber-400/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-300 flex items-center justify-between gap-3">
-              <span>Premium icon. Upgrade access required.</span>
-              <a href="#upgrade" className="shrink-0 font-medium underline hover:no-underline">
-                Upgrade →
-              </a>
+              {user ? (
+                <>
+                  <span>Upgrade to Premium to access this icon.</span>
+                  <a href="#upgrade" className="shrink-0 font-medium underline hover:no-underline">
+                    Upgrade →
+                  </a>
+                </>
+              ) : (
+                <>
+                  <span>Sign in to access premium icons.</span>
+                  <button
+                    onClick={openAuthModal}
+                    className="shrink-0 font-medium underline hover:no-underline"
+                  >
+                    Sign in →
+                  </button>
+                </>
+              )}
             </div>
           )}
 
