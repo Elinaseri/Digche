@@ -101,8 +101,8 @@ export default function IconGallery({ manifest, bodies }: Props) {
   }, [manifest.icons, selection, buildInput]);
 
   const downloadSelectedZip = useCallback(() => {
-    void downloads.zipMany(selectedInputs, exportOpts);
-  }, [downloads, selectedInputs, exportOpts]);
+    void downloads.zipMany(selectedInputs, exportOpts).then(() => selection.clear());
+  }, [downloads, selectedInputs, exportOpts, selection]);
 
   const handleOpenIcon = useCallback((icon: IconMeta) => {
     lastOpenedSlugRef.current = icon.slug;

@@ -222,8 +222,11 @@ export default function IconDetail({
           </div>
 
           {premium && (
-            <div className="rounded-xl border border-amber-300 dark:border-amber-400/30 bg-amber-50 dark:bg-amber-400/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-300">
-              Premium icon. Upgrade access required.
+            <div className="rounded-xl border border-amber-300 dark:border-amber-400/30 bg-amber-50 dark:bg-amber-400/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-300 flex items-center justify-between gap-3">
+              <span>Premium icon. Upgrade access required.</span>
+              <a href="#upgrade" className="shrink-0 font-medium underline hover:no-underline">
+                Upgrade →
+              </a>
             </div>
           )}
 

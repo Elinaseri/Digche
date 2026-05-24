@@ -111,7 +111,7 @@ export default function IconTile({
           onClick={handleCopySvg}
           aria-label={`Copy SVG — ${icon.name}`}
           className={
-            "absolute bottom-1.5 right-1.5 z-10 h-6 px-2 rounded-md text-[10px] font-medium bg-ink-900 dark:bg-white text-white dark:text-ink-900 transition-opacity " +
+            "absolute bottom-1.5 right-1.5 z-10 h-8 px-2 rounded-md text-[10px] font-medium bg-ink-900 dark:bg-white text-white dark:text-ink-900 transition-opacity " +
             (svgCopied
               ? "opacity-100"
               : "opacity-0 max-md:opacity-100 group-hover:opacity-100 focus-within:opacity-100")

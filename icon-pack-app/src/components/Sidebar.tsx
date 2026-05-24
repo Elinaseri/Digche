@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+
 interface CategoryEntry {
   slug: string;
   label: string;
@@ -23,6 +25,15 @@ export default function Sidebar({
   open,
   onClose,
 }: Props) {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
   return (
     <>
       {open && (
@@ -39,8 +50,20 @@ export default function Sidebar({
         }
       >
         <div className="px-4 py-5">
-          <div className="text-xs uppercase tracking-wider text-ink-400 font-semibold mb-2 px-2">
-            Categories
+          <div className="flex items-center justify-between mb-2">
+            <div className="text-xs uppercase tracking-wider text-ink-400 font-semibold px-2">
+              Categories
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="md:hidden w-8 h-8 rounded-lg hover:bg-ink-100 dark:hover:bg-ink-800 grid place-items-center text-ink-500 dark:text-ink-400"
+              aria-label="Close sidebar"
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
+                <path d="M6 6l12 12M18 6l-12 12" />
+              </svg>
+            </button>
           </div>
           <nav className="flex flex-col gap-0.5">
             <CategoryButton

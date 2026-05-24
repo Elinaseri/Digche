@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import type { IconStyle } from "@/lib/types";
 import DigLogo from "./DigLogo";
 import ThemeToggle from "./ThemeToggle";
@@ -39,6 +40,23 @@ export default function Toolbar({
   onToggleSidebar,
   onDownloadEntirePack,
 }: Props) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (
+        e.key === "/" &&
+        !(e.target instanceof HTMLInputElement) &&
+        !(e.target instanceof HTMLTextAreaElement)
+      ) {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, []);
+
   const bulkItems: DownloadItem[] = [
     {
       id: "pack",
@@ -85,18 +103,32 @@ export default function Toolbar({
             <path d="M20 20l-3.5-3.5" />
           </svg>
           <input
+            ref={inputRef}
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
             type="search"
             placeholder="Search icons..."
-            className="w-full h-10 pl-10 pr-3 rounded-xl bg-ink-100 dark:bg-ink-800 border border-transparent focus:bg-white dark:focus:bg-ink-900 focus:border-ink-300 dark:focus:border-ink-600 focus:outline-none text-sm placeholder:text-ink-400 dark:text-ink-100"
+            className={"w-full h-10 pl-10 rounded-xl bg-ink-100 dark:bg-ink-800 border border-transparent focus:bg-white dark:focus:bg-ink-900 focus:border-ink-300 dark:focus:border-ink-600 focus:outline-none text-sm placeholder:text-ink-400 dark:text-ink-100 " + (query ? "pr-9" : "pr-3")}
           />
+          {query && (
+            <button
+              type="button"
+              onClick={() => onQueryChange("")}
+              aria-label="Clear search"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-400 hover:text-ink-900 dark:hover:text-white"
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+          )}
         </div>
 
         <SegmentedControl
           options={styles}
           value={style}
           onChange={(v) => onStyleChange(v as IconStyle)}
+          ariaLabel="Icon style"
         />
 
         <SizePicker options={sizeOptions} value={size} onChange={onSizeChange} />
@@ -119,14 +151,17 @@ function SegmentedControl({
   options,
   value,
   onChange,
+  ariaLabel,
 }: {
   options: string[];
   value: string;
   onChange: (v: string) => void;
+  ariaLabel?: string;
 }) {
   return (
     <div
       role="tablist"
+      aria-label={ariaLabel}
       className="inline-flex items-center bg-ink-100 dark:bg-ink-800 p-1 rounded-xl"
     >
       {options.map((opt) => {
@@ -162,7 +197,7 @@ function SizePicker({
   onChange: (n: number) => void;
 }) {
   return (
-    <div className="inline-flex items-center bg-ink-100 dark:bg-ink-800 p-1 rounded-xl">
+    <div role="group" aria-label="Icon size" className="inline-flex items-center bg-ink-100 dark:bg-ink-800 p-1 rounded-xl">
       {options.map((n) => {
         const active = n === value;
         return (
@@ -193,7 +228,7 @@ function ColorPicker({
   onChange: (c: string) => void;
 }) {
   return (
-    <label className="inline-flex items-center gap-2 h-10 px-2.5 rounded-xl border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-800 cursor-pointer hover:border-ink-300">
+    <label title="Preview & export color" className="inline-flex items-center gap-2 h-10 px-2.5 rounded-xl border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-800 cursor-pointer hover:border-ink-300">
       <span
         className="w-5 h-5 rounded-md border border-ink-200 dark:border-ink-600"
         style={{ background: value }}

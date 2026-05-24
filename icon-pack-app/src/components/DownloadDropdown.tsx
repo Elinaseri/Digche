@@ -68,6 +68,14 @@ export default function DownloadDropdown({
     return () => document.removeEventListener("mousedown", onDocClick);
   }, [open]);
 
+  // Close on scroll so the menu doesn't float over unrelated content.
+  useEffect(() => {
+    if (!open) return;
+    const onScroll = () => setOpen(false);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [open]);
+
   const moveActive = useCallback(
     (dir: 1 | -1) => {
       setActiveIndex((curr) => {
@@ -191,7 +199,7 @@ export default function DownloadDropdown({
           tabIndex={-1}
           onKeyDown={onMenuKeyDown}
           className={
-            "absolute z-50 mt-2 w-64 p-1.5 rounded-2xl bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 shadow-soft " +
+            "absolute z-50 mt-2 w-64 p-1.5 rounded-2xl bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 shadow-soft max-h-[70vh] overflow-y-auto " +
             (align === "end" ? "right-0" : "left-0")
           }
         >
