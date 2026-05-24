@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 import type { IconMeta } from "@/lib/types";
-import { isPremiumIcon } from "@/lib/access";
+import { isPremiumIcon, canCopyIcon } from "@/lib/access";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "./Toast";
 import { buildStandaloneSvg } from "@/lib/svg";
@@ -28,14 +28,19 @@ export default function IconTile({
   onOpen,
 }: Props) {
   const toast = useToast();
-  const { plan } = useAuth();
+  const { user, plan, openAuthModal } = useAuth();
   const premium = isPremiumIcon(icon);
   const locked = premium && plan !== "premium";
+  const allowCopy = canCopyIcon(icon, user, plan);
   const [svgCopied, setSvgCopied] = useState(false);
 
   const handleCopySvg = useCallback(
     async (e: React.MouseEvent) => {
       e.stopPropagation();
+      if (!allowCopy) {
+        openAuthModal();
+        return;
+      }
       try {
         const standalone = buildStandaloneSvg(body, { size, color });
         await navigator.clipboard.writeText(standalone);
@@ -46,7 +51,7 @@ export default function IconTile({
         toast.error("Clipboard unavailable");
       }
     },
-    [body, size, color, toast]
+    [body, size, color, toast, allowCopy, openAuthModal]
   );
 
   return (

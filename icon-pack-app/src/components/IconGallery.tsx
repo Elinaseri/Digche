@@ -32,7 +32,7 @@ export default function IconGallery({ manifest, bodies }: Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const { theme } = useTheme();
-  const { plan } = useAuth();
+  const { user, plan } = useAuth();
   const selection = useSelection();
   const downloads = useIconDownloads();
   const lastOpenedSlugRef = useRef<string | null>(null);
@@ -97,7 +97,7 @@ export default function IconGallery({ manifest, bodies }: Props) {
   // Selected, downloadable icons as export inputs (respects user plan).
   const selectedInputs = useMemo(() => {
     return manifest.icons
-      .filter((i) => selection.isSelected(i.slug) && canDownloadIcon(i, plan))
+      .filter((i) => selection.isSelected(i.slug) && canDownloadIcon(i, user, plan))
       .map(buildInput)
       .filter((x): x is IconExportInput => x !== null);
   }, [manifest.icons, selection, buildInput]);
@@ -123,7 +123,7 @@ export default function IconGallery({ manifest, bodies }: Props) {
 
   const downloadEntirePack = useCallback(() => {
     const inputs = manifest.icons
-      .filter((i) => canDownloadIcon(i, plan))
+      .filter((i) => canDownloadIcon(i, user, plan))
       .map(buildInput)
       .filter((x): x is IconExportInput => x !== null);
     void downloads.zipMany(inputs, exportOpts, ["svg"]);

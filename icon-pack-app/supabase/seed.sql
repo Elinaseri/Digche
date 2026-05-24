@@ -51,5 +51,5 @@ CREATE TRIGGER on_auth_user_created
   FOR EACH ROW
   EXECUTE FUNCTION public.handle_new_user();
 
--- 4. To promote a user to premium (run manually for now):
--- UPDATE public.profiles SET plan = 'premium' WHERE email = 'user@example.com';
+-- 4. Premium plan is set automatically by the billing webhook (future phase).
+--    Do not set plan manually — it will be overwritten on next purchase event.

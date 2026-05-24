@@ -52,8 +52,8 @@ export default function IconDetail({
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const premium = isPremiumIcon(icon);
-  const allowCopy = canCopyIcon(icon, plan);
-  const allowDownload = canDownloadIcon(icon, plan);
+  const allowCopy = canCopyIcon(icon, user, plan);
+  const allowDownload = canDownloadIcon(icon, user, plan);
 
   // Move focus into the dialog when it opens
   useEffect(() => {
@@ -227,18 +227,11 @@ export default function IconDetail({
             />
           </div>
 
-          {premium && !allowDownload && (
+          {!allowDownload && (
             <div className="rounded-xl border border-amber-300 dark:border-amber-400/30 bg-amber-50 dark:bg-amber-400/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-300 flex items-center justify-between gap-3">
-              {user ? (
+              {!user ? (
                 <>
-                  <span>Upgrade to Premium to access this icon.</span>
-                  <a href="#upgrade" className="shrink-0 font-medium underline hover:no-underline">
-                    Upgrade →
-                  </a>
-                </>
-              ) : (
-                <>
-                  <span>Sign in to access premium icons.</span>
+                  <span>Sign in to access this icon.</span>
                   <button
                     onClick={openAuthModal}
                     className="shrink-0 font-medium underline hover:no-underline"
@@ -246,7 +239,14 @@ export default function IconDetail({
                     Sign in →
                   </button>
                 </>
-              )}
+              ) : premium ? (
+                <>
+                  <span>Upgrade to Premium to access this icon.</span>
+                  <a href="#upgrade" className="shrink-0 font-medium underline hover:no-underline">
+                    Upgrade →
+                  </a>
+                </>
+              ) : null}
             </div>
           )}
 
