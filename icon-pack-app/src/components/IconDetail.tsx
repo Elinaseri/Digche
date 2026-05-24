@@ -319,7 +319,14 @@ export default function IconDetail({
                 {copied === tab ? "Copied!" : `Copy ${tab}`}
               </button>
             </div>
-            <pre className="m-0 px-4 py-3 text-xs leading-relaxed bg-ink-900 dark:bg-black text-ink-100 overflow-x-auto max-h-72">
+            <pre
+              className={
+                "m-0 px-4 py-3 text-xs leading-relaxed bg-ink-900 dark:bg-black text-ink-100 overflow-x-auto max-h-72 " +
+                (allowCopy ? "" : "select-none blur-sm")
+              }
+              onCopy={allowCopy ? undefined : (e) => e.preventDefault()}
+              onContextMenu={allowCopy ? undefined : (e) => e.preventDefault()}
+            >
               <code>{codeByTab[tab]}</code>
             </pre>
           </div>
