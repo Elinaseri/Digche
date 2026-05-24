@@ -2,7 +2,6 @@
 
 import { useCallback } from "react";
 import { useToast } from "@/components/Toast";
-import { useI18n } from "@/lib/i18n";
 import {
   downloadBlob,
   exportIconAs,
@@ -27,21 +26,18 @@ const FORMAT_LABEL: Record<ExportFormat, string> = {
  */
 export function useIconDownloads() {
   const toast = useToast();
-  const { t } = useI18n();
 
   const single = useCallback(
     async (input: IconExportInput, opts: ExportOptions, format: ExportFormat) => {
       try {
         const result = await exportIconAs(input, opts, format);
         downloadBlob(result.blob, result.filename);
-        toast.success(
-          t("toast.downloaded", { name: input.name, fmt: FORMAT_LABEL[format] })
-        );
+        toast.success(`Downloaded ${input.name} as ${FORMAT_LABEL[format]}`);
       } catch {
-        toast.error(t("toast.exportFailed"));
+        toast.error("Download failed");
       }
     },
-    [toast, t]
+    [toast]
   );
 
   const allFormats = useCallback(
@@ -50,12 +46,12 @@ export function useIconDownloads() {
         const results = await exportIconFormats(input, opts);
         const blob = await zipResults(results, `digche-${input.slug}`);
         downloadBlob(blob, `${input.slug}-${input.style.toLowerCase()}-all-formats.zip`);
-        toast.success(t("toast.downloadedAll", { name: input.name }));
+        toast.success(`Downloaded ${input.name} (SVG + PNG + JPEG)`);
       } catch {
-        toast.error(t("toast.exportFailed"));
+        toast.error("Download failed");
       }
     },
-    [toast, t]
+    [toast]
   );
 
   const zipMany = useCallback(
@@ -65,18 +61,18 @@ export function useIconDownloads() {
       formats: ExportFormat[] = ["svg", "png", "jpeg"]
     ) => {
       if (inputs.length === 0) {
-        toast.error(t("toast.noSelection"));
+        toast.error("No icons selected");
         return;
       }
       try {
         const blob = await exportIconsAsZip(inputs, opts, formats);
         downloadBlob(blob, `digche-icons-${inputs.length}.zip`);
-        toast.success(t("toast.downloadedZip", { n: inputs.length }));
+        toast.success(`Downloaded ${inputs.length} icons as ZIP`);
       } catch {
-        toast.error(t("toast.exportFailed"));
+        toast.error("Download failed");
       }
     },
-    [toast, t]
+    [toast]
   );
 
   return { single, allFormats, zipMany };

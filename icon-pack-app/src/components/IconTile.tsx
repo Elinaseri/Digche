@@ -3,7 +3,6 @@
 import { useCallback, useState } from "react";
 import type { IconMeta } from "@/lib/types";
 import { isPremiumIcon } from "@/lib/access";
-import { useI18n } from "@/lib/i18n";
 import { useToast } from "./Toast";
 import { buildStandaloneSvg } from "@/lib/svg";
 import PremiumBadge from "./PremiumBadge";
@@ -27,7 +26,6 @@ export default function IconTile({
   onToggleSelect,
   onOpen,
 }: Props) {
-  const { t } = useI18n();
   const toast = useToast();
   const premium = isPremiumIcon(icon);
   const [svgCopied, setSvgCopied] = useState(false);
@@ -40,12 +38,12 @@ export default function IconTile({
         await navigator.clipboard.writeText(standalone);
         setSvgCopied(true);
         setTimeout(() => setSvgCopied(false), 1400);
-        toast.success(t("toast.copied", { tab: "SVG" }));
+        toast.success("Copied SVG code");
       } catch {
-        toast.error(t("toast.clipboardError"));
+        toast.error("Clipboard unavailable");
       }
     },
-    [body, size, color, toast, t]
+    [body, size, color, toast]
   );
 
   return (
@@ -61,7 +59,7 @@ export default function IconTile({
       {!premium && (
         <label
           className={
-            "absolute top-1.5 start-1.5 z-10 transition-opacity " +
+            "absolute top-1.5 left-1.5 z-10 transition-opacity " +
             (selected
               ? "opacity-100"
               : "opacity-0 max-md:opacity-100 group-hover:opacity-100 focus-within:opacity-100")
@@ -72,14 +70,14 @@ export default function IconTile({
             type="checkbox"
             checked={selected}
             onChange={onToggleSelect}
-            aria-label={t("tile.select", { name: icon.name })}
+            aria-label={`Select ${icon.name}`}
             className="w-4 h-4 rounded border-ink-300 dark:border-ink-600 text-ink-900 focus:ring-ink-900 cursor-pointer accent-ink-900 dark:accent-white"
           />
         </label>
       )}
 
       {premium && (
-        <span className="absolute top-1.5 end-1.5 z-10">
+        <span className="absolute top-1.5 right-1.5 z-10">
           <PremiumBadge />
         </span>
       )}
@@ -90,7 +88,7 @@ export default function IconTile({
         onClick={onOpen}
         title={
           premium
-            ? `${icon.name} — ${t("premium.locked")}`
+            ? `${icon.name} — Premium icon. Upgrade access required.`
             : `${icon.name} — ${icon.category}`
         }
         className="w-full h-full flex flex-col items-center justify-center gap-2 p-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 dark:focus-visible:ring-white rounded-xl"
@@ -111,15 +109,15 @@ export default function IconTile({
         <button
           type="button"
           onClick={handleCopySvg}
-          aria-label={`${t("tile.copySvg")} — ${icon.name}`}
+          aria-label={`Copy SVG — ${icon.name}`}
           className={
-            "absolute bottom-1.5 end-1.5 z-10 h-6 px-2 rounded-md text-[10px] font-medium bg-ink-900 dark:bg-white text-white dark:text-ink-900 transition-opacity " +
+            "absolute bottom-1.5 right-1.5 z-10 h-6 px-2 rounded-md text-[10px] font-medium bg-ink-900 dark:bg-white text-white dark:text-ink-900 transition-opacity " +
             (svgCopied
               ? "opacity-100"
               : "opacity-0 max-md:opacity-100 group-hover:opacity-100 focus-within:opacity-100")
           }
         >
-          {svgCopied ? "✓" : t("tile.copySvg")}
+          {svgCopied ? "✓" : "Copy SVG"}
         </button>
       )}
     </div>

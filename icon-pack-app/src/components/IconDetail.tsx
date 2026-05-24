@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { IconStyle, IconMeta } from "@/lib/types";
 import { buildCss, buildJsx, buildStandaloneSvg } from "@/lib/svg";
 import { canCopyIcon, canDownloadIcon, isPremiumIcon } from "@/lib/access";
-import { useI18n } from "@/lib/i18n";
 import { useToast } from "./Toast";
 import { useIconDownloads } from "@/hooks/useIconDownloads";
 import type { ExportOptions, IconExportInput } from "@/lib/export-engine";
@@ -20,8 +19,6 @@ interface Props {
   initialColor: string;
   sizeOptions: number[];
   styles: IconStyle[];
-  selectionCount: number;
-  onDownloadSelected: () => void;
   onClose: () => void;
 }
 
@@ -35,8 +32,6 @@ export default function IconDetail({
   initialColor,
   sizeOptions,
   styles,
-  selectionCount,
-  onDownloadSelected,
   onClose,
 }: Props) {
   const initial = icon.availableStyles.includes(initialStyle)
@@ -51,7 +46,6 @@ export default function IconDetail({
 
   const toast = useToast();
   const downloads = useIconDownloads();
-  const { t } = useI18n();
   const panelRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -134,16 +128,16 @@ export default function IconDetail({
 
   const handleCopy = async (which: Tab) => {
     if (!allowCopy) {
-      toast.error(t("premium.locked"));
+      toast.error("Premium icon. Upgrade access required.");
       return;
     }
     try {
       await navigator.clipboard.writeText(codeByTab[which]);
       setCopied(which);
       setTimeout(() => setCopied(null), 1400);
-      toast.success(t("toast.copied", { tab: which }));
+      toast.success(`Copied ${which} code`);
     } catch {
-      toast.error(t("toast.clipboardError"));
+      toast.error("Clipboard unavailable");
     }
   };
 
@@ -151,41 +145,30 @@ export default function IconDetail({
     () => [
       {
         id: "svg",
-        label: t("item.svg.label"),
-        description: t("item.svg.desc"),
+        label: "Download as SVG",
+        description: "For design tools & web (Figma, code)",
         onSelect: () => downloads.single(exportInput, exportOpts, "svg"),
       },
       {
         id: "png",
-        label: t("item.png.label"),
-        description: t("item.png.desc"),
+        label: "Download as PNG",
+        description: "For apps & presentations (transparent bg)",
         onSelect: () => downloads.single(exportInput, exportOpts, "png"),
       },
       {
         id: "jpeg",
-        label: t("item.jpeg.label"),
-        description: t("item.jpeg.desc"),
+        label: "Download as JPEG",
+        description: "For docs & photos (white background)",
         onSelect: () => downloads.single(exportInput, exportOpts, "jpeg"),
       },
       {
         id: "all",
-        label: t("item.all.label"),
-        description: t("item.all.desc"),
-        separated: true,
+        label: "Download all formats",
+        description: "Downloads a .zip with SVG, PNG & JPEG",
         onSelect: () => downloads.allFormats(exportInput, exportOpts),
       },
-      {
-        id: "zip",
-        label: t("bulk.selectedZip.label"),
-        description:
-          selectionCount > 0
-            ? t("bulk.selectedZip.count", { n: selectionCount })
-            : t("bulk.selectedZip.empty"),
-        disabled: selectionCount === 0,
-        onSelect: onDownloadSelected,
-      },
     ],
-    [t, downloads, exportInput, exportOpts, selectionCount, onDownloadSelected]
+    [downloads, exportInput, exportOpts]
   );
 
   return (
@@ -219,7 +202,7 @@ export default function IconDetail({
             ref={closeButtonRef}
             onClick={onClose}
             className="w-9 h-9 rounded-lg hover:bg-ink-100 dark:hover:bg-ink-800 grid place-items-center text-ink-600 dark:text-ink-300"
-            aria-label={t("detail.close")}
+            aria-label="Close"
           >
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
               <path d="M6 6l12 12M18 6l-12 12" />
@@ -240,13 +223,13 @@ export default function IconDetail({
 
           {premium && (
             <div className="rounded-xl border border-amber-300 dark:border-amber-400/30 bg-amber-50 dark:bg-amber-400/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-300">
-              {t("premium.locked")}
+              Premium icon. Upgrade access required.
             </div>
           )}
 
           {/* Controls */}
           <div className="grid grid-cols-1 gap-4">
-            <ControlRow label={t("control.style")}>
+            <ControlRow label="Style">
               <Segmented
                 options={styles.map((s) => ({
                   value: s,
@@ -257,16 +240,16 @@ export default function IconDetail({
               />
             </ControlRow>
 
-            <ControlRow label={t("control.size")}>
+            <ControlRow label="Size">
               <Segmented
                 options={sizeOptions.map((n) => ({ value: String(n) }))}
                 value={String(size)}
                 onChange={(v) => setSize(Number(v))}
               />
-              <span className="ms-3 text-sm text-ink-500">px</span>
+              <span className="ml-3 text-sm text-ink-500">px</span>
             </ControlRow>
 
-            <ControlRow label={t("control.color")}>
+            <ControlRow label="Color">
               <label className="inline-flex items-center gap-2 h-9 px-2.5 rounded-lg border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-800 cursor-pointer hover:border-ink-300">
                 <span
                   className="w-5 h-5 rounded-md border border-ink-200 dark:border-ink-600"
@@ -279,7 +262,7 @@ export default function IconDetail({
                   className="sr-only"
                   aria-label="Pick color"
                 />
-                <span dir="ltr" className="text-xs text-ink-700 dark:text-ink-200 font-mono uppercase">
+                <span className="text-xs text-ink-700 dark:text-ink-200 font-mono uppercase">
                   {color.replace("#", "")}
                 </span>
               </label>
@@ -290,14 +273,14 @@ export default function IconDetail({
           <div className="flex items-center gap-3">
             <DownloadDropdown
               items={downloadItems}
-              label={t("download")}
+              label="Download"
               disabled={!allowDownload}
-              disabledReason={premium ? t("premium.locked") : undefined}
+              disabledReason={premium ? "Premium icon. Upgrade access required." : undefined}
               align="start"
-              ariaLabel={t("detail.downloadAria", { name: icon.name })}
+              ariaLabel={`Download ${icon.name}`}
             />
             {!allowDownload && (
-              <span className="text-xs text-ink-500">{t("detail.locked")}</span>
+              <span className="text-xs text-ink-500">Locked</span>
             )}
           </div>
 
@@ -326,14 +309,14 @@ export default function IconDetail({
               <button
                 onClick={() => handleCopy(tab)}
                 disabled={!allowCopy}
-                title={!allowCopy ? t("premium.locked") : undefined}
-                className="me-2 my-1.5 inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium bg-ink-900 text-white hover:bg-ink-700 dark:bg-white dark:text-ink-900 dark:hover:bg-ink-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                title={!allowCopy ? "Premium icon. Upgrade access required." : undefined}
+                className="mr-2 my-1.5 inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium bg-ink-900 text-white hover:bg-ink-700 dark:bg-white dark:text-ink-900 dark:hover:bg-ink-100 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <CopyIcon />
-                {copied === tab ? t("detail.copied") : t("detail.copy", { tab })}
+                {copied === tab ? "Copied!" : `Copy ${tab}`}
               </button>
             </div>
-            <pre dir="ltr" className="m-0 px-4 py-3 text-xs leading-relaxed bg-ink-900 dark:bg-black text-ink-100 overflow-x-auto max-h-72">
+            <pre className="m-0 px-4 py-3 text-xs leading-relaxed bg-ink-900 dark:bg-black text-ink-100 overflow-x-auto max-h-72">
               <code>{codeByTab[tab]}</code>
             </pre>
           </div>

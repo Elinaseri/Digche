@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { IconBodies, IconMeta, IconStyle, Manifest } from "@/lib/types";
 import { canDownloadIcon } from "@/lib/access";
 import { useTheme } from "@/lib/theme";
-import { useI18n } from "@/lib/i18n";
 import { useSelection } from "@/hooks/useSelection";
 import { useIconDownloads } from "@/hooks/useIconDownloads";
 import type { ExportOptions, IconExportInput } from "@/lib/export-engine";
@@ -32,7 +31,6 @@ export default function IconGallery({ manifest, bodies }: Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const { theme } = useTheme();
-  const { t } = useI18n();
   const selection = useSelection();
   const downloads = useIconDownloads();
   const lastOpenedSlugRef = useRef<string | null>(null);
@@ -140,7 +138,7 @@ export default function IconGallery({ manifest, bodies }: Props) {
   }, [activeIcon, handleCloseDetail]);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="h-screen flex flex-col overflow-hidden">
       <Toolbar
         query={query}
         onQueryChange={setQuery}
@@ -155,13 +153,10 @@ export default function IconGallery({ manifest, bodies }: Props) {
         totalShown={filtered.length}
         total={manifest.total}
         onToggleSidebar={() => setSidebarOpen((v) => !v)}
-        selectionCount={selection.count}
-        onClearSelection={selection.clear}
-        onDownloadSelected={downloadSelectedZip}
         onDownloadEntirePack={downloadEntirePack}
       />
 
-      <div className="flex-1 flex">
+      <div className="flex-1 flex overflow-hidden">
         <Sidebar
           categories={categories}
           active={category}
@@ -174,7 +169,13 @@ export default function IconGallery({ manifest, bodies }: Props) {
           onClose={() => setSidebarOpen(false)}
         />
 
-        <main id="main-content" className="flex-1 min-w-0 px-5 py-6 md:px-8">
+        <main
+          id="main-content"
+          className={
+            "flex-1 min-w-0 px-5 py-6 md:px-8 overflow-y-auto " +
+            (selection.count > 0 ? "pb-24" : "")
+          }
+        >
           {filtered.length === 0 ? (
             <EmptyState query={query} style={style} />
           ) : (
@@ -210,8 +211,6 @@ export default function IconGallery({ manifest, bodies }: Props) {
           initialColor={color}
           sizeOptions={SIZE_OPTIONS}
           styles={STYLES}
-          selectionCount={selection.count}
-          onDownloadSelected={downloadSelectedZip}
           onClose={handleCloseDetail}
         />
       )}
@@ -219,20 +218,20 @@ export default function IconGallery({ manifest, bodies }: Props) {
       {selection.count > 0 && (
         <div className="fixed bottom-0 inset-x-0 z-40 bg-white/95 dark:bg-ink-900/95 backdrop-blur border-t border-ink-200 dark:border-ink-700 px-5 md:px-8 py-3 flex items-center justify-between gap-3">
           <span className="text-sm font-medium text-ink-900 dark:text-white">
-            {t("selection.bar.count", { n: selection.count })}
+            {selection.count} {selection.count === 1 ? "icon" : "icons"} selected
           </span>
           <div className="flex items-center gap-3">
             <button
               onClick={selection.clear}
               className="text-sm text-ink-500 hover:text-ink-900 dark:text-ink-400 dark:hover:text-white"
             >
-              {t("selection.bar.clear")}
+              Deselect all
             </button>
             <button
               onClick={downloadSelectedZip}
               className="inline-flex items-center gap-1.5 h-9 px-4 rounded-xl bg-ink-900 dark:bg-white text-white dark:text-ink-900 text-sm font-medium hover:bg-ink-700 dark:hover:bg-ink-100"
             >
-              {t("selection.bar.download")}
+              Download ZIP
             </button>
           </div>
         </div>
@@ -242,7 +241,6 @@ export default function IconGallery({ manifest, bodies }: Props) {
 }
 
 function EmptyState({ query, style }: { query: string; style: IconStyle }) {
-  const { t } = useI18n();
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
       <div className="w-16 h-16 rounded-full bg-ink-100 dark:bg-ink-800 grid place-items-center mb-4 text-ink-400">
@@ -252,12 +250,12 @@ function EmptyState({ query, style }: { query: string; style: IconStyle }) {
         </svg>
       </div>
       <p className="text-ink-700 dark:text-ink-200 font-medium">
-        {t("empty.title")}
+        No icons match your search
       </p>
       <p className="text-ink-500 text-sm mt-1">
         {query
-          ? t("empty.query", { query, style })
-          : t("empty.category", { style })}
+          ? `Nothing found for "${query}" in ${style}.`
+          : `No ${style} icons in this category.`}
       </p>
     </div>
   );

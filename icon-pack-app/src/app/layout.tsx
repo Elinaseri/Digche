@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider, themeInitScript } from "@/lib/theme";
-import { DirectionProvider, directionInitScript } from "@/lib/direction";
 import { ToastProvider } from "@/components/Toast";
 
 export const metadata: Metadata = {
@@ -19,19 +18,16 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <script dangerouslySetInnerHTML={{ __html: directionInitScript }} />
       </head>
       <body>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:start-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-ink-900 focus:rounded-lg focus:shadow-lg focus:text-sm focus:font-medium focus:ring-2 focus:ring-ink-900"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-ink-900 focus:rounded-lg focus:shadow-lg focus:text-sm focus:font-medium focus:ring-2 focus:ring-ink-900"
         >
           Skip to icons
         </a>
         <ThemeProvider>
-          <DirectionProvider>
-            <ToastProvider>{children}</ToastProvider>
-          </DirectionProvider>
+          <ToastProvider>{children}</ToastProvider>
         </ThemeProvider>
       </body>
     </html>
