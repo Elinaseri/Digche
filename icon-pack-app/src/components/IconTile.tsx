@@ -14,6 +14,7 @@ interface Props {
   size: number;
   color: string;
   selected: boolean;
+  anySelected: boolean;
   onToggleSelect: () => void;
   onOpen: () => void;
 }
@@ -24,6 +25,7 @@ export default function IconTile({
   size,
   color,
   selected,
+  anySelected,
   onToggleSelect,
   onOpen,
 }: Props) {
@@ -60,7 +62,7 @@ export default function IconTile({
         "group relative aspect-square rounded-xl border transition-all bg-white dark:bg-ink-800 " +
         (selected
           ? "border-ink-900 dark:border-white ring-1 ring-ink-900 dark:ring-white"
-          : "border-ink-200/70 dark:border-ink-700 hover:border-ink-900 dark:hover:border-ink-400 hover:shadow-soft")
+          : "border-ink-200/70 dark:border-ink-700 hover:border-ink-900 dark:hover:border-ink-400 hover:shadow-soft active:border-ink-900 dark:active:border-ink-400 active:shadow-soft")
       }
     >
       {/* Selection checkbox — hidden until hover/selected to keep cards clean */}
@@ -70,7 +72,7 @@ export default function IconTile({
             "absolute top-1.5 left-1.5 z-10 transition-opacity " +
             (selected
               ? "opacity-100"
-              : "opacity-0 max-md:opacity-100 group-hover:opacity-100 focus-within:opacity-100")
+              : "opacity-0 group-hover:opacity-100 focus-within:opacity-100" + (anySelected ? " max-md:opacity-100" : ""))
           }
           onClick={(e) => e.stopPropagation()}
         >
@@ -123,7 +125,7 @@ export default function IconTile({
             "absolute bottom-1.5 right-1.5 z-10 h-8 px-2 rounded-md text-[10px] font-medium bg-ink-900 dark:bg-white text-white dark:text-ink-900 transition-opacity " +
             (svgCopied
               ? "opacity-100"
-              : "opacity-0 max-md:opacity-100 group-hover:opacity-100 focus-within:opacity-100")
+              : "opacity-0 group-hover:opacity-100 focus-within:opacity-100")
           }
         >
           {svgCopied ? "✓" : "Copy SVG"}

@@ -88,9 +88,9 @@ export default function Sidebar({
               Tips
             </p>
             <ul className="space-y-1">
-              <li>· Click an icon for code &amp; downloads</li>
-              <li>· Tap an icon to select it for ZIP</li>
-              <li>
+              <li>· Tap an icon for code &amp; downloads</li>
+              <li>· Tap to select icons for ZIP export</li>
+              <li className="hidden md:list-item">
                 · Press{" "}
                 <kbd className="px-1 py-0.5 bg-ink-100 dark:bg-ink-800 rounded text-[10px]">
                   Esc

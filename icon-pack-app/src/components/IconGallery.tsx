@@ -195,6 +195,7 @@ export default function IconGallery({ manifest, bodies }: Props) {
                   size={size}
                   color={color}
                   selected={selection.isSelected(icon.slug)}
+                  anySelected={selection.count > 0}
                   onToggleSelect={() => selection.toggle(icon.slug)}
                   onOpen={() => handleOpenIcon(icon)}
                 />
@@ -225,13 +226,13 @@ export default function IconGallery({ manifest, bodies }: Props) {
           <div className="flex items-center gap-3">
             <button
               onClick={selection.clear}
-              className="text-sm text-ink-500 hover:text-ink-900 dark:text-ink-400 dark:hover:text-white"
+              className="text-sm text-ink-500 hover:text-ink-900 dark:text-ink-400 dark:hover:text-white active:text-ink-900 dark:active:text-white"
             >
               Deselect all
             </button>
             <button
               onClick={downloadSelectedZip}
-              className="inline-flex items-center gap-1.5 h-9 px-4 rounded-xl bg-ink-900 dark:bg-white text-white dark:text-ink-900 text-sm font-medium hover:bg-ink-700 dark:hover:bg-ink-100"
+              className="inline-flex items-center gap-1.5 h-9 px-4 rounded-xl bg-ink-900 dark:bg-white text-white dark:text-ink-900 text-sm font-medium hover:bg-ink-700 dark:hover:bg-ink-100 active:bg-ink-800 dark:active:bg-ink-200"
             >
               Download ZIP
             </button>
