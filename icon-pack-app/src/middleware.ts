@@ -26,7 +26,20 @@ export async function middleware(request: NextRequest) {
   );
 
   // Refreshes the session cookie — do not add logic before this line.
-  await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Protect all /admin/* routes except /admin/login.
+  // Role verification (admin vs. regular user) happens in the layout via
+  // requireAdmin() to avoid a DB query on every edge request.
+  const { pathname } = request.nextUrl;
+  const isAdminRoute =
+    pathname.startsWith("/admin") && !pathname.startsWith("/admin/login");
+
+  if (isAdminRoute && !user) {
+    return NextResponse.redirect(new URL("/admin/login", request.url));
+  }
 
   return supabaseResponse;
 }
