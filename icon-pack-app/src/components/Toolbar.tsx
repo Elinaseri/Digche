@@ -71,11 +71,13 @@ export default function Toolbar({
 
   return (
     <header className="sticky top-0 z-30 bg-white/85 dark:bg-ink-900/85 backdrop-blur border-b border-ink-200 dark:border-ink-700">
-      <div className="px-5 md:px-8 py-3 flex items-center gap-4 flex-wrap">
+      {/* Primary row — never wraps */}
+      <div className="px-4 md:px-8 py-3 flex items-center gap-3 md:gap-4">
+        {/* Hamburger — mobile only */}
         <button
           type="button"
           onClick={onToggleSidebar}
-          className="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-lg border border-ink-200 dark:border-ink-700 text-ink-700 dark:text-ink-200 hover:bg-ink-50 dark:hover:bg-ink-800"
+          className="md:hidden shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-lg border border-ink-200 dark:border-ink-700 text-ink-700 dark:text-ink-200 hover:bg-ink-50 dark:hover:bg-ink-800 active:bg-ink-100 dark:active:bg-ink-700"
           aria-label="Toggle categories"
         >
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
@@ -83,14 +85,16 @@ export default function Toolbar({
           </svg>
         </button>
 
-        <div className="flex items-center gap-2 mr-2">
+        {/* Logo + count */}
+        <div className="shrink-0 flex items-center gap-2">
           <DigLogo size={32} variant="full" />
           <span className="hidden lg:inline text-xs text-ink-500 ml-1">
             {totalShown.toLocaleString()} / {total.toLocaleString()}
           </span>
         </div>
 
-        <div className="flex-1 min-w-[220px] max-w-xl relative">
+        {/* Search */}
+        <div className="flex-1 min-w-0 relative">
           <svg
             className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-400"
             viewBox="0 0 24 24"
@@ -118,7 +122,7 @@ export default function Toolbar({
               type="button"
               onClick={() => onQueryChange("")}
               aria-label="Clear search"
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-400 hover:text-ink-900 dark:hover:text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-400 hover:text-ink-900 dark:hover:text-white active:text-ink-900 dark:active:text-white"
             >
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
                 <path d="M18 6L6 18M6 6l12 12" />
@@ -127,24 +131,37 @@ export default function Toolbar({
           )}
         </div>
 
-        <SegmentedControl
-          options={styles}
-          value={style}
-          onChange={(v) => onStyleChange(v as IconStyle)}
-          ariaLabel="Icon style"
-        />
+        {/* Style picker — md+ in main row; mobile gets its own row below */}
+        <div className="hidden md:block shrink-0">
+          <SegmentedControl
+            options={styles}
+            value={style}
+            onChange={(v) => onStyleChange(v as IconStyle)}
+            ariaLabel="Icon style"
+          />
+        </div>
 
-        <SizePicker options={sizeOptions} value={size} onChange={onSizeChange} />
+        {/* Size picker — xl+ only */}
+        <div className="hidden xl:block shrink-0">
+          <SizePicker options={sizeOptions} value={size} onChange={onSizeChange} />
+        </div>
 
-        <ColorPicker value={color} onChange={onColorChange} />
+        {/* Color picker — xl+ only */}
+        <div className="hidden xl:block shrink-0">
+          <ColorPicker value={color} onChange={onColorChange} />
+        </div>
 
-        <DownloadDropdown
-          items={bulkItems}
-          label="Download"
-          ariaLabel="Bulk download options"
-        />
+        {/* Download — lg+ only */}
+        <div className="hidden lg:block shrink-0">
+          <DownloadDropdown
+            items={bulkItems}
+            label="Download"
+            ariaLabel="Bulk download options"
+          />
+        </div>
 
-        <div className="flex items-center gap-2">
+        {/* Auth + Theme */}
+        <div className="shrink-0 flex items-center gap-2">
           {!isLoading && (
             user ? (
               <AccountMenu />
@@ -152,13 +169,26 @@ export default function Toolbar({
               <button
                 type="button"
                 onClick={openAuthModal}
-                className="h-9 px-4 rounded-xl text-sm font-medium bg-ink-900 dark:bg-white text-white dark:text-ink-900 hover:bg-ink-700 dark:hover:bg-ink-100 transition-colors"
+                className="h-9 px-4 rounded-xl text-sm font-medium bg-ink-900 dark:bg-white text-white dark:text-ink-900 hover:bg-ink-700 dark:hover:bg-ink-100 active:bg-ink-800 dark:active:bg-ink-200 transition-colors"
               >
                 Sign in
               </button>
             )
           )}
           <ThemeToggle />
+        </div>
+      </div>
+
+      {/* Mobile controls row — style + color; hidden on md+ */}
+      <div className="md:hidden px-4 pb-2.5 pt-1 flex items-center gap-3 border-t border-ink-100 dark:border-ink-800">
+        <SegmentedControl
+          options={styles}
+          value={style}
+          onChange={(v) => onStyleChange(v as IconStyle)}
+          ariaLabel="Icon style"
+        />
+        <div className="ml-auto shrink-0">
+          <ColorPicker value={color} onChange={onColorChange} />
         </div>
       </div>
     </header>

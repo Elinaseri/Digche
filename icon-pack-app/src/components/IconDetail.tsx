@@ -207,7 +207,7 @@ export default function IconDetail({
           <button
             ref={closeButtonRef}
             onClick={onClose}
-            className="w-9 h-9 rounded-lg hover:bg-ink-100 dark:hover:bg-ink-800 grid place-items-center text-ink-600 dark:text-ink-300"
+            className="w-9 h-9 rounded-lg hover:bg-ink-100 dark:hover:bg-ink-800 active:bg-ink-200 dark:active:bg-ink-700 grid place-items-center text-ink-600 dark:text-ink-300"
             aria-label="Close"
           >
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
@@ -273,7 +273,7 @@ export default function IconDetail({
             </ControlRow>
 
             <ControlRow label="Color">
-              <label className="inline-flex items-center gap-2 h-9 px-2.5 rounded-lg border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-800 cursor-pointer hover:border-ink-300">
+              <label className="inline-flex items-center gap-2 h-9 px-2.5 rounded-lg border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-800 cursor-pointer hover:border-ink-300 active:bg-ink-50 dark:active:bg-ink-700">
                 <span
                   className="w-5 h-5 rounded-md border border-ink-200 dark:border-ink-600"
                   style={{ background: color }}
@@ -321,7 +321,7 @@ export default function IconDetail({
                         "px-4 h-10 text-sm font-medium border-b-2 transition-colors " +
                         (active
                           ? "border-ink-900 dark:border-white text-ink-900 dark:text-white"
-                          : "border-transparent text-ink-500 hover:text-ink-900 dark:hover:text-white")
+                          : "border-transparent text-ink-500 hover:text-ink-900 dark:hover:text-white active:text-ink-900 dark:active:text-white")
                       }
                     >
                       {t}
@@ -333,7 +333,7 @@ export default function IconDetail({
                 onClick={() => handleCopy(tab)}
                 disabled={!allowCopy}
                 title={!allowCopy ? "Premium icon. Upgrade access required." : undefined}
-                className="mr-2 my-1.5 inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium bg-ink-900 text-white hover:bg-ink-700 dark:bg-white dark:text-ink-900 dark:hover:bg-ink-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="mr-2 my-1.5 inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium bg-ink-900 text-white hover:bg-ink-700 active:bg-ink-800 dark:bg-white dark:text-ink-900 dark:hover:bg-ink-100 dark:active:bg-ink-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <CopyIcon />
                 {copied === tab ? "Copied!" : `Copy ${tab}`}
@@ -341,7 +341,7 @@ export default function IconDetail({
             </div>
             <pre
               className={
-                "m-0 px-4 py-3 text-xs leading-relaxed bg-ink-900 dark:bg-black text-ink-100 overflow-x-auto max-h-72 " +
+                "m-0 px-4 py-3 text-xs leading-relaxed bg-ink-900 dark:bg-black text-ink-100 overflow-x-auto sm:max-h-72 " +
                 (allowCopy ? "" : "select-none blur-sm")
               }
               onCopy={allowCopy ? undefined : (e) => e.preventDefault()}

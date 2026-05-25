@@ -58,7 +58,7 @@ export default function AccountMenu() {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Account menu"
-        className="inline-flex items-center gap-1.5 h-9 px-2 rounded-xl hover:bg-ink-100 dark:hover:bg-ink-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 dark:focus-visible:ring-white"
+        className="inline-flex items-center gap-1.5 h-9 px-2 rounded-xl hover:bg-ink-100 dark:hover:bg-ink-800 active:bg-ink-200 dark:active:bg-ink-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 dark:focus-visible:ring-white"
       >
         <span className="w-7 h-7 rounded-full bg-ink-200 dark:bg-ink-700 overflow-hidden shrink-0 flex items-center justify-center text-xs font-semibold text-ink-700 dark:text-ink-200">
           {avatarUrl ? (
@@ -109,7 +109,7 @@ export default function AccountMenu() {
             <button
               role="menuitem"
               onClick={() => setOpen(false)}
-              className="w-full text-left px-3 h-9 rounded-lg text-sm font-medium text-ink-900 dark:text-white hover:bg-ink-50 dark:hover:bg-ink-700 transition-colors"
+              className="w-full text-left px-3 h-9 rounded-lg text-sm font-medium text-ink-900 dark:text-white hover:bg-ink-50 dark:hover:bg-ink-700 active:bg-ink-100 dark:active:bg-ink-600 transition-colors"
             >
               Upgrade to Premium →
             </button>
@@ -118,7 +118,7 @@ export default function AccountMenu() {
           <button
             role="menuitem"
             onClick={handleSignOut}
-            className="w-full text-left px-3 h-9 rounded-lg text-sm text-ink-500 dark:text-ink-400 hover:bg-ink-50 dark:hover:bg-ink-700 hover:text-ink-900 dark:hover:text-white transition-colors"
+            className="w-full text-left px-3 h-9 rounded-lg text-sm text-ink-500 dark:text-ink-400 hover:bg-ink-50 dark:hover:bg-ink-700 hover:text-ink-900 dark:hover:text-white active:bg-ink-100 dark:active:bg-ink-600 active:text-ink-900 dark:active:text-white transition-colors"
           >
             Sign out
           </button>

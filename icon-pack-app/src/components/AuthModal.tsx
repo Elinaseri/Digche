@@ -52,7 +52,7 @@ export default function AuthModal() {
       >
         <button
           onClick={closeAuthModal}
-          className="absolute top-4 right-4 w-8 h-8 rounded-lg hover:bg-ink-100 dark:hover:bg-ink-800 grid place-items-center text-ink-500 dark:text-ink-400"
+          className="absolute top-4 right-4 w-8 h-8 rounded-lg hover:bg-ink-100 dark:hover:bg-ink-800 active:bg-ink-200 dark:active:bg-ink-700 grid place-items-center text-ink-500 dark:text-ink-400"
           aria-label="Close"
         >
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden>
@@ -74,7 +74,7 @@ export default function AuthModal() {
 
         <button
           onClick={signInWithGoogle}
-          className="w-full flex items-center justify-center gap-3 h-11 px-4 rounded-xl border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-800 hover:border-ink-400 dark:hover:border-ink-500 text-sm font-medium text-ink-900 dark:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 dark:focus-visible:ring-white"
+          className="w-full flex items-center justify-center gap-3 h-11 px-4 rounded-xl border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-800 hover:border-ink-400 dark:hover:border-ink-500 active:bg-ink-50 dark:active:bg-ink-700 text-sm font-medium text-ink-900 dark:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 dark:focus-visible:ring-white"
         >
           <GoogleIcon />
           Continue with Google

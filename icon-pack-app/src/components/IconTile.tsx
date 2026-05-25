@@ -108,7 +108,7 @@ export default function IconTile({
           style={{ width: size, height: size, color }}
           dangerouslySetInnerHTML={{ __html: body }}
         />
-        <span className="text-[10px] text-ink-500 dark:text-ink-400 max-w-full truncate group-hover:text-ink-900 dark:group-hover:text-ink-100">
+        <span className="text-[10px] text-ink-600 dark:text-ink-400 max-w-full truncate max-md:text-ink-700 group-hover:text-ink-900 dark:group-hover:text-ink-100">
           {icon.name}
         </span>
       </button>

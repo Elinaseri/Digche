@@ -57,7 +57,7 @@ export default function Sidebar({
             <button
               type="button"
               onClick={onClose}
-              className="md:hidden w-8 h-8 rounded-lg hover:bg-ink-100 dark:hover:bg-ink-800 grid place-items-center text-ink-500 dark:text-ink-400"
+              className="md:hidden w-8 h-8 rounded-lg hover:bg-ink-100 dark:hover:bg-ink-800 active:bg-ink-200 dark:active:bg-ink-700 grid place-items-center text-ink-500 dark:text-ink-400"
               aria-label="Close sidebar"
             >
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
@@ -89,7 +89,7 @@ export default function Sidebar({
             </p>
             <ul className="space-y-1">
               <li>· Click an icon for code &amp; downloads</li>
-              <li>· Hover an icon to select it for ZIP</li>
+              <li>· Tap an icon to select it for ZIP</li>
               <li>
                 · Press{" "}
                 <kbd className="px-1 py-0.5 bg-ink-100 dark:bg-ink-800 rounded text-[10px]">
@@ -123,7 +123,7 @@ function CategoryButton({
         "flex items-center justify-between px-3 h-9 rounded-lg text-sm transition-colors text-start " +
         (active
           ? "bg-ink-900 text-white dark:bg-white dark:text-ink-900"
-          : "text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-800")
+          : "text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-800 active:bg-ink-200 dark:active:bg-ink-700")
       }
     >
       <span className="truncate">{label}</span>
