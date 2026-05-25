@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Cloud/Bold</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather" transform="translate(-688, -282)" fill-rule="nonzero">
+            <g id="Claud" transform="translate(668, 166)" xlink:href="#path-1">
+                <g id="Icon/Cloud/Bold" transform="translate(20, 116)" xlink:href="#path-2">
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                    <path d="M21.7399998,13.1276331 C21.4799998,12.2676331 21.0499995,11.5176333 20.4799995,10.9076333 C19.7499995,10.0776333 18.7800006,9.50763369 17.6900005,9.25763369 C17.1400005,6.75763369 15.5999999,4.9576337 13.4099998,4.28763369 C11.0299997,3.54763368 8.26999998,4.26763368 6.53999996,6.07763362 C5.01999998,7.66763365 4.52000016,9.85763359 5.11000013,12.1876335 C3.11000013,12.6776335 2.11999999,14.3476335 2.00999999,15.9376335 C2,16.0476335 2,16.1476339 2,16.2476339 C2,18.1276339 3.22999978,20.2376335 5.96999979,20.4376335 L16.3500004,20.4376335 C17.7700003,20.4376335 19.1300001,19.907633 20.1700001,18.957633 C21.8000001,17.5276331 22.3999998,15.2976332 21.7399998,13.1276331 Z" id="Vector" fill="CURRENTCOLOR" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

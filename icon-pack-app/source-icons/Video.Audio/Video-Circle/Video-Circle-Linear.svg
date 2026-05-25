@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Video-Circle/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Video,-Audio" transform="translate(-688, -234)" fill-rule="nonzero" stroke="CURRENTCOLOR" stroke-width="1.5">
+            <g id="video-circle" transform="translate(668, 166)" xlink:href="#path-1">
+                <g id="Icon/Video-Circle/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <path d="M9.10000038,11.9999995 L9.10000038,10.52 C9.10000038,8.61000001 10.4500004,7.83999956 12.1000004,8.78999954 L13.3800001,9.52999926 L14.6599998,10.27 C16.3099998,11.22 16.3099998,12.7799991 14.6599998,13.7299991 L13.3800001,14.4699998 L12.1000004,15.2099996 C10.4500004,16.1599995 9.10000038,15.379999 9.10000038,13.4799991 L9.10000038,11.9999995 Z" id="Vector"></path>
+                    <path d="M22,12 C22,17.5228477 17.5228477,22 12,22 C6.47715235,22 2,17.5228477 2,12 C2,6.47715235 6.47715235,2 12,2 C17.5228477,2 22,6.47715235 22,12 Z" id="Vector"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

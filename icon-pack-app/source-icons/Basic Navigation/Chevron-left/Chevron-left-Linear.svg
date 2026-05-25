@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Chevron-left/Linear</title>
+    <defs>
+        <path d="M5,0 L60,0 C62.7614237,-8.8817842e-16 65,2.23857625 65,5 L65,203 C65,205.761424 62.7614237,208 60,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Basic-Navigation" transform="translate(-690, -234)" fill-rule="nonzero" stroke="CURRENTCOLOR" stroke-width="1.5">
+            <g id="Chevron-Left" transform="translate(669, 166)" xlink:href="#path-1">
+                <g id="Icon/Chevron-left/Linear" transform="translate(21, 68)" xlink:href="#path-2">
+                    <path d="M23,12 C23,18.0751324 18.0751324,23 12,23 C5.92486758,23 1,18.0751324 1,12 C1,5.92486758 5.92486758,1 12,1 C18.0751324,1 23,5.92486758 23,12 Z" id="Vector"></path>
+                    <polyline id="Vector" points="13.3856723 15.8830037 9.51367188 12.0000041 13.3856723 8.11700439"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

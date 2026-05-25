@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Video-Circle/Bold</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Video,-Audio" transform="translate(-688, -282)" fill="CURRENTCOLOR" fill-rule="nonzero">
+            <g id="video-circle" transform="translate(668, 166)" xlink:href="#path-1">
+                <g id="Icon/Video-Circle/Bold" transform="translate(20, 116)" xlink:href="#path-2">
+                    <path d="M12,2 C6.48000002,2 2,6.48000002 2,12 C2,17.52 6.48000002,22 12,22 C17.52,22 22,17.52 22,12 C22,6.48000002 17.52,2 12,2 Z M14.6599998,13.7299995 L13.3800001,14.4700003 L12.1000004,15.21 C10.4500004,16.16 9.10000038,15.3799995 9.10000038,13.4799995 L9.10000038,12 L9.10000038,10.5200005 C9.10000038,8.61000049 10.4500004,7.83999997 12.1000004,8.78999996 L13.3800001,9.52999973 L14.6599998,10.2700005 C16.3099998,11.2200004 16.3099998,12.7799996 14.6599998,13.7299995 Z" id="Vector"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

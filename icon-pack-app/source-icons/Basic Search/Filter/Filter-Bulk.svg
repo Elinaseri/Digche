@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Filter/Bulk</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-Search" transform="translate(-272, -330)" fill-rule="nonzero">
+            <g id="Filter" transform="translate(252, 166)" xlink:href="#path-1">
+                <g id="Icon/Filter/Bulk" transform="translate(20, 164)" xlink:href="#path-2">
+                    <g id="Group" opacity="0.400000006" fill-rule="evenodd" stroke-width="1" transform="translate(3, 2)" fill="CURRENTCOLOR">
+                        <path d="M7.77074003,19.4980469 C7.30784902,19.4980469 6.84495932,19.3798831 6.42747831,19.1425781 C5.61009532,18.6796871 5.12181425,17.8525395 5.12181425,16.9296875 L5.12181425,12.1162109 C5.12181425,11.6787109 4.82347429,11.0175777 4.54466629,10.6748047 L1.05443239,7.08349609 C0.4494524,6.49267608 0.000233380953,5.50195295 0.000233380953,4.74121094 L0.000233380953,2.65087891 C-0.00904361914,1.94189489 0.258534342,1.27050799 0.752674341,0.770020008 C1.24290833,0.273438007 1.89915836,0 2.60033035,0 L14.8869514,0 C16.3283575,0 17.5002327,1.15283203 17.5002327,2.57031202 L17.5002327,4.56591702 C17.5002327,5.52929604 16.9250376,6.61230409 16.3576546,7.18408108 L12.3107796,10.675292 C11.9396856,10.984374 11.646718,11.6630847 11.646718,12.1972647 L11.646718,16.1074219 C11.646718,16.9296879 11.1174205,17.8935553 10.4426155,18.3007812 L9.15843582,19.1142578 C8.73070183,19.3701168 8.25072002,19.4980469 7.77074003,19.4980469 Z" id="Vector" fill-rule="nonzero"></path>
+                    </g>
+                    <line x1="10" y1="6" x2="14" y2="6" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

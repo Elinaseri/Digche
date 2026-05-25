@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Success/Bold</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-System-feedback" transform="translate(-480, -530)" fill-rule="nonzero">
+            <g id="Success" transform="translate(460, 414)" xlink:href="#path-1">
+                <g id="Icon/Success/Bold" transform="translate(20, 116)" xlink:href="#path-2">
+                    <path d="M12,2 C6.48999977,2 2,6.48999977 2,12 C2,17.5100002 6.48999977,22 12,22 C17.5100002,22 22,17.5100002 22,12 C22,6.48999977 17.5100002,2 12,2 Z M16.7800007,9.69999981 L11.1099997,15.3699999 C10.9699997,15.5099999 10.7799999,15.5900002 10.5799999,15.5900002 C10.3799999,15.5900002 10.1900002,15.5099999 10.0500002,15.3699999 L7.21999979,12.54 C6.9299998,12.25 6.9299998,11.7699995 7.21999979,11.4799995 C7.50999978,11.1899996 7.98999974,11.1899996 8.27999973,11.4799995 L10.5799999,13.7799997 L15.7200003,8.64000034 C16.0100003,8.35000035 16.4900007,8.35000035 16.7800007,8.64000034 C17.0700007,8.93000033 17.0700007,9.3999998 16.7800007,9.69999981 Z" id="Vector" fill="CURRENTCOLOR"></path>
+                    <polygon id="Vector" opacity="0" transform="translate(12, 12) rotate(-180) translate(-12, -12)" points="0 0 24 0 24 24 0 24"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

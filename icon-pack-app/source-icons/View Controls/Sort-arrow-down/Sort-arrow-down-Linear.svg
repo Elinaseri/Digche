@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Sort-arrow-down/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
+        <g id="View-Controls" transform="translate(-164, -234)" fill-rule="nonzero" stroke="CURRENTCOLOR" stroke-width="1.5">
+            <g id="Sort-arrow-down" transform="translate(144, 166)" xlink:href="#path-1">
+                <g id="Icon/Sort-arrow-down/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <path d="M21,17 L12,17 M18,11 L12,11 M12,5 L15,5" id="Vector"></path>
+                    <line x1="5.99902344" y1="4.00012207" x2="5.99902344" y2="16.8801222" id="Vector" stroke-linejoin="round"></line>
+                    <polyline id="Vector" stroke-linejoin="round" points="9.34941483 14.6500244 5.99941444 18.0000248 2.64941406 14.6500244"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

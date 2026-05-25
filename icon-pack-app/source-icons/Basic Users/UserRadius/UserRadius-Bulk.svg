@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/UserRadius/Bulk</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-Users" transform="translate(-168, -330)" fill="CURRENTCOLOR" fill-rule="nonzero">
+            <g id="User-radius" transform="translate(148, 166)" xlink:href="#path-1">
+                <g id="Icon/UserRadius/Bulk" transform="translate(20, 164)" xlink:href="#path-2">
+                    <circle id="Ellipse-110" cx="12" cy="7" r="4"></circle>
+                    <ellipse id="Ellipse-255" opacity="0.400000006" cx="12" cy="17" rx="7" ry="4"></ellipse>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

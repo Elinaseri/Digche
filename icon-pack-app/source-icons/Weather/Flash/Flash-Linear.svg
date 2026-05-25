@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Flash/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather" transform="translate(-376, -482)" fill-rule="nonzero">
+            <g id="flash" transform="translate(356, 414)" xlink:href="#path-1">
+                <g id="Icon/Flash/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                    <path d="M9.31999576,13.28 L12.4099922,13.28 L12.4099922,20.4799998 C12.4099922,21.5399997 13.7299812,22.04 14.4299812,21.24 L21.9999886,12.6400006 C22.6599886,11.8900006 22.1299934,10.7200005 21.1299934,10.7200005 L18.0399971,10.7200005 L18.0399971,3.5200001 C18.0399971,2.46000016 16.7199776,1.96000007 16.0199776,2.76000008 L8.45000061,11.3599999 C7.80000064,12.1099999 8.32999575,13.28 9.31999576,13.28 Z" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                    <line x1="8.5" y1="4" x2="1.5" y2="4" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></line>
+                    <line x1="7.5" y1="20" x2="1.5" y2="20" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></line>
+                    <line x1="4.5" y1="12" x2="1.5" y2="12" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

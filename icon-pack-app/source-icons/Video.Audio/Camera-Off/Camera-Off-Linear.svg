@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Camera-Off/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Video,-Audio" transform="translate(-376, -231)" fill-rule="nonzero">
+            <g id="camera-off" transform="translate(356, 166)" xlink:href="#path-1">
+                <g id="Icon/Camera-Off/Linear" transform="translate(20, 65)" xlink:href="#path-2">
+                    <path d="M22,22 L2,2 M14.7344398,14.7358294 C14.2635045,15.7762012 13.216279,16.5 12,16.5 C10.3431457,16.5 9,15.1568599 9,13.5 C9,12.3895822 9.60329795,11.4200661 10.5,10.9013519 M6,6 C3.79086113,6 2,7.79086113 2,10 L2,17 C2,19.2091389 3.79086089,21 6,21 L18,21 C18.8288441,21 19.5988064,20.7479057 20.2374001,20.3162117 M8.19999981,4.19999981 L8.40626717,3.89059925 C8.77719879,3.33420193 9.4016614,3 10.0703678,3 L13.9296322,3 C14.5983391,3 15.2228012,3.33420241 15.5937328,3.89059973 L17,6 L18,6 C20.2091389,6 22,7.79086113 22,10 L22,17 C22,17.3089857 21.9649658,17.6097889 21.898653,17.898653" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <circle id="Ellipse-352" fill="CURRENTCOLOR" cx="12" cy="6" r="1"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

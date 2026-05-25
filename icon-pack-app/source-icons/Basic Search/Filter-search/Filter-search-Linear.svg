@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Filter-search/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-Search" transform="translate(-480, -234)" fill-rule="nonzero">
+            <g id="Filter-search" transform="translate(460, 166)" xlink:href="#path-1">
+                <g id="Icon/Filter-search/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <path d="M14.3195801,19.0700073 C14.3195801,19.6800073 13.9195459,20.4800085 13.4095459,20.7900085 L11.9995728,21.7000122 C10.6895728,22.5100098 8.86956787,21.600011 8.86956787,19.980011 L8.86956787,14.6300049 C8.86956787,13.9200049 8.46957031,13.0100098 8.05957031,12.5100098 L4.21954346,8.47000122 C3.70954347,7.96000123 3.30957031,7.06001222 3.30957031,6.45001221 L3.30957031,4.13000488 C3.30957031,2.92000484 4.21958983,2.01000977 5.32958984,2.01000977 L18.6695557,2.01000977 C19.7795557,2.01000977 20.6895752,2.91999876 20.6895752,4.02999878 L20.6895752,6.25 C20.6895752,7.06 20.1795654,8.07000732 19.6795654,8.57000732" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M19.2700195,13.3200073 C19.2700195,15.0873185 17.8373185,16.519989 16.0700073,16.519989 C14.3026961,16.519989 12.8699951,15.0873185 12.8699951,13.3200073 C12.8699951,11.5526961 14.3026961,10.1199951 16.0700073,10.1199951 C17.8373185,10.1199951 19.2700195,11.5526961 19.2700195,13.3200073 Z" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <line x1="19.8699951" y1="17.1199951" x2="18.8699951" y2="16.1199951" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line>
+                    <polygon id="Vector" opacity="0" transform="translate(12, 12) rotate(-180) translate(-12, -12)" points="0 0 24 0 24 24 0 24"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

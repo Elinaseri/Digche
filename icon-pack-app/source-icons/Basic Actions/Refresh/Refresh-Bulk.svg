@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Refresh/Bulk</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-Actions" transform="translate(-792, -330)" fill-rule="nonzero">
+            <g id="Refresh" transform="translate(772, 166)" xlink:href="#path-1">
+                <g id="Icon/Refresh/Bulk" transform="translate(20, 164)" xlink:href="#path-2" fill-rule="evenodd">
+                    <g id="Group-756" transform="translate(2, 2)">
+                        <rect id="Rectangle-49" fill="CURRENTCOLOR" fill-rule="nonzero" opacity="0.400000006" x="0" y="0" width="20" height="20" rx="5"></rect>
+                        <g id="Group-755" transform="translate(4, 4)" fill-rule="nonzero" stroke="CURRENTCOLOR" stroke-linecap="round" stroke-width="1.5">
+                            <path d="M0,6 C0,9.31370862 2.68629138,12 6,12 C9.31370862,12 12,9.31370862 12,6 C12,2.68629138 9.31370862,-4.54747351e-13 6,-4.54747351e-13 C4.29651133,-4.54747351e-13 2.75883087,0.709909519 1.66666667,1.85002073 C1.24843868,2.28660933 0.895540853,2.78628234 0.623679717,3.33333333" id="Ellipse-133" transform="translate(6, 6) scale(-1, 1) translate(-6, -6)"></path>
+                            <polyline id="Vector" transform="translate(9.6667, 2) scale(-1, 1) translate(-9.6667, -2)" points="12 3.99999928 7.33333302 3.99999928 7.33333302 -4.54747351e-13"></polyline>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

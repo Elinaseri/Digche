@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Progress-Bold</title>
+    <defs>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-1"></path>
+    </defs>
+    <g id="Progress-Bold" stroke="none" fill="none" fill-rule="nonzero" xlink:href="#path-1">
+        <g id="Group-762" fill-rule="evenodd" stroke-width="1" transform="translate(1.9999, 1.9999)" stroke="CURRENTCOLOR" stroke-linecap="round">
+            <path d="M7.25878906,19.615715 C8.13074332,19.8659797 9.05051875,20.0001183 10.000103,20.0001183 C15.500103,20.0001183 20.000103,15.5001183 20.000103,10.0001183 C20.000103,5.18448067 16.5502968,1.13546753 12,0.202392578" id="Vector" stroke-width="1.5" fill-rule="nonzero"></path>
+            <path d="M10,0 C4.5,0 0,4.5 0,10 C0,13.6819239 2.01667881,16.9156976 5,18.6512833" id="Vector" stroke-width="1.5" stroke-dasharray="3,3" fill-rule="nonzero"></path>
+        </g>
+        <path d="M12,4 C16.418278,4 20,7.581722 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z M16.78125,8.63972709 C16.488622,8.34658206 16.0128798,8.34613574 15.7197266,8.63875052 L10.5791016,13.7686334 L8.28027356,11.4698052 C7.98738033,11.176912 7.51261988,11.176912 7.21972665,11.4698052 C6.92687255,11.7627016 6.92684647,12.2374719 7.21972665,12.5303521 L10.0498047,15.3604302 C10.3425047,15.6530035 10.8164407,15.6527835 11.109375,15.3604302 L16.7802734,9.70125055 C17.0734185,9.40862256 17.0738648,8.93288028 16.78125,8.63972709 Z" id="Combined-Shape" fill="CURRENTCOLOR"></path>
+    </g>
+</svg>

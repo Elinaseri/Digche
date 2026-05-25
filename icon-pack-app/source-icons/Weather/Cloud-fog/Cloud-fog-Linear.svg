@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Cloud-fog/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather" transform="translate(-272, -482)" fill-rule="nonzero">
+            <g id="cloud-fog" transform="translate(252, 414)" xlink:href="#path-1">
+                <g id="Icon/Cloud-fog/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                    <path d="M4.2899541,11.6199875 C1.08995405,2.68998718 14.6199591,-0.870007992 16.1699591,8.49999189 C18.099959,8.73999189 19.5099874,10.0199875 20.1999874,11.6199875" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                    <path d="M14.539978,8.92999268 C15.059978,8.66999269 15.630022,8.52998901 16.210022,8.51998901" id="Vector" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                    <line x1="4" y1="15.0299988" x2="20" y2="15.0299988" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></line>
+                    <line x1="6" y1="18.0299988" x2="18" y2="18.0299988" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></line>
+                    <line x1="9" y1="21.0299988" x2="15" y2="21.0299988" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

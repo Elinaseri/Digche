@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Disk/Bulk</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-Actions" transform="translate(-584, -330)" fill="CURRENTCOLOR" fill-rule="nonzero">
+            <g id="Disk" transform="translate(564, 166)" xlink:href="#path-1">
+                <g id="Icon/Disk/Bulk" transform="translate(20, 164)" xlink:href="#path-2">
+                    <path d="M2,6 C2,3.79086113 3.79086161,2 6,2 L14.7875919,2 C15.8484583,2 16.8658724,2.42142737 17.6160183,3.17157292 L20.8284264,6.38398218 C21.5785732,7.13412762 22,8.15154409 22,9.21240997 L22,18 C22,20.2091427 20.2091389,22 18,22 L6,22 C3.79086113,22 2,20.2091389 2,18 L2,6 Z" id="Rectangle-354" opacity="0.400000006"></path>
+                    <path d="M7,22 L7,16 C7,14.8954305 7.8954305,14 9,14 L15,14 C16.1045695,14 17,14.8954305 17,16 L17,22 L17,22 L7,22 Z" id="Vector-866"></path>
+                    <path d="M8.25000007,6.99999943 C8.25000007,6.58578584 8.58578653,6.24999943 9.00000007,6.24999943 L15.0000001,6.24999943 C15.4142137,6.24999943 15.7500001,6.58578607 15.7500001,6.99999943 C15.7500001,7.41421318 15.4142137,7.74999943 15.0000001,7.74999943 L9.00000007,7.74999943 C8.58578647,7.74999943 8.25000007,7.41421297 8.25000007,6.99999943 Z" id="Vector-867-(Stroke)" transform="translate(12, 7) rotate(-180) translate(-12, -7)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

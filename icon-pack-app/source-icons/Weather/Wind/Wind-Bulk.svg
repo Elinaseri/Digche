@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Wind/Bulk</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather" transform="translate(-584, -578)" fill-rule="nonzero">
+            <g id="wind" transform="translate(564, 414)" xlink:href="#path-1">
+                <g id="Icon/Wind/Bulk" transform="translate(20, 164)" xlink:href="#path-2">
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                    <path d="M2,14 L18.5,14 C20.4299999,14 22,15.5700001 22,17.5 C22,19.4299999 20.4299999,21 18.5,21 C16.5700001,21 15,19.4299999 15,17.5 L15,17" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                    <path d="M2,11 L18.5,11 C20.42,11 22,9.42999995 22,7.5 C22,5.58000004 20.42,4 18.5,4 C16.58,4 15,5.57000005 15,7.5 L15,8" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" opacity="0.400000006" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                    <path d="M2,8 L9.30999756,8 C10.7999976,8 12,6.78999996 12,5.30999994 C12,3.81999993 10.7899976,2.61999989 9.30999756,2.61999989 C7.81999755,2.61999989 6.61999512,3.82999992 6.61999512,5.30999994 L6.61999512,5.69000006" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

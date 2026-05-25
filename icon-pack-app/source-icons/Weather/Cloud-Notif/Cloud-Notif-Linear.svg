@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Cloud-Notif/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather" transform="translate(-792, -234)" fill-rule="nonzero">
+            <g id="cloud-notif-" transform="translate(772, 166)" xlink:href="#path-1">
+                <g id="Icon/Cloud-Notif/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                    <path d="M21.9000001,13.9600005 C22.1700001,15.6300005 21.7000009,17.4200008 20.2700009,18.6800008 C19.2800009,19.5900008 17.9799997,20.0900004 16.6299996,20.0801473 L5.53999996,20.0801473 C0.869999886,19.7400004 0.860000134,12.9400009 5.53999996,12.6000009 L5.59000015,12.6000009 C3.4000001,6.47000074 9.09000063,2.87000009 13.3800006,4.25000009" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                    <path d="M7.26000023,13.0100002 C6.74000025,12.7500002 6.17000014,12.6100004 5.59000015,12.6000004" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                    <path d="M21.9699993,8.5 C21.9699993,9.60000002 21.4599987,10.5899996 20.6499987,11.2299995 C20.0599987,11.7099995 19.2899984,12 18.4699993,12 C16.5399984,12 14.9699993,10.4299999 14.9699993,8.5 C14.9699993,7.54000002 15.3599991,6.66999996 15.999999,6.03999996 L15.999999,6.03000021 C16.629999,5.39000022 17.5099984,5 18.4699993,5 C20.3999983,5 21.9699993,6.57000005 21.9699993,8.5 Z" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

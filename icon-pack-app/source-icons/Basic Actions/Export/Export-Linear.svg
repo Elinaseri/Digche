@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Export/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-Actions" transform="translate(-272, -482)" fill-rule="nonzero">
+            <g id="Export" transform="translate(252, 414)" xlink:href="#path-1">
+                <g id="Icon/Export/Linear" transform="translate(20, 68)" xlink:href="#path-2">
+                    <path d="M16.4404697,8.90000153 C20.0404696,9.21000153 21.5104694,11.0600014 21.5104694,15.1100016 L21.5104694,15.2400017 C21.5104694,19.7100015 19.720469,21.5000019 15.2504692,21.5000019 L8.7404685,21.5000019 C4.27046871,21.5000019 2.48046875,19.7100015 2.48046875,15.2400017 L2.48046875,15.1100016 C2.48046875,11.0900016 3.93046856,9.24000177 7.47046852,8.91000175" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <line x1="12" y1="15" x2="12" y2="3.61999989" id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line>
+                    <polyline id="Vector" stroke="CURRENTCOLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" points="15.3503914 5.8499999 12.000391 2.5 8.65039062 5.8499999"></polyline>
+                    <polygon id="Vector" opacity="0" transform="translate(12, 12) rotate(-180) translate(-12, -12)" points="0 0 24 0 24 24 0 24"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

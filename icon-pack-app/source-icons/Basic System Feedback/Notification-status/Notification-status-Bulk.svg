@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Notification-status/Bulk</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Basic-System-feedback" transform="translate(-480, -330)" fill="CURRENTCOLOR" fill-rule="nonzero">
+            <g id="Notification-status" transform="translate(460, 166)" xlink:href="#path-1">
+                <g id="Icon/Notification-status/Bulk" transform="translate(20, 164)" xlink:href="#path-2">
+                    <path d="M22,5 C22,6.65685427 20.6568543,8 19,8 C17.3431457,8 16,6.65685427 16,5 C16,3.34314573 17.3431457,2 19,2 C20.6568543,2 22,3.34314573 22,5 Z" id="Vector"></path>
+                    <path d="M19,9.5 C16.52,9.5 14.5,7.48000002 14.5,5 C14.5,4.27999997 14.6899998,3.61000001 14.9899998,3 L7.51999998,3 C4.06999993,3 2,5.06000042 2,8.52000046 L2,16.4699993 C2,19.9399993 4.06999993,22 7.51999998,22 L15.4700003,22 C18.9300003,22 20.9899998,19.9399996 20.9899998,16.4799995 L20.9899998,9.01000023 C20.3899997,9.31000024 19.72,9.5 19,9.5 Z" id="Vector" opacity="0.400000006"></path>
+                    <path d="M15.6346154,14 L9.86538462,14 C9.3923077,14 9,13.66 9,13.25 C9,12.84 9.3923077,12.5 9.86538462,12.5 L15.6346154,12.5 C16.1076923,12.5 16.5,12.84 16.5,13.25 C16.5,13.66 16.1076923,14 15.6346154,14 Z" id="Vector"></path>
+                    <path d="M15.75,18 L6.75,18 C6.34,18 6,17.66 6,17.25 C6,16.84 6.34,16.5 6.75,16.5 L15.75,16.5 C16.16,16.5 16.5,16.84 16.5,17.25 C16.5,17.66 16.16,18 15.75,18 Z" id="Vector"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

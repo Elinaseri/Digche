@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Notification-Bell/Linear</title>
+    <defs>
+        <path d="M5,0 L59,0 C61.7614237,-8.8817842e-16 64,2.23857625 64,5 L64,203 C64,205.761424 61.7614237,208 59,208 L5,208 C2.23857625,208 0,205.761424 0,203 L0,5 C0,2.23857625 2.23857625,0 5,0 Z" id="path-1"></path>
+        <path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z" id="path-2"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
+        <g id="Basic-System-feedback" transform="translate(-272, -234)" fill-rule="nonzero" stroke="CURRENTCOLOR">
+            <g id="Notification-Bell" transform="translate(252, 166)" xlink:href="#path-1">
+                <g id="Icon/Notification-Bell/Linear" transform="translate(20, 68)" xlink:href="#path-2" fill-rule="evenodd">
+                    <g id="Vector" transform="translate(4, 2)">
+                        <path d="M17,5 C17,6.65685427 15.6568543,8 14,8 C12.3431457,8 11,6.65685427 11,5 C11,3.34314573 12.3431457,2 14,2 C15.6568543,2 17,3.34314573 17,5 Z" stroke-width="1.5" fill-rule="nonzero"></path>
+                        <path d="M14.6867237,10.9152575 C14.7672644,11.6248856 15.0665607,12.3015881 15.5522156,12.8721218 C16.6492443,14.1608791 15.605566,16 13.7771864,16 L2.22281408,16 C0.394433975,16 -0.649242491,14.1608791 0.447785646,12.8721218 C0.933440804,12.3015881 1.23273623,11.6248856 1.31327701,10.9152575 L1.76046443,6.97518682 C2.0015955,4.85063362 3.58765769,3.10719204 5.73005438,2.37366152 L5.73005438,2.2699461 C5.73005438,1.01628935 6.74634409,0 8,0 C8.6892004,0 9.30666161,0.307149827 9.72296619,0.792031884 M11,18 C10.5633163,19.1651924 9.38502955,20 8,20 C6.61497009,20 5.43668461,19.1651924 5,18" stroke-width="1.5" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
