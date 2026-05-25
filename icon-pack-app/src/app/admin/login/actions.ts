@@ -1,6 +1,7 @@
 "use server";
 
-import { signInAdmin } from "@/lib/services/auth";
+import { cookies } from "next/headers";
+import { checkAdminCredentials, getSessionCookieConfig } from "@/lib/services/auth";
 
 export async function signInAction(
   formData: FormData
@@ -12,10 +13,12 @@ export async function signInAction(
     return { error: "Email and password are required." };
   }
 
-  try {
-    await signInAdmin(email, password);
-    return null; // success — client handles redirect
-  } catch {
+  if (!checkAdminCredentials(email, password)) {
     return { error: "Invalid email or password." };
   }
+
+  const { name, value, ...options } = getSessionCookieConfig();
+  cookies().set(name, value, options);
+
+  return null;
 }

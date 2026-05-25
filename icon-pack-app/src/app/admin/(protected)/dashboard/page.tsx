@@ -1,5 +1,3 @@
-import { getCurrentUser } from "@/lib/services/auth";
-
 const STAT_CARDS = [
   { label: "Published", description: "Live in the public browser" },
   { label: "Draft", description: "Not yet visible to users" },
@@ -7,9 +5,7 @@ const STAT_CARDS = [
   { label: "Categories", description: "Active categories" },
 ] as const;
 
-export default async function DashboardPage() {
-  const user = await getCurrentUser();
-
+export default function DashboardPage() {
   return (
     <div>
       <div className="mb-8">
@@ -17,7 +13,7 @@ export default async function DashboardPage() {
           Dashboard
         </h1>
         <p className="text-sm text-ink-500 dark:text-ink-400 mt-1">
-          Welcome back{user?.email ? `, ${user.email}` : ""}.
+          Welcome back.
         </p>
       </div>
 

@@ -1,71 +1,293 @@
 /**
  * Supabase adapter — the ONLY file in this codebase that imports from
- * @supabase/supabase-js or @supabase/ssr directly.
+ * @supabase/supabase-js directly.
  *
- * All other modules receive an AppAdapter and never touch Supabase clients.
- * To swap the backend, implement this interface with a different provider.
+ * Admin operations use the service role key (bypasses RLS).
+ * To swap the backend, re-implement the exported interfaces here.
  */
 
-import type { SupabaseClient } from "@supabase/supabase-js";
-import { createClient as createServerClient } from "./server";
-import { createClient as createBrowserClient } from "./client";
-import type { AdminRole } from "@/lib/domain/types";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import type { IconStatus, IconStyle } from "@/lib/domain/types";
 
-// ── Auth ─────────────────────────────────────────────────────────────────────
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type DbClient = SupabaseClient<any>;
 
-export interface AuthAdapter {
-  getUser(): Promise<{ id: string; email: string } | null>;
-  getUserRole(userId: string): Promise<AdminRole>;
-  signInWithPassword(email: string, password: string): Promise<void>;
-  signOut(): Promise<void>;
+// ── Internal DB row shapes ────────────────────────────────────────────────────
+
+interface DbIconRow {
+  id: string;
+  name: string;
+  slug: string;
+  pascal_name: string;
+  category: string;
+  category_slug: string;
+  tags: string[];
+  is_premium: boolean;
+  status: string;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+  uploaded_by: string | null;
 }
 
-function buildAuthAdapter(client: SupabaseClient): AuthAdapter {
+interface DbVariantRow {
+  id: string;
+  icon_id: string;
+  style: string;
+  storage_path: string;
+  svg_body: string;
+  created_at: string;
+}
+
+// ── Public adapter row types ──────────────────────────────────────────────────
+
+export interface IconDbRow {
+  id: string;
+  name: string;
+  slug: string;
+  pascalName: string;
+  category: string;
+  categorySlug: string;
+  tags: string[];
+  isPremium: boolean;
+  status: IconStatus;
+  publishedAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  uploadedBy: string | null;
+}
+
+export interface VariantDbRow {
+  id: string;
+  iconId: string;
+  style: IconStyle;
+  storagePath: string;
+  svgBody: string;
+  createdAt: Date;
+}
+
+export interface InsertIconData {
+  name: string;
+  slug: string;
+  pascalName: string;
+  category: string;
+  categorySlug: string;
+  tags: string[];
+  isPremium: boolean;
+  uploadedBy: string | null;
+}
+
+export interface InsertVariantData {
+  iconId: string;
+  style: IconStyle;
+  storagePath: string;
+  svgBody: string;
+}
+
+// ── Adapter interfaces ────────────────────────────────────────────────────────
+
+export interface IconsDbAdapter {
+  listAll(): Promise<IconDbRow[]>;
+  findById(id: string): Promise<IconDbRow | null>;
+  findBySlug(slug: string): Promise<IconDbRow | null>;
+  create(data: InsertIconData): Promise<IconDbRow>;
+  setStatus(
+    id: string,
+    status: "draft" | "published",
+    publishedAt: Date | null
+  ): Promise<void>;
+  delete(id: string): Promise<void>;
+  listVariants(iconId: string): Promise<VariantDbRow[]>;
+  insertVariant(data: InsertVariantData): Promise<VariantDbRow>;
+  deleteVariant(id: string): Promise<void>;
+}
+
+export interface StorageAdapter {
+  upload(
+    bucket: string,
+    path: string,
+    data: ArrayBuffer,
+    contentType: string
+  ): Promise<void>;
+  remove(bucket: string, paths: string[]): Promise<void>;
+  getPublicUrl(bucket: string, path: string): string;
+}
+
+export interface AdminAdapter {
+  iconsDb: IconsDbAdapter;
+  storage: StorageAdapter;
+}
+
+// ── Row mappers ───────────────────────────────────────────────────────────────
+
+function mapIconRow(row: DbIconRow): IconDbRow {
   return {
-    async getUser() {
-      const {
-        data: { user },
-      } = await client.auth.getUser();
-      if (!user) return null;
-      return { id: user.id, email: user.email ?? "" };
+    id: row.id,
+    name: row.name,
+    slug: row.slug,
+    pascalName: row.pascal_name,
+    category: row.category,
+    categorySlug: row.category_slug,
+    tags: row.tags,
+    isPremium: row.is_premium,
+    status: row.status as IconStatus,
+    publishedAt: row.published_at ? new Date(row.published_at) : null,
+    createdAt: new Date(row.created_at),
+    updatedAt: new Date(row.updated_at),
+    uploadedBy: row.uploaded_by,
+  };
+}
+
+function mapVariantRow(row: DbVariantRow): VariantDbRow {
+  return {
+    id: row.id,
+    iconId: row.icon_id,
+    style: row.style as IconStyle,
+    storagePath: row.storage_path,
+    svgBody: row.svg_body,
+    createdAt: new Date(row.created_at),
+  };
+}
+
+// ── Adapter builders ──────────────────────────────────────────────────────────
+
+
+function buildIconsDbAdapter(client: DbClient): IconsDbAdapter {
+  return {
+    async listAll() {
+      const { data, error } = await client
+        .from("icons")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw new Error(error.message);
+      return (data as DbIconRow[]).map(mapIconRow);
     },
 
-    async getUserRole(userId: string) {
-      const { data } = await client
-        .from("profiles")
-        .select("role")
-        .eq("id", userId)
-        .single<{ role: string }>();
-      return (data?.role === "admin" ? "admin" : "user") as AdminRole;
+    async findById(id) {
+      const { data, error } = await client
+        .from("icons")
+        .select("*")
+        .eq("id", id)
+        .single<DbIconRow>();
+      if (error) return null;
+      return mapIconRow(data);
     },
 
-    async signInWithPassword(email: string, password: string) {
-      const { error } = await client.auth.signInWithPassword({
-        email,
-        password,
-      });
+    async findBySlug(slug) {
+      const { data, error } = await client
+        .from("icons")
+        .select("*")
+        .eq("slug", slug)
+        .single<DbIconRow>();
+      if (error) return null;
+      return mapIconRow(data);
+    },
+
+    async create(data) {
+      const { data: row, error } = await client
+        .from("icons")
+        .insert({
+          name: data.name,
+          slug: data.slug,
+          pascal_name: data.pascalName,
+          category: data.category,
+          category_slug: data.categorySlug,
+          tags: data.tags,
+          is_premium: data.isPremium,
+          uploaded_by: data.uploadedBy,
+        })
+        .select()
+        .single<DbIconRow>();
+      if (error) throw new Error(error.message);
+      return mapIconRow(row);
+    },
+
+    async setStatus(id, status, publishedAt) {
+      const { error } = await client
+        .from("icons")
+        .update({
+          status,
+          published_at: publishedAt ? publishedAt.toISOString() : null,
+        })
+        .eq("id", id);
       if (error) throw new Error(error.message);
     },
 
-    async signOut() {
-      await client.auth.signOut();
+    async delete(id) {
+      const { error } = await client.from("icons").delete().eq("id", id);
+      if (error) throw new Error(error.message);
+    },
+
+    async listVariants(iconId) {
+      const { data, error } = await client
+        .from("icon_variants")
+        .select("*")
+        .eq("icon_id", iconId);
+      if (error) throw new Error(error.message);
+      return (data as DbVariantRow[]).map(mapVariantRow);
+    },
+
+    async insertVariant(data) {
+      const { data: row, error } = await client
+        .from("icon_variants")
+        .insert({
+          icon_id: data.iconId,
+          style: data.style,
+          storage_path: data.storagePath,
+          svg_body: data.svgBody,
+        })
+        .select()
+        .single<DbVariantRow>();
+      if (error) throw new Error(error.message);
+      return mapVariantRow(row);
+    },
+
+    async deleteVariant(id) {
+      const { error } = await client
+        .from("icon_variants")
+        .delete()
+        .eq("id", id);
+      if (error) throw new Error(error.message);
     },
   };
 }
 
-// ── AppAdapter ────────────────────────────────────────────────────────────────
-// Additional slices (icons, storage) are added in Phase 2 / Phase 4.
+function buildStorageAdapter(client: DbClient): StorageAdapter {
+  return {
+    async upload(bucket, path, data, contentType) {
+      const { error } = await client.storage
+        .from(bucket)
+        .upload(path, data, { contentType, upsert: true });
+      if (error) throw new Error(error.message);
+    },
 
-export interface AppAdapter {
-  auth: AuthAdapter;
+    async remove(bucket, paths) {
+      const { error } = await client.storage.from(bucket).remove(paths);
+      if (error) throw new Error(error.message);
+    },
+
+    getPublicUrl(bucket, path) {
+      const { data } = client.storage.from(bucket).getPublicUrl(path);
+      return data.publicUrl;
+    },
+  };
 }
 
-/** Use inside Server Components, Server Actions, and Route Handlers. */
-export function createServerAdapter(): AppAdapter {
-  return { auth: buildAuthAdapter(createServerClient()) };
-}
+// ── Factory ───────────────────────────────────────────────────────────────────
 
-/** Use inside Client Components that need to talk to Supabase. */
-export function createBrowserAdapter(): AppAdapter {
-  return { auth: buildAuthAdapter(createBrowserClient()) };
+/**
+ * Creates an admin adapter using the Supabase service role key.
+ * Only use in Server Actions and Route Handlers — never in Client Components.
+ */
+export function createAdminAdapter(): AdminAdapter {
+  const client = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { autoRefreshToken: false, persistSession: false } }
+  );
+  return {
+    iconsDb: buildIconsDbAdapter(client),
+    storage: buildStorageAdapter(client),
+  };
 }

@@ -1,47 +1,19 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { ADMIN_SESSION_COOKIE, isValidAdminSession } from "@/lib/admin-session";
 
-export async function middleware(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request });
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
-          supabaseResponse = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          );
-        },
-      },
-    }
-  );
-
-  // Refreshes the session cookie — do not add logic before this line.
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  // Protect all /admin/* routes except /admin/login.
-  // Role verification (admin vs. regular user) happens in the layout via
-  // requireAdmin() to avoid a DB query on every edge request.
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isAdminRoute =
     pathname.startsWith("/admin") && !pathname.startsWith("/admin/login");
 
-  if (isAdminRoute && !user) {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
+  if (isAdminRoute) {
+    const token = request.cookies.get(ADMIN_SESSION_COOKIE)?.value ?? "";
+    if (!isValidAdminSession(token)) {
+      return NextResponse.redirect(new URL("/admin/login", request.url));
+    }
   }
 
-  return supabaseResponse;
+  return NextResponse.next();
 }
 
 export const config = {
