@@ -204,7 +204,14 @@ export default function AdminIconsClient({ icons }: Props) {
         </div>
       ) : (
         <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl overflow-hidden">
-          <table className="w-full text-sm">
+          <table className="w-full text-sm table-fixed">
+            <colgroup>
+              <col className="w-auto" />
+              <col className="w-32 hidden md:table-column" />
+              <col className="w-28" />
+              <col className="w-24 hidden sm:table-column" />
+              <col className="w-28" />
+            </colgroup>
             <thead>
               <tr className="border-b border-ink-100 dark:border-ink-700">
                 <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400">
