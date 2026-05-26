@@ -75,7 +75,8 @@ export default function IconGallery({ manifest, bodies }: Props) {
       return (
         icon.name.toLowerCase().includes(q) ||
         icon.category.toLowerCase().includes(q) ||
-        icon.slug.includes(q)
+        icon.slug.includes(q) ||
+        (icon.tags ?? []).some((t) => t.toLowerCase().includes(q))
       );
     });
   }, [manifest, query, style, category]);
