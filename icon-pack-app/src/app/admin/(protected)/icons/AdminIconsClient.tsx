@@ -283,7 +283,7 @@ export default function AdminIconsClient({ icons }: Props) {
                           <div className="flex items-center gap-2 group">
                             <button
                               onClick={() => toggleCategory(slug)}
-                              className="flex items-center gap-3 flex-1 text-left hover:opacity-80 transition-opacity"
+                              className="flex items-center gap-3 text-left hover:opacity-80 transition-opacity"
                             >
                               <div className="w-8 h-8 flex items-center justify-center shrink-0">
                                 <svg
