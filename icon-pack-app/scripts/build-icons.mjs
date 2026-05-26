@@ -73,6 +73,7 @@ function normalizeSvg(raw) {
 }
 
 async function walkCategories() {
+  try { await fs.access(SRC); } catch { return []; }
   const out = [];
   const cats = (await fs.readdir(SRC, { withFileTypes: true }))
     .filter((d) => d.isDirectory())

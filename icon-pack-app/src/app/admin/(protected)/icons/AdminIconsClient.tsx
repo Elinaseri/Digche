@@ -283,19 +283,21 @@ export default function AdminIconsClient({ icons }: Props) {
                           <div className="flex items-center gap-2 group">
                             <button
                               onClick={() => toggleCategory(slug)}
-                              className="flex items-center gap-2 flex-1 text-left hover:opacity-80 transition-opacity"
+                              className="flex items-center gap-3 flex-1 text-left hover:opacity-80 transition-opacity"
                             >
-                              <svg
-                                viewBox="0 0 24 24" width="13" height="13" fill="none"
-                                stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className={
-                                  "shrink-0 text-ink-400 transition-transform duration-150 " +
-                                  (isOpen ? "rotate-90" : "")
-                                }
-                              >
-                                <path d="m9 18 6-6-6-6" />
-                              </svg>
+                              <div className="w-8 h-8 flex items-center justify-center shrink-0">
+                                <svg
+                                  viewBox="0 0 24 24" width="13" height="13" fill="none"
+                                  stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  className={
+                                    "text-ink-400 transition-transform duration-150 " +
+                                    (isOpen ? "rotate-90" : "")
+                                  }
+                                >
+                                  <path d="m9 18 6-6-6-6" />
+                                </svg>
+                              </div>
                               <span className="font-semibold text-xs text-ink-700 dark:text-ink-200 uppercase tracking-wide">
                                 {group.label}
                               </span>
