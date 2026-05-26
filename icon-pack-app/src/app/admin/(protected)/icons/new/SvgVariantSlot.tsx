@@ -39,7 +39,6 @@ export default function SvgVariantSlot({
       return;
     }
     onChange(text);
-    onSelect?.();
   }
 
   function handleFiles(files: FileList | null) {
@@ -47,13 +46,15 @@ export default function SvgVariantSlot({
     processFile(files[0]);
   }
 
-  function handleClick() {
-    if (onSelect) {
-      onSelect();
-    } else {
-      inputRef.current?.click();
-    }
-  }
+  const dropHandlers = {
+    onDragOver: (e: React.DragEvent) => { e.preventDefault(); setDragging(true); },
+    onDragLeave: () => setDragging(false),
+    onDrop: (e: React.DragEvent) => {
+      e.preventDefault();
+      setDragging(false);
+      handleFiles(e.dataTransfer.files);
+    },
+  };
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -66,6 +67,22 @@ export default function SvgVariantSlot({
             required
           </span>
         )}
+        {/* Code editor toggle — only when there's content */}
+        {svgContent && onSelect && (
+          <button
+            type="button"
+            onClick={onSelect}
+            title="Edit SVG code"
+            className={
+              "ml-auto text-[11px] font-mono px-1 rounded transition-colors " +
+              (isSelected
+                ? "text-ink-900 dark:text-white bg-ink-100 dark:bg-ink-700"
+                : "text-ink-400 dark:text-ink-500 hover:text-ink-700 dark:hover:text-ink-200")
+            }
+          >
+            {"</>"}
+          </button>
+        )}
         {svgContent && (
           <button
             type="button"
@@ -73,7 +90,10 @@ export default function SvgVariantSlot({
               onChange(null);
               if (inputRef.current) inputRef.current.value = "";
             }}
-            className="ml-auto text-[11px] text-ink-400 hover:text-red-500 dark:text-ink-500 dark:hover:text-red-400 transition-colors"
+            className={
+              "text-[11px] text-ink-400 hover:text-red-500 dark:text-ink-500 dark:hover:text-red-400 transition-colors " +
+              (svgContent && onSelect ? "" : "ml-auto")
+            }
           >
             Remove
           </button>
@@ -84,36 +104,28 @@ export default function SvgVariantSlot({
         <div
           className={
             "h-24 rounded-xl border bg-ink-50 dark:bg-ink-900/50 flex items-center justify-center cursor-pointer transition-all p-2 " +
-            (isSelected
+            (dragging
+              ? "border-ink-400 bg-ink-100 dark:bg-ink-800"
+              : isSelected
               ? "border-ink-900 dark:border-white ring-2 ring-ink-900/10 dark:ring-white/10"
-              : "border-ink-200 dark:border-ink-700 hover:border-ink-400 dark:hover:border-ink-500")
+              : "border-ink-200 dark:border-ink-700 hover:border-ink-300 dark:hover:border-ink-600")
           }
-          onClick={handleClick}
-          title="Click to edit code"
+          onClick={() => inputRef.current?.click()}
+          title="Click to replace"
           dangerouslySetInnerHTML={{ __html: svgContent }}
           style={{ color: "currentColor" }}
+          {...dropHandlers}
         />
       ) : (
         <div
           className={
             "h-24 rounded-xl border-2 border-dashed transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer " +
-            (isSelected
-              ? "border-ink-900 dark:border-white bg-ink-50 dark:bg-ink-800/50"
-              : dragging
+            (dragging
               ? "border-ink-400 bg-ink-50 dark:bg-ink-800"
               : "border-ink-200 dark:border-ink-700 hover:border-ink-300 dark:hover:border-ink-600")
           }
-          onClick={handleClick}
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDragging(true);
-          }}
-          onDragLeave={() => setDragging(false)}
-          onDrop={(e) => {
-            e.preventDefault();
-            setDragging(false);
-            handleFiles(e.dataTransfer.files);
-          }}
+          onClick={() => inputRef.current?.click()}
+          {...dropHandlers}
         >
           <svg
             viewBox="0 0 24 24"
@@ -136,17 +148,14 @@ export default function SvgVariantSlot({
         </div>
       )}
 
-      {/* File upload button for empty slots when in code-editor mode */}
+      {/* Paste code entry for empty slots */}
       {!svgContent && onSelect && (
         <button
           type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            inputRef.current?.click();
-          }}
+          onClick={onSelect}
           className="text-[11px] text-center text-ink-400 dark:text-ink-500 hover:text-ink-700 dark:hover:text-ink-200 transition-colors"
         >
-          Upload file
+          or paste code
         </button>
       )}
 

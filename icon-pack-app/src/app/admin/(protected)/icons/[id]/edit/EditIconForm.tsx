@@ -29,6 +29,7 @@ export default function EditIconForm({ icon }: Props) {
   const [activeStyle, setActiveStyle] = useState<IconStyle | null>(null);
   const [pendingCode, setPendingCode] = useState("");
   const [codeError, setCodeError] = useState<string | null>(null);
+  const [draggingStyle, setDraggingStyle] = useState<IconStyle | null>(null);
 
   const existingVariants: Record<IconStyle, { id: string; svgBody: string } | undefined> =
     Object.fromEntries(
@@ -92,6 +93,22 @@ export default function EditIconForm({ icon }: Props) {
       } else {
         setLocalPreviews((prev) => ({ ...prev, [activeStyle!]: code }));
         setActiveStyle(null);
+        router.refresh();
+      }
+    });
+  }
+
+  async function handleDropFile(style: IconStyle, file: File) {
+    if (!file.name.endsWith(".svg") && file.type !== "image/svg+xml") return;
+    if (file.size > 100 * 1024) return;
+    const text = await file.text();
+    if (!/<svg[\s>]/i.test(text)) return;
+    const fd = new FormData();
+    fd.set(`variant_${style}`, text);
+    startTransition(async () => {
+      const res = await addVariantAction(icon.id, icon.slug, fd);
+      if (!res.error) {
+        setLocalPreviews((prev) => ({ ...prev, [style]: text }));
         router.refresh();
       }
     });
@@ -238,11 +255,16 @@ export default function EditIconForm({ icon }: Props) {
                     <div
                       className={
                         "h-24 rounded-xl border bg-ink-50 dark:bg-ink-900/50 flex items-center justify-center cursor-pointer p-2 transition-all " +
-                        (activeStyle === style
+                        (draggingStyle === style
+                          ? "border-ink-400 bg-ink-100 dark:bg-ink-800"
+                          : activeStyle === style
                           ? "border-ink-900 dark:border-white ring-2 ring-ink-900/10 dark:ring-white/10"
                           : "border-ink-200 dark:border-ink-700 hover:border-ink-400 dark:hover:border-ink-500")
                       }
                       onClick={() => openEditor(style)}
+                      onDragOver={(e) => { e.preventDefault(); setDraggingStyle(style); }}
+                      onDragLeave={() => setDraggingStyle(null)}
+                      onDrop={(e) => { e.preventDefault(); setDraggingStyle(null); const f = e.dataTransfer.files[0]; if (f) handleDropFile(style, f); }}
                       title="Click to edit code"
                       dangerouslySetInnerHTML={{ __html: tileContent }}
                       style={{ color: "currentColor" }}
@@ -251,11 +273,16 @@ export default function EditIconForm({ icon }: Props) {
                     <div
                       className={
                         "h-24 rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-1 cursor-pointer transition-colors " +
-                        (activeStyle === style
+                        (draggingStyle === style
+                          ? "border-ink-400 bg-ink-50 dark:bg-ink-800"
+                          : activeStyle === style
                           ? "border-ink-900 dark:border-white bg-ink-50 dark:bg-ink-800/50"
                           : "border-ink-200 dark:border-ink-700 hover:border-ink-300 dark:hover:border-ink-600")
                       }
                       onClick={() => openEditor(style)}
+                      onDragOver={(e) => { e.preventDefault(); setDraggingStyle(style); }}
+                      onDragLeave={() => setDraggingStyle(null)}
+                      onDrop={(e) => { e.preventDefault(); setDraggingStyle(null); const f = e.dataTransfer.files[0]; if (f) handleDropFile(style, f); }}
                     >
                       <span className="text-[11px] text-ink-400 dark:text-ink-500">
                         Missing
