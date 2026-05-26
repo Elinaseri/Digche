@@ -23,7 +23,13 @@ export function normalizeSvg(raw: string): string {
   svg = svg.replace(/<title[\s\S]*?<\/title>/g, "");
   svg = svg.replace(/<defs[\s\S]*?<\/defs>/g, "");
   svg = svg.replace(/\sxlink:href="[^"]*"/g, "");
-  svg = svg.replace(/CURRENTCOLOR/g, "currentColor");
+  // Replace any hardcoded fill/stroke color with currentColor so the icon
+  // inherits the CSS color property. Keeps fill="none", transparent, url().
+  svg = svg.replace(/\s(fill|stroke)="([^"]*)"/gi, (_m, attr, val) => {
+    if (/^(none|transparent|currentColor)$/i.test(val)) return ` ${attr}="${val}"`;
+    if (val.startsWith("url(")) return ` ${attr}="${val}"`;
+    return ` ${attr}="currentColor"`;
+  });
   svg = svg.replace(/>\s+</g, "><").trim();
   svg = svg.replace(/<svg\b([^>]*)>/, (_m, attrs: string) => {
     let cleaned = attrs

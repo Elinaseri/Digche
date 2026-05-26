@@ -24,6 +24,7 @@ export default function IconUploadForm({ categories }: Props) {
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [slugManual, setSlugManual] = useState(false);
+  const [localCategories, setLocalCategories] = useState(categories);
   const [categorySelect, setCategorySelect] = useState(
     categories.length > 0 ? categories[0].slug : NEW_CATEGORY_VALUE
   );
@@ -31,13 +32,21 @@ export default function IconUploadForm({ categories }: Props) {
   const [tags, setTags] = useState("");
   const [isPremium, setIsPremium] = useState(false);
 
-  const isNewCategory = categorySelect === NEW_CATEGORY_VALUE;
-  const resolvedCategory = isNewCategory
-    ? newCategoryName.trim()
-    : (categories.find((c) => c.slug === categorySelect)?.name ?? "");
-  const resolvedCategorySlug = isNewCategory
-    ? slugify(newCategoryName)
-    : categorySelect;
+  const isAddingNew = categorySelect === NEW_CATEGORY_VALUE;
+  const resolvedCategory =
+    localCategories.find((c) => c.slug === categorySelect)?.name ?? "";
+  const resolvedCategorySlug = isAddingNew ? "" : categorySelect;
+
+  function handleAddCategory() {
+    const trimmed = newCategoryName.trim();
+    if (!trimmed) return;
+    const slug = slugify(trimmed);
+    if (!localCategories.find((c) => c.slug === slug)) {
+      setLocalCategories((prev) => [...prev, { name: trimmed, slug }]);
+    }
+    setCategorySelect(slug);
+    setNewCategoryName("");
+  }
 
   const [variants, setVariants] = useState<Variants>({
     Bold: null,
@@ -67,7 +76,7 @@ export default function IconUploadForm({ categories }: Props) {
 
     if (!name.trim()) { setError("Name is required."); return; }
     if (!slug.trim()) { setError("Slug is required."); return; }
-    if (!resolvedCategory) { setError("Category is required."); return; }
+    if (!resolvedCategory || isAddingNew) { setError("Category is required. Add a new one first."); return; }
     if (!hasAtLeastOneVariant) { setError("Upload at least one SVG variant."); return; }
 
     const formData = new FormData();
@@ -143,19 +152,29 @@ export default function IconUploadForm({ categories }: Props) {
                   onChange={(e) => setCategorySelect(e.target.value)}
                   className="h-9 px-3 rounded-lg border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-900 text-sm text-ink-900 dark:text-white focus:outline-none focus:border-ink-400 dark:focus:border-ink-500 transition-colors"
                 >
-                  {categories.map((c) => (
+                  {localCategories.map((c) => (
                     <option key={c.slug} value={c.slug}>{c.name}</option>
                   ))}
                   <option value={NEW_CATEGORY_VALUE}>+ New category…</option>
                 </select>
-                {isNewCategory && (
-                  <input
-                    value={newCategoryName}
-                    onChange={(e) => setNewCategoryName(e.target.value)}
-                    placeholder="Category name"
-                    autoFocus
-                    className="h-9 px-3 rounded-lg border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-900 text-sm text-ink-900 dark:text-white placeholder:text-ink-400 focus:outline-none focus:border-ink-400 dark:focus:border-ink-500 transition-colors"
-                  />
+                {isAddingNew && (
+                  <div className="flex gap-2">
+                    <input
+                      value={newCategoryName}
+                      onChange={(e) => setNewCategoryName(e.target.value)}
+                      onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleAddCategory(); } }}
+                      placeholder="Category name"
+                      autoFocus
+                      className="flex-1 h-9 px-3 rounded-lg border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-900 text-sm text-ink-900 dark:text-white placeholder:text-ink-400 focus:outline-none focus:border-ink-400 dark:focus:border-ink-500 transition-colors"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleAddCategory}
+                      className="h-9 px-3 rounded-lg bg-ink-900 dark:bg-white text-white dark:text-ink-900 text-xs font-medium hover:bg-ink-700 dark:hover:bg-ink-100 transition-colors"
+                    >
+                      Add
+                    </button>
+                  </div>
                 )}
               </div>
 
