@@ -204,22 +204,34 @@ export default function AdminIconsClient({ icons }: Props) {
         </div>
       ) : (
         <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl overflow-hidden">
-          <table className="w-full text-sm">
+          <table className="w-full text-sm table-fixed">
+            <colgroup>
+              {/* Category/Icons: takes remaining space */}
+              <col />
+              {/* Variants: hidden <md */}
+              <col className="w-[140px] hidden md:table-column" />
+              {/* Status */}
+              <col className="w-[110px]" />
+              {/* Plan: hidden <sm */}
+              <col className="w-[90px] hidden sm:table-column" />
+              {/* Actions */}
+              <col className="w-[176px]" />
+            </colgroup>
             <thead>
               <tr className="border-b border-ink-100 dark:border-ink-700">
                 <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400">
                   Category / Icons
                 </th>
-                <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 w-28">
-                  Status
-                </th>
-                <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 w-36 hidden md:table-cell">
+                <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 hidden md:table-cell">
                   Variants
                 </th>
-                <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 w-24 hidden sm:table-cell">
+                <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400">
+                  Status
+                </th>
+                <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 hidden sm:table-cell">
                   Plan
                 </th>
-                <th className="px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 text-left w-48">
+                <th className="px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 text-left">
                   Actions
                 </th>
               </tr>
@@ -325,9 +337,6 @@ export default function AdminIconsClient({ icons }: Props) {
                             </div>
                           </div>
                         </td>
-                        <td className="px-5 py-3">
-                          <StatusBadge status={icon.status} />
-                        </td>
                         <td className="px-5 py-3 hidden md:table-cell">
                           <div className="flex items-center gap-0.5">
                             {(["Bold", "Bulk", "Linear", "Outline"] as const).map((s) => {
@@ -348,6 +357,9 @@ export default function AdminIconsClient({ icons }: Props) {
                               );
                             })}
                           </div>
+                        </td>
+                        <td className="px-5 py-3">
+                          <StatusBadge status={icon.status} />
                         </td>
                         <td className="px-5 py-3 hidden sm:table-cell">
                           {icon.isPremium ? (
