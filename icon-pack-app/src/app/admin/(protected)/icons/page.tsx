@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { getAdminIcons } from "@/lib/services/icons";
+import type { AdminIcon } from "@/lib/domain/types";
 import AdminIconsClient from "./AdminIconsClient";
 
 export default async function AdminIconsPage() {
-  let icons = [];
+  let icons: AdminIcon[] = [];
   let fetchError: string | null = null;
 
   try {

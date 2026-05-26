@@ -53,20 +53,14 @@ export interface IconRepository {
 export function createIconRepository(db: IconsDbAdapter): IconRepository {
   return {
     async listAll() {
-      const rows = await db.listAll();
-      return Promise.all(
-        rows.map(async (row) => {
-          const variants = await db.listVariants(row.id);
-          return toAdminIcon(row, variants);
-        })
-      );
+      const results = await db.listAll();
+      return results.map(({ icon, variants }) => toAdminIcon(icon, variants));
     },
 
     async findById(id) {
-      const row = await db.findById(id);
-      if (!row) return null;
-      const variants = await db.listVariants(id);
-      return toAdminIcon(row, variants);
+      const result = await db.findById(id);
+      if (!result) return null;
+      return toAdminIcon(result.icon, result.variants);
     },
 
     async slugExists(slug) {

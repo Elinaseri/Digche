@@ -40,6 +40,10 @@ interface DbVariantRow {
   created_at: string;
 }
 
+interface DbIconWithVariants extends DbIconRow {
+  icon_variants: DbVariantRow[];
+}
+
 // ── Public adapter row types ──────────────────────────────────────────────────
 
 export interface IconDbRow {
@@ -96,9 +100,14 @@ export interface UpdateIconData {
 
 // ── Adapter interfaces ────────────────────────────────────────────────────────
 
+export interface IconWithVariants {
+  icon: IconDbRow;
+  variants: VariantDbRow[];
+}
+
 export interface IconsDbAdapter {
-  listAll(): Promise<IconDbRow[]>;
-  findById(id: string): Promise<IconDbRow | null>;
+  listAll(): Promise<IconWithVariants[]>;
+  findById(id: string): Promise<IconWithVariants | null>;
   findBySlug(slug: string): Promise<IconDbRow | null>;
   create(data: InsertIconData): Promise<IconDbRow>;
   update(id: string, data: UpdateIconData): Promise<void>;
@@ -168,20 +177,26 @@ function buildIconsDbAdapter(client: DbClient): IconsDbAdapter {
     async listAll() {
       const { data, error } = await client
         .from("icons")
-        .select("*")
+        .select("*, icon_variants(*)")
         .order("created_at", { ascending: false });
       if (error) throw new Error(error.message);
-      return (data as DbIconRow[]).map(mapIconRow);
+      return (data as DbIconWithVariants[]).map((row) => ({
+        icon: mapIconRow(row),
+        variants: (row.icon_variants ?? []).map(mapVariantRow),
+      }));
     },
 
     async findById(id) {
       const { data, error } = await client
         .from("icons")
-        .select("*")
+        .select("*, icon_variants(*)")
         .eq("id", id)
-        .single<DbIconRow>();
+        .single<DbIconWithVariants>();
       if (error) return null;
-      return mapIconRow(data);
+      return {
+        icon: mapIconRow(data),
+        variants: (data.icon_variants ?? []).map(mapVariantRow),
+      };
     },
 
     async findBySlug(slug) {

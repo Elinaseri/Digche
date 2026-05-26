@@ -7,10 +7,7 @@ export interface IconMeta {
   category: string;
   categorySlug: string;
   availableStyles: IconStyle[];
-  /**
-   * Marks an icon as premium. Missing/false => free.
-   * Access checks live in lib/access.ts, never inline in components.
-   */
+  tags?: string[];
   isPremium?: boolean;
 }
 
