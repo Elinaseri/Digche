@@ -85,6 +85,15 @@ export interface InsertVariantData {
   svgBody: string;
 }
 
+export interface UpdateIconData {
+  name?: string;
+  pascalName?: string;
+  category?: string;
+  categorySlug?: string;
+  tags?: string[];
+  isPremium?: boolean;
+}
+
 // ── Adapter interfaces ────────────────────────────────────────────────────────
 
 export interface IconsDbAdapter {
@@ -92,6 +101,7 @@ export interface IconsDbAdapter {
   findById(id: string): Promise<IconDbRow | null>;
   findBySlug(slug: string): Promise<IconDbRow | null>;
   create(data: InsertIconData): Promise<IconDbRow>;
+  update(id: string, data: UpdateIconData): Promise<void>;
   setStatus(
     id: string,
     status: "draft" | "published",
@@ -201,6 +211,18 @@ function buildIconsDbAdapter(client: DbClient): IconsDbAdapter {
         .single<DbIconRow>();
       if (error) throw new Error(error.message);
       return mapIconRow(row);
+    },
+
+    async update(id, data) {
+      const patch: Record<string, unknown> = {};
+      if (data.name !== undefined) patch.name = data.name;
+      if (data.pascalName !== undefined) patch.pascal_name = data.pascalName;
+      if (data.category !== undefined) patch.category = data.category;
+      if (data.categorySlug !== undefined) patch.category_slug = data.categorySlug;
+      if (data.tags !== undefined) patch.tags = data.tags;
+      if (data.isPremium !== undefined) patch.is_premium = data.isPremium;
+      const { error } = await client.from("icons").update(patch).eq("id", id);
+      if (error) throw new Error(error.message);
     },
 
     async setStatus(id, status, publishedAt) {

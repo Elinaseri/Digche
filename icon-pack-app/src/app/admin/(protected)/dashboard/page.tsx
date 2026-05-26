@@ -1,11 +1,25 @@
-const STAT_CARDS = [
-  { label: "Published", description: "Live in the public browser" },
-  { label: "Draft", description: "Not yet visible to users" },
-  { label: "Premium", description: "Locked icons" },
-  { label: "Categories", description: "Active categories" },
-] as const;
+import { getIconStats } from "@/lib/services/icons";
+import type { IconStats } from "@/lib/services/icons";
 
-export default function DashboardPage() {
+const STAT_CARDS: {
+  key: keyof IconStats;
+  label: string;
+  description: string;
+}[] = [
+  { key: "published", label: "Published", description: "Live in the public browser" },
+  { key: "draft", label: "Draft", description: "Not yet visible to users" },
+  { key: "premium", label: "Premium", description: "Locked icons" },
+  { key: "categories", label: "Categories", description: "Active categories" },
+];
+
+export default async function DashboardPage() {
+  let stats: IconStats = { published: 0, draft: 0, premium: 0, categories: 0 };
+  try {
+    stats = await getIconStats();
+  } catch {
+    // DB not yet connected — show dashes
+  }
+
   return (
     <div>
       <div className="mb-8">
@@ -17,18 +31,17 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {/* Stats — populated in Phase 3 */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        {STAT_CARDS.map(({ label, description }) => (
+        {STAT_CARDS.map(({ key, label, description }) => (
           <div
-            key={label}
+            key={key}
             className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl px-5 py-4"
           >
             <div className="text-xs text-ink-500 dark:text-ink-400 mb-1">
               {label}
             </div>
             <div className="text-2xl font-semibold text-ink-900 dark:text-white">
-              —
+              {stats[key]}
             </div>
             <div className="text-[11px] text-ink-400 dark:text-ink-500 mt-1">
               {description}
@@ -37,7 +50,6 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* Placeholder for recent activity — Phase 3 */}
       <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl px-6 py-10 flex flex-col items-center justify-center text-center gap-2">
         <div className="w-10 h-10 rounded-full bg-ink-100 dark:bg-ink-700 grid place-items-center mb-1">
           <svg
@@ -68,7 +80,7 @@ export default function DashboardPage() {
           >
             Icons
           </a>{" "}
-          page. Stats will appear here once icons are added.
+          page.
         </p>
       </div>
     </div>

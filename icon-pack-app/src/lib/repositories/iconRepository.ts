@@ -4,6 +4,7 @@ import type {
   VariantDbRow,
   InsertIconData,
   InsertVariantData,
+  UpdateIconData,
 } from "@/lib/supabase/adapter";
 import type { AdminIcon, IconVariant, IconStatus } from "@/lib/domain/types";
 
@@ -42,6 +43,7 @@ export interface IconRepository {
   findById(id: string): Promise<AdminIcon | null>;
   slugExists(slug: string): Promise<boolean>;
   create(data: InsertIconData): Promise<AdminIcon>;
+  update(id: string, data: UpdateIconData): Promise<void>;
   setStatus(id: string, status: IconStatus, publishedAt: Date | null): Promise<void>;
   delete(id: string): Promise<void>;
   addVariant(data: InsertVariantData): Promise<IconVariant>;
@@ -75,6 +77,10 @@ export function createIconRepository(db: IconsDbAdapter): IconRepository {
     async create(data) {
       const row = await db.create(data);
       return toAdminIcon(row, []);
+    },
+
+    async update(id, data) {
+      await db.update(id, data);
     },
 
     async setStatus(id, status, publishedAt) {

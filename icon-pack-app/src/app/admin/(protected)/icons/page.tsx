@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getAdminIcons } from "@/lib/services/icons";
 import type { AdminIcon } from "@/lib/domain/types";
+import IconActions from "./IconActions";
 
 function StatusBadge({ status }: { status: AdminIcon["status"] }) {
   return (
@@ -24,8 +25,7 @@ export default async function AdminIconsPage() {
   try {
     icons = await getAdminIcons();
   } catch (err) {
-    fetchError =
-      err instanceof Error ? err.message : "Failed to load icons.";
+    fetchError = err instanceof Error ? err.message : "Failed to load icons.";
   }
 
   return (
@@ -99,13 +99,16 @@ export default async function AdminIconsPage() {
                 <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400">
                   Status
                 </th>
+                <th className="px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 text-right">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {icons.map((icon) => (
                 <tr
                   key={icon.id}
-                  className="border-b border-ink-50 dark:border-ink-700/50 last:border-0 hover:bg-ink-50 dark:hover:bg-ink-700/30 transition-colors"
+                  className="border-b border-ink-50 dark:border-ink-700/50 last:border-0 hover:bg-ink-50/50 dark:hover:bg-ink-700/20 transition-colors"
                 >
                   <td className="px-5 py-3">
                     <div className="font-medium text-ink-900 dark:text-white">
@@ -128,6 +131,11 @@ export default async function AdminIconsPage() {
                         premium
                       </span>
                     )}
+                  </td>
+                  <td className="px-5 py-3">
+                    <IconActions
+                      icon={{ id: icon.id, slug: icon.slug, status: icon.status }}
+                    />
                   </td>
                 </tr>
               ))}

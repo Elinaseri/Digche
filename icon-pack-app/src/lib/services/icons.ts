@@ -30,6 +30,24 @@ export async function checkSlugAvailable(slug: string): Promise<boolean> {
   return !exists;
 }
 
+export interface IconStats {
+  published: number;
+  draft: number;
+  premium: number;
+  categories: number;
+}
+
+export async function getIconStats(): Promise<IconStats> {
+  const icons = await getRepos().icons.listAll();
+  const categories = new Set(icons.map((i) => i.categorySlug));
+  return {
+    published: icons.filter((i) => i.status === "published").length,
+    draft: icons.filter((i) => i.status === "draft").length,
+    premium: icons.filter((i) => i.isPremium).length,
+    categories: categories.size,
+  };
+}
+
 export interface CreateDraftIconInput {
   name: string;
   slug: string;
@@ -48,6 +66,22 @@ export async function createDraftIcon(
     ...input,
     uploadedBy: process.env.ADMIN_EMAIL ?? null,
   });
+}
+
+export interface UpdateIconInput {
+  name?: string;
+  pascalName?: string;
+  category?: string;
+  categorySlug?: string;
+  tags?: string[];
+  isPremium?: boolean;
+}
+
+export async function updateIcon(
+  id: string,
+  input: UpdateIconInput
+): Promise<void> {
+  await getRepos().icons.update(id, input);
 }
 
 export interface AddVariantInput {
@@ -80,6 +114,10 @@ export async function addVariantToIcon(
     storagePath,
     svgBody: normalized,
   });
+}
+
+export async function removeVariantFromIcon(variantId: string): Promise<void> {
+  await getRepos().icons.removeVariant(variantId);
 }
 
 export async function publishIcon(id: string): Promise<void> {
