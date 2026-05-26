@@ -50,6 +50,7 @@ export interface IconRepository {
   removeVariant(id: string): Promise<void>;
   renameCategory(oldSlug: string, newName: string, newSlug: string): Promise<void>;
   listCategories(): Promise<{ name: string; slug: string }[]>;
+  countByCategory(slug: string): Promise<number>;
 }
 
 export function createIconRepository(db: IconsDbAdapter): IconRepository {
@@ -102,6 +103,10 @@ export function createIconRepository(db: IconsDbAdapter): IconRepository {
 
     async listCategories() {
       return db.listCategories();
+    },
+
+    async countByCategory(slug) {
+      return db.countByCategory(slug);
     },
   };
 }

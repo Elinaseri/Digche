@@ -143,3 +143,9 @@ export async function renameCategory(
 ): Promise<void> {
   await getRepos().icons.renameCategory(oldSlug, newName, newSlug);
 }
+
+export async function deleteEmptyCategory(slug: string): Promise<void> {
+  const repos = getRepos();
+  const count = await repos.icons.countByCategory(slug);
+  if (count > 0) throw new Error(`Category still has ${count} icon(s). Remove them first.`);
+}

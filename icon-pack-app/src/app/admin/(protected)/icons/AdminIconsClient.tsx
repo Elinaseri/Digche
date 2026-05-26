@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect, useRef, useTransition } from "react";
 import type { AdminIcon } from "@/lib/domain/types";
 import IconActions from "./IconActions";
-import { renameCategoryAction } from "./actions";
+import { renameCategoryAction, deleteCategoryAction } from "./actions";
 
 function slugify(s: string) {
   return s.trim().toLowerCase().replace(/[\s_]+/g, "-").replace(/[^a-z0-9-]/g, "").replace(/-+/g, "-");
@@ -62,6 +62,8 @@ export default function AdminIconsClient({ icons }: Props) {
   const [editingSlug, setEditingSlug] = useState<string | null>(null);
   const [editValue, setEditValue] = useState("");
   const [editError, setEditError] = useState<string | null>(null);
+  const [deleteErrorSlug, setDeleteErrorSlug] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const editInputRef = useRef<HTMLInputElement>(null);
 
@@ -127,6 +129,19 @@ export default function AdminIconsClient({ icons }: Props) {
   function cancelEdit() {
     setEditingSlug(null);
     setEditError(null);
+  }
+
+  function handleDeleteCategory(slug: string) {
+    if (!confirm("حذف این کتگوری؟ فقط اگه خالی باشه انجام میشه.")) return;
+    setDeleteErrorSlug(null);
+    setDeleteError(null);
+    startTransition(async () => {
+      const result = await deleteCategoryAction(slug);
+      if (result.error) {
+        setDeleteErrorSlug(slug);
+        setDeleteError(result.error);
+      }
+    });
   }
 
   function saveEdit(oldSlug: string) {
@@ -315,6 +330,23 @@ export default function AdminIconsClient({ icons }: Props) {
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                               </svg>
                             </button>
+                            <button
+                              onClick={() => handleDeleteCategory(slug)}
+                              disabled={isPending}
+                              className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded text-ink-400 hover:text-red-500 dark:text-ink-500 dark:hover:text-red-400 disabled:opacity-30"
+                              title="Delete category"
+                            >
+                              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="3 6 5 6 21 6" />
+                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                <path d="M10 11v6" />
+                                <path d="M14 11v6" />
+                                <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                              </svg>
+                            </button>
+                            {deleteErrorSlug === slug && deleteError && (
+                              <span className="text-xs text-red-500">{deleteError}</span>
+                            )}
                           </div>
                         )}
                       </td>

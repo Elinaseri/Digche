@@ -122,6 +122,7 @@ export interface IconsDbAdapter {
   deleteVariant(id: string): Promise<void>;
   renameCategory(oldSlug: string, newName: string, newSlug: string): Promise<void>;
   listCategories(): Promise<{ name: string; slug: string }[]>;
+  countByCategory(slug: string): Promise<number>;
 }
 
 export interface StorageAdapter {
@@ -316,6 +317,15 @@ function buildIconsDbAdapter(client: DbClient): IconsDbAdapter {
         }
       }
       return result;
+    },
+
+    async countByCategory(slug) {
+      const { count, error } = await client
+        .from("icons")
+        .select("id", { count: "exact", head: true })
+        .eq("category_slug", slug);
+      if (error) throw new Error(error.message);
+      return count ?? 0;
     },
   };
 }
