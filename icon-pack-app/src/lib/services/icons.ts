@@ -144,6 +144,10 @@ export async function renameCategory(
   await getRepos().icons.renameCategory(oldSlug, newName, newSlug);
 }
 
+export async function publishAllInCategory(slug: string): Promise<void> {
+  await getRepos().icons.publishAllInCategory(slug);
+}
+
 export async function deleteEmptyCategory(slug: string): Promise<void> {
   const repos = getRepos();
   const count = await repos.icons.countByCategory(slug);

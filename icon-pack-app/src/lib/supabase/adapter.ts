@@ -123,6 +123,7 @@ export interface IconsDbAdapter {
   renameCategory(oldSlug: string, newName: string, newSlug: string): Promise<void>;
   listCategories(): Promise<{ name: string; slug: string }[]>;
   countByCategory(slug: string): Promise<number>;
+  publishAllInCategory(slug: string): Promise<void>;
 }
 
 export interface StorageAdapter {
@@ -326,6 +327,15 @@ function buildIconsDbAdapter(client: DbClient): IconsDbAdapter {
         .eq("category_slug", slug);
       if (error) throw new Error(error.message);
       return count ?? 0;
+    },
+
+    async publishAllInCategory(slug) {
+      const { error } = await client
+        .from("icons")
+        .update({ status: "published", published_at: new Date().toISOString() })
+        .eq("category_slug", slug)
+        .eq("status", "draft");
+      if (error) throw new Error(error.message);
     },
   };
 }

@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect, useRef, useTransition } from "react";
 import type { AdminIcon } from "@/lib/domain/types";
 import IconActions from "./IconActions";
-import { renameCategoryAction, deleteCategoryAction } from "./actions";
+import { renameCategoryAction, deleteCategoryAction, publishAllCategoryAction } from "./actions";
 
 function slugify(s: string) {
   return s.trim().toLowerCase().replace(/[\s_]+/g, "-").replace(/[^a-z0-9-]/g, "").replace(/-+/g, "-");
@@ -129,6 +129,14 @@ export default function AdminIconsClient({ icons }: Props) {
   function cancelEdit() {
     setEditingSlug(null);
     setEditError(null);
+  }
+
+  function handlePublishAll(slug: string, label: string, draftCount: number) {
+    if (draftCount === 0) return;
+    if (!confirm(`Publish all ${draftCount} draft icon(s) in "${label}"?`)) return;
+    startTransition(async () => {
+      await publishAllCategoryAction(slug);
+    });
   }
 
   function handleDeleteCategory(slug: string) {
@@ -320,16 +328,32 @@ export default function AdminIconsClient({ icons }: Props) {
                                 {group.icons.length}
                               </span>
                             </button>
-                            <div className="ml-auto flex items-center gap-1">
+                            <div className="ml-auto flex items-center gap-0.5">
                               {deleteErrorSlug === slug && deleteError && (
-                                <span className="text-xs text-red-500 mr-1">{deleteError}</span>
+                                <span className="text-xs text-red-500 mr-2">{deleteError}</span>
                               )}
+                              {(() => {
+                                const draftCount = group.icons.filter(i => i.status === "draft").length;
+                                return draftCount > 0 ? (
+                                  <button
+                                    onClick={() => handlePublishAll(slug, group.label, draftCount)}
+                                    disabled={isPending}
+                                    className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded text-ink-400 hover:text-green-600 dark:text-ink-500 dark:hover:text-green-400 disabled:opacity-30"
+                                    title={`Publish all drafts (${draftCount})`}
+                                  >
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                      <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                  </button>
+                                ) : null;
+                              })()}
                               <button
                                 onClick={() => startEdit(slug, group.label)}
-                                className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded text-ink-400 hover:text-ink-700 dark:text-ink-500 dark:hover:text-ink-200"
+                                disabled={isPending}
+                                className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded text-ink-400 hover:text-ink-700 dark:text-ink-500 dark:hover:text-ink-200 disabled:opacity-30"
                                 title="Rename category"
                               >
-                                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                                   <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                 </svg>
@@ -337,10 +361,10 @@ export default function AdminIconsClient({ icons }: Props) {
                               <button
                                 onClick={() => handleDeleteCategory(slug)}
                                 disabled={isPending}
-                                className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded text-ink-400 hover:text-red-500 dark:text-ink-500 dark:hover:text-red-400 disabled:opacity-30"
-                                title="Delete category"
+                                className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded text-ink-400 hover:text-red-500 dark:text-ink-500 dark:hover:text-red-400 disabled:opacity-30"
+                                title="Delete category (empty only)"
                               >
-                                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                   <polyline points="3 6 5 6 21 6" />
                                   <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
                                   <path d="M10 11v6" />
