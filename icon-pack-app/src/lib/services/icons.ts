@@ -132,6 +132,15 @@ export async function deleteIcon(id: string): Promise<void> {
   await getRepos().icons.delete(id);
 }
 
+export async function getCategories(): Promise<{ name: string; slug: string }[]> {
+  const icons = await getRepos().icons.listAll();
+  const map = new Map<string, string>();
+  for (const icon of icons) map.set(icon.categorySlug, icon.category);
+  return Array.from(map.entries())
+    .map(([slug, name]) => ({ slug, name }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
 export async function renameCategory(
   oldSlug: string,
   newName: string,

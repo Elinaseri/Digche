@@ -11,16 +11,33 @@ type Style = (typeof STYLES)[number];
 
 type Variants = Record<Style, string | null>;
 
-export default function IconUploadForm() {
+const NEW_CATEGORY_VALUE = "__new__";
+
+interface Props {
+  categories: { name: string; slug: string }[];
+}
+
+export default function IconUploadForm({ categories }: Props) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
 
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [slugManual, setSlugManual] = useState(false);
-  const [category, setCategory] = useState("");
+  const [categorySelect, setCategorySelect] = useState(
+    categories.length > 0 ? categories[0].slug : NEW_CATEGORY_VALUE
+  );
+  const [newCategoryName, setNewCategoryName] = useState("");
   const [tags, setTags] = useState("");
   const [isPremium, setIsPremium] = useState(false);
+
+  const isNewCategory = categorySelect === NEW_CATEGORY_VALUE;
+  const resolvedCategory = isNewCategory
+    ? newCategoryName.trim()
+    : (categories.find((c) => c.slug === categorySelect)?.name ?? "");
+  const resolvedCategorySlug = isNewCategory
+    ? slugify(newCategoryName)
+    : categorySelect;
   const [variants, setVariants] = useState<Variants>({
     Bold: null,
     Bulk: null,
@@ -54,7 +71,7 @@ export default function IconUploadForm() {
       setError("Slug is required.");
       return;
     }
-    if (!category.trim()) {
+    if (!resolvedCategory) {
       setError("Category is required.");
       return;
     }
@@ -67,8 +84,8 @@ export default function IconUploadForm() {
     formData.set("name", name.trim());
     formData.set("slug", slug.trim());
     formData.set("pascalName", toPascalCase(name));
-    formData.set("category", category.trim());
-    formData.set("categorySlug", slugify(category));
+    formData.set("category", resolvedCategory);
+    formData.set("categorySlug", resolvedCategorySlug);
     formData.set("tags", tags.trim());
     formData.set("isPremium", String(isPremium));
 
@@ -131,12 +148,27 @@ export default function IconUploadForm() {
             <label className="text-xs font-medium text-ink-700 dark:text-ink-300">
               Category <span className="text-red-500">*</span>
             </label>
-            <input
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              placeholder="Arrows"
-              className="h-9 px-3 rounded-lg border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-900 text-sm text-ink-900 dark:text-white placeholder:text-ink-400 focus:outline-none focus:border-ink-400 dark:focus:border-ink-500 transition-colors"
-            />
+            <select
+              value={categorySelect}
+              onChange={(e) => setCategorySelect(e.target.value)}
+              className="h-9 px-3 rounded-lg border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-900 text-sm text-ink-900 dark:text-white focus:outline-none focus:border-ink-400 dark:focus:border-ink-500 transition-colors"
+            >
+              {categories.map((c) => (
+                <option key={c.slug} value={c.slug}>
+                  {c.name}
+                </option>
+              ))}
+              <option value={NEW_CATEGORY_VALUE}>+ New category…</option>
+            </select>
+            {isNewCategory && (
+              <input
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                placeholder="Category name"
+                autoFocus
+                className="h-9 px-3 rounded-lg border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-900 text-sm text-ink-900 dark:text-white placeholder:text-ink-400 focus:outline-none focus:border-ink-400 dark:focus:border-ink-500 transition-colors"
+              />
+            )}
           </div>
 
           {/* Tags */}

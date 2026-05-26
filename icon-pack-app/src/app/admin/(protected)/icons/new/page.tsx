@@ -1,6 +1,14 @@
+import { getCategories } from "@/lib/services/icons";
 import IconUploadForm from "./IconUploadForm";
 
-export default function NewIconPage() {
+export default async function NewIconPage() {
+  let categories: { name: string; slug: string }[] = [];
+  try {
+    categories = await getCategories();
+  } catch {
+    // fallback: empty list, user can still type a new category
+  }
+
   return (
     <div>
       <div className="mb-8">
@@ -12,7 +20,7 @@ export default function NewIconPage() {
         </p>
       </div>
 
-      <IconUploadForm />
+      <IconUploadForm categories={categories} />
     </div>
   );
 }
