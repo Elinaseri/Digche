@@ -313,3 +313,54 @@ export function createAdminAdapter(): AdminAdapter {
     storage: buildStorageAdapter(client),
   };
 }
+
+// ── Public adapter (anon key, respects RLS) ───────────────────────────────────
+
+export interface PublishedIconRecord {
+  slug: string;
+  name: string;
+  pascalName: string;
+  category: string;
+  categorySlug: string;
+  isPremium: boolean;
+  variants: Array<{ style: IconStyle; svgBody: string }>;
+}
+
+export interface PublicIconsAdapter {
+  listPublished(): Promise<PublishedIconRecord[]>;
+}
+
+function buildPublicIconsAdapter(client: DbClient): PublicIconsAdapter {
+  return {
+    async listPublished() {
+      const { data, error } = await client
+        .from("icons")
+        .select("slug, name, pascal_name, category, category_slug, is_premium, icon_variants(style, svg_body)")
+        .eq("status", "published")
+        .order("name");
+      if (error) throw new Error(error.message);
+
+      return (data ?? []).map((row: Record<string, unknown>) => ({
+        slug: row.slug as string,
+        name: row.name as string,
+        pascalName: row.pascal_name as string,
+        category: row.category as string,
+        categorySlug: row.category_slug as string,
+        isPremium: row.is_premium as boolean,
+        variants: ((row.icon_variants as Array<{ style: string; svg_body: string }>) ?? []).map(
+          (v) => ({ style: v.style as IconStyle, svgBody: v.svg_body })
+        ),
+      }));
+    },
+  };
+}
+
+/** Use in Server Components for reading public data. Uses anon key (RLS applies). */
+export function createPublicAdapter(): { icons: PublicIconsAdapter } {
+  const client = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { auth: { autoRefreshToken: false, persistSession: false } }
+  );
+  return { icons: buildPublicIconsAdapter(client) };
+}
