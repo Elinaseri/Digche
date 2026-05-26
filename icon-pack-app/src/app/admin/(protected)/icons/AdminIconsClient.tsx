@@ -165,118 +165,118 @@ export default function AdminIconsClient({ icons }: Props) {
           </p>
         </div>
       ) : (
-        <div className="space-y-2">
-          {grouped.map(([slug, group]) => {
-            const isOpen = openCategories.has(slug);
-            return (
-              <div
-                key={slug}
-                className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl overflow-hidden"
-              >
-                {/* Category header */}
-                <button
-                  onClick={() => toggleCategory(slug)}
-                  className="w-full flex items-center gap-3 px-5 py-3 hover:bg-ink-50 dark:hover:bg-ink-700/40 transition-colors text-left"
-                >
-                  <svg
-                    viewBox="0 0 24 24" width="14" height="14" fill="none"
-                    stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={
-                      "shrink-0 text-ink-400 transition-transform duration-200 " +
-                      (isOpen ? "rotate-90" : "")
-                    }
-                  >
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
-                  <span className="font-medium text-sm text-ink-900 dark:text-white">
-                    {group.label}
-                  </span>
-                  <span className="text-xs text-ink-400 dark:text-ink-500 tabular-nums">
-                    {group.icons.length} icon{group.icons.length !== 1 ? "s" : ""}
-                  </span>
-                </button>
+        <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl overflow-hidden">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-ink-100 dark:border-ink-700">
+                <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400">
+                  Icon
+                </th>
+                <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 hidden md:table-cell">
+                  Variants
+                </th>
+                <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400">
+                  Status
+                </th>
+                <th className="px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 text-right">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {grouped.map(([slug, group]) => {
+                const isOpen = openCategories.has(slug);
+                return (
+                  <>
+                    {/* Category group header row */}
+                    <tr
+                      key={`cat-${slug}`}
+                      onClick={() => toggleCategory(slug)}
+                      className="border-t border-ink-100 dark:border-ink-700 first:border-t-0 bg-ink-50/60 dark:bg-ink-700/30 hover:bg-ink-100/60 dark:hover:bg-ink-700/50 cursor-pointer select-none transition-colors"
+                    >
+                      <td colSpan={4} className="px-5 py-2.5">
+                        <div className="flex items-center gap-2">
+                          <svg
+                            viewBox="0 0 24 24" width="13" height="13" fill="none"
+                            stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className={
+                              "shrink-0 text-ink-400 transition-transform duration-150 " +
+                              (isOpen ? "rotate-90" : "")
+                            }
+                          >
+                            <path d="m9 18 6-6-6-6" />
+                          </svg>
+                          <span className="font-semibold text-xs text-ink-700 dark:text-ink-200 uppercase tracking-wide">
+                            {group.label}
+                          </span>
+                          <span className="text-[11px] text-ink-400 dark:text-ink-500 tabular-nums">
+                            {group.icons.length}
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
 
-                {/* Icons rows */}
-                {isOpen && (
-                  <table className="w-full text-sm border-t border-ink-100 dark:border-ink-700">
-                    <thead>
-                      <tr className="border-b border-ink-100 dark:border-ink-700">
-                        <th className="text-left px-5 py-2.5 text-xs font-medium text-ink-400 dark:text-ink-500">
-                          Icon
-                        </th>
-                        <th className="text-left px-5 py-2.5 text-xs font-medium text-ink-400 dark:text-ink-500 hidden md:table-cell">
-                          Variants
-                        </th>
-                        <th className="text-left px-5 py-2.5 text-xs font-medium text-ink-400 dark:text-ink-500">
-                          Status
-                        </th>
-                        <th className="px-5 py-2.5 text-xs font-medium text-ink-400 dark:text-ink-500 text-right">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {group.icons.map((icon) => (
-                        <tr
-                          key={icon.id}
-                          className="border-b border-ink-50 dark:border-ink-700/50 last:border-0 hover:bg-ink-50/50 dark:hover:bg-ink-700/20 transition-colors"
-                        >
-                          <td className="px-5 py-3">
-                            <div className="flex items-center gap-3">
-                              <IconPreview icon={icon} />
-                              <div>
-                                <div className="font-medium text-ink-900 dark:text-white leading-tight">
-                                  {icon.name}
-                                </div>
-                                <div className="text-[11px] text-ink-400 dark:text-ink-500 font-mono leading-tight mt-0.5">
-                                  {icon.slug}
-                                </div>
+                    {/* Icon rows */}
+                    {isOpen && group.icons.map((icon) => (
+                      <tr
+                        key={icon.id}
+                        className="border-t border-ink-50 dark:border-ink-700/40 hover:bg-ink-50/50 dark:hover:bg-ink-700/20 transition-colors"
+                      >
+                        <td className="px-5 py-3">
+                          <div className="flex items-center gap-3">
+                            <IconPreview icon={icon} />
+                            <div>
+                              <div className="font-medium text-ink-900 dark:text-white leading-tight">
+                                {icon.name}
+                              </div>
+                              <div className="text-[11px] text-ink-400 dark:text-ink-500 font-mono leading-tight mt-0.5">
+                                {icon.slug}
                               </div>
                             </div>
-                          </td>
-                          <td className="px-5 py-3 hidden md:table-cell">
-                            <div className="flex items-center gap-0.5">
-                              {(["Bold", "Bulk", "Linear", "Outline"] as const).map((s) => {
-                                const has = icon.variants.some((v) => v.style === s);
-                                return (
-                                  <span
-                                    key={s}
-                                    title={s}
-                                    className={
-                                      "text-[10px] px-1.5 py-0.5 rounded " +
-                                      (has
-                                        ? "bg-ink-100 dark:bg-ink-700 text-ink-600 dark:text-ink-300"
-                                        : "text-ink-300 dark:text-ink-600")
-                                    }
-                                  >
-                                    {s[0]}
-                                  </span>
-                                );
-                              })}
-                            </div>
-                          </td>
-                          <td className="px-5 py-3">
-                            <StatusBadge status={icon.status} />
-                            {icon.isPremium && (
-                              <span className="ml-1.5 inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
-                                premium
-                              </span>
-                            )}
-                          </td>
-                          <td className="px-5 py-3">
-                            <IconActions
-                              icon={{ id: icon.id, slug: icon.slug, status: icon.status }}
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </div>
-            );
-          })}
+                          </div>
+                        </td>
+                        <td className="px-5 py-3 hidden md:table-cell">
+                          <div className="flex items-center gap-0.5">
+                            {(["Bold", "Bulk", "Linear", "Outline"] as const).map((s) => {
+                              const has = icon.variants.some((v) => v.style === s);
+                              return (
+                                <span
+                                  key={s}
+                                  title={s}
+                                  className={
+                                    "text-[10px] px-1.5 py-0.5 rounded " +
+                                    (has
+                                      ? "bg-ink-100 dark:bg-ink-700 text-ink-600 dark:text-ink-300"
+                                      : "text-ink-300 dark:text-ink-600")
+                                  }
+                                >
+                                  {s[0]}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        </td>
+                        <td className="px-5 py-3">
+                          <StatusBadge status={icon.status} />
+                          {icon.isPremium && (
+                            <span className="ml-1.5 inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                              premium
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-5 py-3">
+                          <IconActions
+                            icon={{ id: icon.id, slug: icon.slug, status: icon.status }}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
