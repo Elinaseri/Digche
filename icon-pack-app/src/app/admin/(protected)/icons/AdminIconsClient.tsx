@@ -18,7 +18,7 @@ function StatusBadge({ status }: { status: AdminIcon["status"] }) {
         "inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium " +
         (status === "published"
           ? "bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-          : "bg-ink-100 text-ink-500 dark:bg-ink-700 dark:text-ink-400")
+          : "bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400")
       }
     >
       {status}
@@ -206,8 +206,8 @@ export default function AdminIconsClient({ icons }: Props) {
         <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl overflow-hidden">
           <table className="w-full text-sm table-fixed">
             <colgroup>
-              {/* Category/Icons: takes remaining space */}
-              <col />
+              {/* Category/Icons: fixed width, not auto-stretch */}
+              <col className="w-[40%]" />
               {/* Variants: hidden <md */}
               <col className="w-[140px] hidden md:table-column" />
               {/* Status */}
