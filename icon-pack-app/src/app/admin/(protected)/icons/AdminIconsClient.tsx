@@ -1,8 +1,13 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef, useTransition } from "react";
 import type { AdminIcon } from "@/lib/domain/types";
 import IconActions from "./IconActions";
+import { renameCategoryAction } from "./actions";
+
+function slugify(s: string) {
+  return s.trim().toLowerCase().replace(/[\s_]+/g, "-").replace(/[^a-z0-9-]/g, "").replace(/-+/g, "-");
+}
 
 type StatusFilter = "all" | "published" | "draft";
 
@@ -54,6 +59,11 @@ export default function AdminIconsClient({ icons }: Props) {
   const [openCategories, setOpenCategories] = useState<Set<string>>(
     () => new Set(icons.map((i) => i.categorySlug))
   );
+  const [editingSlug, setEditingSlug] = useState<string | null>(null);
+  const [editValue, setEditValue] = useState("");
+  const [editError, setEditError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+  const editInputRef = useRef<HTMLInputElement>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -106,6 +116,34 @@ export default function AdminIconsClient({ icons }: Props) {
   }
 
   const allOpen = grouped.length > 0 && grouped.every(([slug]) => openCategories.has(slug));
+
+  function startEdit(slug: string, label: string) {
+    setEditingSlug(slug);
+    setEditValue(label);
+    setEditError(null);
+    setTimeout(() => editInputRef.current?.select(), 0);
+  }
+
+  function cancelEdit() {
+    setEditingSlug(null);
+    setEditError(null);
+  }
+
+  function saveEdit(oldSlug: string) {
+    const name = editValue.trim();
+    if (!name) { setEditError("Name cannot be empty."); return; }
+    const newSlug = slugify(name);
+    startTransition(async () => {
+      const result = await renameCategoryAction(oldSlug, name, newSlug);
+      if (result.error) { setEditError(result.error); return; }
+      setEditingSlug(null);
+      setOpenCategories((prev) => {
+        const next = new Set(prev);
+        if (next.has(oldSlug)) { next.delete(oldSlug); next.add(newSlug); }
+        return next;
+      });
+    });
+  }
 
   return (
     <div className="space-y-4">
@@ -170,7 +208,7 @@ export default function AdminIconsClient({ icons }: Props) {
             <thead>
               <tr className="border-b border-ink-100 dark:border-ink-700">
                 <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400">
-                  Icon
+                  Category / Icons
                 </th>
                 <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 hidden md:table-cell">
                   Variants
@@ -191,29 +229,77 @@ export default function AdminIconsClient({ icons }: Props) {
                     {/* Category group header row */}
                     <tr
                       key={`cat-${slug}`}
-                      onClick={() => toggleCategory(slug)}
-                      className="border-t border-ink-100 dark:border-ink-700 first:border-t-0 bg-ink-50/60 dark:bg-ink-700/30 hover:bg-ink-100/60 dark:hover:bg-ink-700/50 cursor-pointer select-none transition-colors"
+                      className="border-t border-ink-100 dark:border-ink-700 first:border-t-0 bg-ink-50/60 dark:bg-ink-700/30"
                     >
-                      <td colSpan={4} className="px-5 py-2.5">
-                        <div className="flex items-center gap-2">
-                          <svg
-                            viewBox="0 0 24 24" width="13" height="13" fill="none"
-                            stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className={
-                              "shrink-0 text-ink-400 transition-transform duration-150 " +
-                              (isOpen ? "rotate-90" : "")
-                            }
-                          >
-                            <path d="m9 18 6-6-6-6" />
-                          </svg>
-                          <span className="font-semibold text-xs text-ink-700 dark:text-ink-200 uppercase tracking-wide">
-                            {group.label}
-                          </span>
-                          <span className="text-[11px] text-ink-400 dark:text-ink-500 tabular-nums">
-                            {group.icons.length}
-                          </span>
-                        </div>
+                      <td colSpan={4} className="px-5 py-2">
+                        {editingSlug === slug ? (
+                          <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                            <input
+                              ref={editInputRef}
+                              value={editValue}
+                              onChange={(e) => { setEditValue(e.target.value); setEditError(null); }}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") saveEdit(slug);
+                                if (e.key === "Escape") cancelEdit();
+                              }}
+                              className="h-7 px-2 rounded-lg border border-ink-300 dark:border-ink-600 bg-white dark:bg-ink-800 text-xs font-semibold text-ink-900 dark:text-white focus:outline-none focus:border-ink-500 dark:focus:border-ink-400 w-48"
+                              autoFocus
+                              disabled={isPending}
+                            />
+                            <button
+                              onClick={() => saveEdit(slug)}
+                              disabled={isPending}
+                              className="h-7 px-2.5 rounded-lg bg-ink-900 dark:bg-white text-white dark:text-ink-900 text-xs font-medium disabled:opacity-50"
+                            >
+                              {isPending ? "…" : "Save"}
+                            </button>
+                            <button
+                              onClick={cancelEdit}
+                              disabled={isPending}
+                              className="h-7 px-2.5 rounded-lg text-xs text-ink-500 hover:text-ink-900 dark:text-ink-400 dark:hover:text-white"
+                            >
+                              Cancel
+                            </button>
+                            {editError && (
+                              <span className="text-xs text-red-500">{editError}</span>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2 group">
+                            <button
+                              onClick={() => toggleCategory(slug)}
+                              className="flex items-center gap-2 flex-1 text-left hover:opacity-80 transition-opacity"
+                            >
+                              <svg
+                                viewBox="0 0 24 24" width="13" height="13" fill="none"
+                                stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className={
+                                  "shrink-0 text-ink-400 transition-transform duration-150 " +
+                                  (isOpen ? "rotate-90" : "")
+                                }
+                              >
+                                <path d="m9 18 6-6-6-6" />
+                              </svg>
+                              <span className="font-semibold text-xs text-ink-700 dark:text-ink-200 uppercase tracking-wide">
+                                {group.label}
+                              </span>
+                              <span className="text-[11px] text-ink-400 dark:text-ink-500 tabular-nums">
+                                {group.icons.length}
+                              </span>
+                            </button>
+                            <button
+                              onClick={() => startEdit(slug, group.label)}
+                              className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded text-ink-400 hover:text-ink-700 dark:text-ink-500 dark:hover:text-ink-200"
+                              title="Rename category"
+                            >
+                              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                              </svg>
+                            </button>
+                          </div>
+                        )}
                       </td>
                     </tr>
 

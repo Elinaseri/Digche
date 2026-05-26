@@ -120,6 +120,7 @@ export interface IconsDbAdapter {
   listVariants(iconId: string): Promise<VariantDbRow[]>;
   insertVariant(data: InsertVariantData): Promise<VariantDbRow>;
   deleteVariant(id: string): Promise<void>;
+  renameCategory(oldSlug: string, newName: string, newSlug: string): Promise<void>;
 }
 
 export interface StorageAdapter {
@@ -285,6 +286,14 @@ function buildIconsDbAdapter(client: DbClient): IconsDbAdapter {
         .from("icon_variants")
         .delete()
         .eq("id", id);
+      if (error) throw new Error(error.message);
+    },
+
+    async renameCategory(oldSlug, newName, newSlug) {
+      const { error } = await client
+        .from("icons")
+        .update({ category: newName, category_slug: newSlug })
+        .eq("category_slug", oldSlug);
       if (error) throw new Error(error.message);
     },
   };

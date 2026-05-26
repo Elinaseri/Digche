@@ -131,3 +131,11 @@ export async function unpublishIcon(id: string): Promise<void> {
 export async function deleteIcon(id: string): Promise<void> {
   await getRepos().icons.delete(id);
 }
+
+export async function renameCategory(
+  oldSlug: string,
+  newName: string,
+  newSlug: string
+): Promise<void> {
+  await getRepos().icons.renameCategory(oldSlug, newName, newSlug);
+}

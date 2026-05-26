@@ -48,6 +48,7 @@ export interface IconRepository {
   delete(id: string): Promise<void>;
   addVariant(data: InsertVariantData): Promise<IconVariant>;
   removeVariant(id: string): Promise<void>;
+  renameCategory(oldSlug: string, newName: string, newSlug: string): Promise<void>;
 }
 
 export function createIconRepository(db: IconsDbAdapter): IconRepository {
@@ -92,6 +93,10 @@ export function createIconRepository(db: IconsDbAdapter): IconRepository {
 
     async removeVariant(id) {
       await db.deleteVariant(id);
+    },
+
+    async renameCategory(oldSlug, newName, newSlug) {
+      await db.renameCategory(oldSlug, newName, newSlug);
     },
   };
 }
