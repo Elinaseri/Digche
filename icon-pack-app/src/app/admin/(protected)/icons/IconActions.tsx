@@ -37,7 +37,7 @@ export default function IconActions({ icon }: Props) {
   }
 
   return (
-    <div className="flex items-center gap-1 justify-end">
+    <div className="flex items-center gap-1 justify-start">
       <a
         href={`/admin/icons/${icon.id}/edit`}
         className="h-7 px-2.5 rounded-lg text-xs font-medium text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-700 transition-colors inline-flex items-center"

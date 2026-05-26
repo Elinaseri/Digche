@@ -207,10 +207,10 @@ export default function AdminIconsClient({ icons }: Props) {
           <table className="w-full text-sm table-fixed">
             <colgroup>
               <col className="w-auto" />
-              <col className="w-32 hidden md:table-column" />
+              <col className="w-36 hidden md:table-column" />
               <col className="w-28" />
               <col className="w-24 hidden sm:table-column" />
-              <col className="w-28" />
+              <col className="w-44" />
             </colgroup>
             <thead>
               <tr className="border-b border-ink-100 dark:border-ink-700">
@@ -226,7 +226,7 @@ export default function AdminIconsClient({ icons }: Props) {
                 <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 hidden sm:table-cell">
                   Plan
                 </th>
-                <th className="px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 text-right">
+                <th className="px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 text-left">
                   Actions
                 </th>
               </tr>
@@ -367,7 +367,7 @@ export default function AdminIconsClient({ icons }: Props) {
                             </span>
                           )}
                         </td>
-                        <td className="px-5 py-3">
+                        <td className="pl-5 pr-3 py-3">
                           <IconActions
                             icon={{ id: icon.id, slug: icon.slug, status: icon.status }}
                           />
