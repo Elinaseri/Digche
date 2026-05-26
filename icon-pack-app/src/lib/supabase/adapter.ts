@@ -121,6 +121,7 @@ export interface IconsDbAdapter {
   insertVariant(data: InsertVariantData): Promise<VariantDbRow>;
   deleteVariant(id: string): Promise<void>;
   renameCategory(oldSlug: string, newName: string, newSlug: string): Promise<void>;
+  listCategories(): Promise<{ name: string; slug: string }[]>;
 }
 
 export interface StorageAdapter {
@@ -295,6 +296,23 @@ function buildIconsDbAdapter(client: DbClient): IconsDbAdapter {
         .update({ category: newName, category_slug: newSlug })
         .eq("category_slug", oldSlug);
       if (error) throw new Error(error.message);
+    },
+
+    async listCategories() {
+      const { data, error } = await client
+        .from("icons")
+        .select("category, category_slug")
+        .order("category");
+      if (error) throw new Error(error.message);
+      const seen = new Set<string>();
+      const result: { name: string; slug: string }[] = [];
+      for (const row of data as { category: string; category_slug: string }[]) {
+        if (!seen.has(row.category_slug)) {
+          seen.add(row.category_slug);
+          result.push({ name: row.category, slug: row.category_slug });
+        }
+      }
+      return result;
     },
   };
 }

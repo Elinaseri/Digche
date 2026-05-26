@@ -49,6 +49,7 @@ export interface IconRepository {
   addVariant(data: InsertVariantData): Promise<IconVariant>;
   removeVariant(id: string): Promise<void>;
   renameCategory(oldSlug: string, newName: string, newSlug: string): Promise<void>;
+  listCategories(): Promise<{ name: string; slug: string }[]>;
 }
 
 export function createIconRepository(db: IconsDbAdapter): IconRepository {
@@ -97,6 +98,10 @@ export function createIconRepository(db: IconsDbAdapter): IconRepository {
 
     async renameCategory(oldSlug, newName, newSlug) {
       await db.renameCategory(oldSlug, newName, newSlug);
+    },
+
+    async listCategories() {
+      return db.listCategories();
     },
   };
 }
