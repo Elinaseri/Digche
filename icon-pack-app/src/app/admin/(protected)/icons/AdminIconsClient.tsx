@@ -216,6 +216,9 @@ export default function AdminIconsClient({ icons }: Props) {
                 <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400">
                   Status
                 </th>
+                <th className="text-left px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 hidden sm:table-cell">
+                  Plan
+                </th>
                 <th className="px-5 py-3 text-xs font-medium text-ink-500 dark:text-ink-400 text-right">
                   Actions
                 </th>
@@ -231,7 +234,7 @@ export default function AdminIconsClient({ icons }: Props) {
                       key={`cat-${slug}`}
                       className="border-t border-ink-100 dark:border-ink-700 first:border-t-0 bg-ink-50/60 dark:bg-ink-700/30"
                     >
-                      <td colSpan={4} className="px-5 py-2">
+                      <td colSpan={5} className="px-5 py-2">
                         {editingSlug === slug ? (
                           <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                             <input
@@ -345,9 +348,15 @@ export default function AdminIconsClient({ icons }: Props) {
                         </td>
                         <td className="px-5 py-3">
                           <StatusBadge status={icon.status} />
-                          {icon.isPremium && (
-                            <span className="ml-1.5 inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
-                              premium
+                        </td>
+                        <td className="px-5 py-3 hidden sm:table-cell">
+                          {icon.isPremium ? (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                              Premium
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-ink-50 text-ink-400 dark:bg-ink-700/50 dark:text-ink-500">
+                              Free
                             </span>
                           )}
                         </td>
