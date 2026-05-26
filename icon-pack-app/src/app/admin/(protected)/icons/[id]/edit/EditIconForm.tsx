@@ -8,8 +8,7 @@ import {
   addVariantAction,
   removeVariantAction,
 } from "./actions";
-import { slugify } from "@/lib/svg-utils";
-import type { AdminIcon, IconVariant, IconStyle } from "@/lib/domain/types";
+import type { AdminIcon, IconStyle } from "@/lib/domain/types";
 
 const STYLES: IconStyle[] = ["Bold", "Bulk", "Linear", "Outline"];
 
@@ -28,15 +27,32 @@ export default function EditIconForm({ icon }: Props) {
   const [metaError, setMetaError] = useState<string | null>(null);
   const [metaSaved, setMetaSaved] = useState(false);
 
-  const existingVariants: Record<IconStyle, IconVariant | undefined> =
+  // activeStyle: which variant tile is selected for code editing
+  const [activeStyle, setActiveStyle] = useState<IconStyle | null>(null);
+  // pendingCode: the SVG code currently in the editor
+  const [pendingCode, setPendingCode] = useState("");
+  const [codeError, setCodeError] = useState<string | null>(null);
+
+  const existingVariants: Record<IconStyle, { id: string; svgBody: string } | undefined> =
     Object.fromEntries(
       STYLES.map((s) => [s, icon.variants.find((v) => v.style === s)])
-    ) as Record<IconStyle, IconVariant | undefined>;
+    ) as Record<IconStyle, { id: string; svgBody: string } | undefined>;
 
-  const [newVariants, setNewVariants] = useState<
-    Record<IconStyle, string | null>
-  >({ Bold: null, Bulk: null, Linear: null, Outline: null });
-  const [variantError, setVariantError] = useState<string | null>(null);
+  // Local overrides for variant previews after code edits (before saving)
+  const [localPreviews, setLocalPreviews] = useState<Partial<Record<IconStyle, string | null>>>({});
+
+  function openEditor(style: IconStyle) {
+    if (activeStyle === style) {
+      setActiveStyle(null);
+      return;
+    }
+    const current = localPreviews[style] !== undefined
+      ? (localPreviews[style] ?? "")
+      : (existingVariants[style]?.svgBody ?? "");
+    setActiveStyle(style);
+    setPendingCode(current);
+    setCodeError(null);
+  }
 
   function handleSaveMeta(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -58,43 +74,53 @@ export default function EditIconForm({ icon }: Props) {
     });
   }
 
-  function handleUploadVariants(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setVariantError(null);
-    const hasNew = STYLES.some((s) => newVariants[s]);
-    if (!hasNew) {
-      setVariantError("Select at least one SVG to upload.");
+  function handleApplyCode() {
+    if (!activeStyle) return;
+    const code = pendingCode.trim();
+    if (!code) {
+      setCodeError("SVG code cannot be empty.");
       return;
     }
-    const fd = new FormData();
-    for (const s of STYLES) {
-      if (newVariants[s]) fd.set(`variant_${s}`, newVariants[s]!);
+    if (!/<svg[\s>]/i.test(code)) {
+      setCodeError("This doesn't look like an SVG.");
+      return;
     }
+    setCodeError(null);
+    const fd = new FormData();
+    fd.set(`variant_${activeStyle}`, code);
     startTransition(async () => {
       const res = await addVariantAction(icon.id, icon.slug, fd);
       if (res.error) {
-        setVariantError(res.error);
+        setCodeError(res.error);
       } else {
-        setNewVariants({ Bold: null, Bulk: null, Linear: null, Outline: null });
+        setLocalPreviews((prev) => ({ ...prev, [activeStyle!]: code }));
+        setActiveStyle(null);
         router.refresh();
       }
     });
   }
 
-  function handleRemoveVariant(variantId: string) {
+  function handleRemoveVariant(variantId: string, style: IconStyle) {
     if (!confirm("Remove this variant?")) return;
     startTransition(async () => {
       await removeVariantAction(variantId, icon.id);
+      setLocalPreviews((prev) => ({ ...prev, [style]: null }));
       router.refresh();
     });
   }
 
+  // What to show in the tile preview: local override → existing DB content → null
+  function getTileContent(style: IconStyle): string | null {
+    if (localPreviews[style] !== undefined) return localPreviews[style] ?? null;
+    return existingVariants[style]?.svgBody ?? null;
+  }
+
   return (
-    <div className="space-y-8 max-w-2xl">
+    <div className="space-y-8">
       {/* Metadata */}
       <form
         onSubmit={handleSaveMeta}
-        className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 space-y-5"
+        className="max-w-2xl bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 space-y-5"
       >
         <h2 className="text-sm font-semibold text-ink-900 dark:text-white">
           Metadata
@@ -201,84 +227,114 @@ export default function EditIconForm({ icon }: Props) {
       </form>
 
       {/* Variants */}
-      <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 space-y-5">
-        <h2 className="text-sm font-semibold text-ink-900 dark:text-white">
-          SVG Variants
-        </h2>
-
-        {/* Existing */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {STYLES.map((style) => {
-            const existing = existingVariants[style];
-            return (
-              <div key={style} className="flex flex-col gap-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-ink-700 dark:text-ink-300">
-                    {style}
-                  </span>
-                  {existing && (
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveVariant(existing.id)}
-                      disabled={pending}
-                      className="text-[11px] text-red-500 dark:text-red-400 hover:underline disabled:opacity-50"
-                    >
-                      Remove
-                    </button>
-                  )}
-                </div>
-                {existing ? (
-                  <div
-                    className="h-24 rounded-xl border border-ink-200 dark:border-ink-700 bg-ink-50 dark:bg-ink-900/50 flex items-center justify-center"
-                    dangerouslySetInnerHTML={{ __html: existing.svgBody }}
-                  />
-                ) : (
-                  <div className="h-24 rounded-xl border-2 border-dashed border-ink-200 dark:border-ink-700 flex items-center justify-center">
-                    <span className="text-[11px] text-ink-400 dark:text-ink-500">
-                      Missing
-                    </span>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Upload missing */}
-        {STYLES.some((s) => !existingVariants[s]) && (
-          <form onSubmit={handleUploadVariants} className="space-y-4 pt-2 border-t border-ink-100 dark:border-ink-700">
-            <p className="text-xs text-ink-500 dark:text-ink-400">
-              Upload missing styles:
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {STYLES.filter((s) => !existingVariants[s]).map((style) => (
-                <SvgVariantSlot
-                  key={style}
-                  style={style}
-                  svgContent={newVariants[style]}
-                  onChange={(c) =>
-                    setNewVariants((prev) => ({ ...prev, [style]: c }))
-                  }
-                />
-              ))}
-            </div>
-            {variantError && (
-              <p className="text-sm text-red-600 dark:text-red-400">
-                {variantError}
+      <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6">
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Left: variant tiles */}
+          <div className="flex-shrink-0 space-y-4">
+            <div>
+              <h2 className="text-sm font-semibold text-ink-900 dark:text-white">
+                SVG Variants
+              </h2>
+              <p className="text-xs text-ink-400 dark:text-ink-500 mt-0.5">
+                Click a tile to view or edit its SVG code.
               </p>
-            )}
-            <button
-              type="submit"
-              disabled={pending}
-              className="h-9 px-5 rounded-xl bg-ink-900 dark:bg-white text-white dark:text-ink-900 text-sm font-medium hover:bg-ink-700 dark:hover:bg-ink-100 disabled:opacity-50 transition-colors"
-            >
-              {pending ? "Uploading…" : "Upload variants"}
-            </button>
-          </form>
-        )}
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-4">
+              {STYLES.map((style) => {
+                const existing = existingVariants[style];
+                const tileContent = getTileContent(style);
+                return (
+                  <div key={style} className="flex flex-col gap-1.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-medium text-ink-700 dark:text-ink-300">
+                        {style}
+                      </span>
+                      {existing && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveVariant(existing.id, style)}
+                          disabled={pending}
+                          className="text-[11px] text-red-500 dark:text-red-400 hover:underline disabled:opacity-50"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                    {tileContent ? (
+                      <div
+                        className={
+                          "h-24 rounded-xl border bg-ink-50 dark:bg-ink-900/50 flex items-center justify-center cursor-pointer p-2 transition-all " +
+                          (activeStyle === style
+                            ? "border-ink-900 dark:border-white ring-2 ring-ink-900/10 dark:ring-white/10"
+                            : "border-ink-200 dark:border-ink-700 hover:border-ink-400 dark:hover:border-ink-500")
+                        }
+                        onClick={() => openEditor(style)}
+                        title="Click to edit code"
+                        dangerouslySetInnerHTML={{ __html: tileContent }}
+                        style={{ color: "currentColor" }}
+                      />
+                    ) : (
+                      <div
+                        className={
+                          "h-24 rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-1 cursor-pointer transition-colors " +
+                          (activeStyle === style
+                            ? "border-ink-900 dark:border-white bg-ink-50 dark:bg-ink-800/50"
+                            : "border-ink-200 dark:border-ink-700 hover:border-ink-300 dark:hover:border-ink-600")
+                        }
+                        onClick={() => openEditor(style)}
+                      >
+                        <span className="text-[11px] text-ink-400 dark:text-ink-500">
+                          Missing
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right: code editor */}
+          {activeStyle && (
+            <div className="flex-1 min-w-0 flex flex-col gap-3 border-t lg:border-t-0 lg:border-l border-ink-100 dark:border-ink-700 pt-5 lg:pt-0 lg:pl-6">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-ink-700 dark:text-ink-300">
+                  {activeStyle} — SVG code
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setActiveStyle(null)}
+                  className="text-xs text-ink-400 hover:text-ink-700 dark:hover:text-ink-200 transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+              <textarea
+                value={pendingCode}
+                onChange={(e) => setPendingCode(e.target.value)}
+                className="flex-1 min-h-[220px] p-3 rounded-xl border border-ink-200 dark:border-ink-700 bg-ink-50 dark:bg-ink-900 text-xs font-mono text-ink-800 dark:text-ink-200 resize-y focus:outline-none focus:border-ink-400 dark:focus:border-ink-500 leading-relaxed"
+                placeholder={'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">\n  ...\n</svg>'}
+                spellCheck={false}
+              />
+              {codeError && (
+                <p className="text-[11px] text-red-600 dark:text-red-400">
+                  {codeError}
+                </p>
+              )}
+              <button
+                type="button"
+                onClick={handleApplyCode}
+                disabled={pending}
+                className="self-start h-8 px-4 rounded-lg bg-ink-900 dark:bg-white text-white dark:text-ink-900 text-xs font-medium hover:bg-ink-700 dark:hover:bg-ink-100 disabled:opacity-50 transition-colors"
+              >
+                {pending ? "Saving…" : "Apply & save"}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="max-w-2xl flex items-center gap-3">
         <a
           href="/admin/icons"
           className="text-sm text-ink-500 hover:text-ink-900 dark:text-ink-400 dark:hover:text-white transition-colors"

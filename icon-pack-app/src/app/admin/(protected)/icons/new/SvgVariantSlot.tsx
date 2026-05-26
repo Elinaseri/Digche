@@ -7,6 +7,8 @@ interface Props {
   required?: boolean;
   svgContent: string | null;
   onChange: (content: string | null) => void;
+  isSelected?: boolean;
+  onSelect?: () => void;
 }
 
 export default function SvgVariantSlot({
@@ -14,6 +16,8 @@ export default function SvgVariantSlot({
   required,
   svgContent,
   onChange,
+  isSelected,
+  onSelect,
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
@@ -35,11 +39,20 @@ export default function SvgVariantSlot({
       return;
     }
     onChange(text);
+    onSelect?.();
   }
 
   function handleFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
     processFile(files[0]);
+  }
+
+  function handleClick() {
+    if (onSelect) {
+      onSelect();
+    } else {
+      inputRef.current?.click();
+    }
   }
 
   return (
@@ -69,9 +82,14 @@ export default function SvgVariantSlot({
 
       {svgContent ? (
         <div
-          className="h-24 rounded-xl border border-ink-200 dark:border-ink-700 bg-ink-50 dark:bg-ink-900/50 flex items-center justify-center cursor-pointer"
-          onClick={() => inputRef.current?.click()}
-          title="Click to replace"
+          className={
+            "h-24 rounded-xl border bg-ink-50 dark:bg-ink-900/50 flex items-center justify-center cursor-pointer transition-all p-2 " +
+            (isSelected
+              ? "border-ink-900 dark:border-white ring-2 ring-ink-900/10 dark:ring-white/10"
+              : "border-ink-200 dark:border-ink-700 hover:border-ink-400 dark:hover:border-ink-500")
+          }
+          onClick={handleClick}
+          title="Click to edit code"
           dangerouslySetInnerHTML={{ __html: svgContent }}
           style={{ color: "currentColor" }}
         />
@@ -79,11 +97,13 @@ export default function SvgVariantSlot({
         <div
           className={
             "h-24 rounded-xl border-2 border-dashed transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer " +
-            (dragging
+            (isSelected
+              ? "border-ink-900 dark:border-white bg-ink-50 dark:bg-ink-800/50"
+              : dragging
               ? "border-ink-400 bg-ink-50 dark:bg-ink-800"
               : "border-ink-200 dark:border-ink-700 hover:border-ink-300 dark:hover:border-ink-600")
           }
-          onClick={() => inputRef.current?.click()}
+          onClick={handleClick}
           onDragOver={(e) => {
             e.preventDefault();
             setDragging(true);
@@ -114,6 +134,20 @@ export default function SvgVariantSlot({
             Drop or click
           </span>
         </div>
+      )}
+
+      {/* File upload button for empty slots when in code-editor mode */}
+      {!svgContent && onSelect && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            inputRef.current?.click();
+          }}
+          className="text-[11px] text-center text-ink-400 dark:text-ink-500 hover:text-ink-700 dark:hover:text-ink-200 transition-colors"
+        >
+          Upload file
+        </button>
       )}
 
       <input

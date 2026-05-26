@@ -44,6 +44,7 @@ export default function IconUploadForm({ categories }: Props) {
     Linear: null,
     Outline: null,
   });
+  const [activeStyle, setActiveStyle] = useState<Style | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   function handleNameChange(value: string) {
@@ -106,9 +107,9 @@ export default function IconUploadForm({ categories }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8 max-w-2xl">
+    <form onSubmit={handleSubmit} className="space-y-8">
       {/* Metadata */}
-      <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 space-y-5">
+      <div className="max-w-2xl bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 space-y-5">
         <h2 className="text-sm font-semibold text-ink-900 dark:text-white">
           Metadata
         </h2>
@@ -219,34 +220,76 @@ export default function IconUploadForm({ categories }: Props) {
       </div>
 
       {/* SVG Variants */}
-      <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 space-y-5">
-        <div>
-          <h2 className="text-sm font-semibold text-ink-900 dark:text-white">
-            SVG Variants
-          </h2>
-          <p className="text-xs text-ink-400 dark:text-ink-500 mt-0.5">
-            Upload at least one style. Files are normalized automatically.
-          </p>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {STYLES.map((style) => (
-            <SvgVariantSlot
-              key={style}
-              style={style}
-              svgContent={variants[style]}
-              onChange={(content) => handleVariantChange(style, content)}
-            />
-          ))}
+      <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6">
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Left: variant tiles */}
+          <div className="flex-shrink-0 space-y-4">
+            <div>
+              <h2 className="text-sm font-semibold text-ink-900 dark:text-white">
+                SVG Variants
+              </h2>
+              <p className="text-xs text-ink-400 dark:text-ink-500 mt-0.5">
+                Upload at least one style. Files are normalized automatically.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-4">
+              {STYLES.map((style) => (
+                <SvgVariantSlot
+                  key={style}
+                  style={style}
+                  svgContent={variants[style]}
+                  onChange={(content) => handleVariantChange(style, content)}
+                  isSelected={activeStyle === style}
+                  onSelect={() =>
+                    setActiveStyle((prev) => (prev === style ? null : style))
+                  }
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Right: code editor */}
+          {activeStyle && (
+            <div className="flex-1 min-w-0 flex flex-col gap-3 border-t lg:border-t-0 lg:border-l border-ink-100 dark:border-ink-700 pt-5 lg:pt-0 lg:pl-6">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-ink-700 dark:text-ink-300">
+                  {activeStyle} — SVG code
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setActiveStyle(null)}
+                  className="text-xs text-ink-400 hover:text-ink-700 dark:hover:text-ink-200 transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+              <textarea
+                value={variants[activeStyle] ?? ""}
+                onChange={(e) =>
+                  setVariants((prev) => ({
+                    ...prev,
+                    [activeStyle]: e.target.value || null,
+                  }))
+                }
+                className="flex-1 min-h-[220px] p-3 rounded-xl border border-ink-200 dark:border-ink-700 bg-ink-50 dark:bg-ink-900 text-xs font-mono text-ink-800 dark:text-ink-200 resize-y focus:outline-none focus:border-ink-400 dark:focus:border-ink-500 leading-relaxed"
+                placeholder={'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">\n  ...\n</svg>'}
+                spellCheck={false}
+              />
+              <p className="text-[11px] text-ink-400 dark:text-ink-500">
+                The preview above updates as you type.
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
       {error && (
-        <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl px-4 py-3">
+        <p className="max-w-2xl text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl px-4 py-3">
           {error}
         </p>
       )}
 
-      <div className="flex items-center gap-3">
+      <div className="max-w-2xl flex items-center gap-3">
         <button
           type="submit"
           disabled={pending}
