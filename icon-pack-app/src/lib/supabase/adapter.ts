@@ -270,12 +270,15 @@ function buildIconsDbAdapter(client: DbClient): IconsDbAdapter {
     async insertVariant(data) {
       const { data: row, error } = await client
         .from("icon_variants")
-        .insert({
-          icon_id: data.iconId,
-          style: data.style,
-          storage_path: data.storagePath,
-          svg_body: data.svgBody,
-        })
+        .upsert(
+          {
+            icon_id: data.iconId,
+            style: data.style,
+            storage_path: data.storagePath,
+            svg_body: data.svgBody,
+          },
+          { onConflict: "icon_id,style" }
+        )
         .select()
         .single<DbVariantRow>();
       if (error) throw new Error(error.message);
