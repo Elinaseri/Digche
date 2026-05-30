@@ -37,6 +37,7 @@ export default function AccountMenu() {
     (user?.user_metadata?.full_name as string | undefined) ??
     user?.email ??
     "Account";
+  const firstName = displayName.split(" ")[0];
   const initials = displayName
     .split(" ")
     .map((n) => n[0])
@@ -58,7 +59,7 @@ export default function AccountMenu() {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Account menu"
-        className="inline-flex items-center gap-1.5 h-9 px-2 rounded-xl hover:bg-ink-100 dark:hover:bg-ink-800 active:bg-ink-200 dark:active:bg-ink-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 dark:focus-visible:ring-white"
+        className="inline-flex items-center gap-2 h-9 px-2.5 rounded-xl hover:bg-ink-100 dark:hover:bg-ink-800 active:bg-ink-200 dark:active:bg-ink-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 dark:focus-visible:ring-white"
       >
         <span className="w-7 h-7 rounded-full bg-ink-200 dark:bg-ink-700 overflow-hidden shrink-0 flex items-center justify-center text-xs font-semibold text-ink-700 dark:text-ink-200">
           {avatarUrl ? (
@@ -67,6 +68,10 @@ export default function AccountMenu() {
           ) : (
             initials
           )}
+        </span>
+        <span className="hidden sm:block text-sm text-ink-600 dark:text-ink-300 leading-none" dir="ltr">
+          Hi,{" "}
+          <span className="font-medium text-ink-900 dark:text-white">{firstName}</span>
         </span>
         <svg
           viewBox="0 0 24 24"
