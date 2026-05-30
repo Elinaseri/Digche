@@ -3,11 +3,8 @@
 import { useEffect, useRef } from "react";
 import type { IconStyle } from "@/lib/types";
 import DigLogo from "./DigLogo";
-import ThemeToggle from "./ThemeToggle";
 import DownloadDropdown from "./DownloadDropdown";
 import type { DownloadItem } from "./DownloadMenuItem";
-import AccountMenu from "./AccountMenu";
-import { useAuth } from "@/lib/auth";
 
 interface Props {
   query: string;
@@ -42,7 +39,6 @@ export default function Toolbar({
   onToggleSidebar,
   onDownloadEntirePack,
 }: Props) {
-  const { user, isLoading, openAuthModal } = useAuth();
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -160,23 +156,6 @@ export default function Toolbar({
           />
         </div>
 
-        {/* Auth + Theme */}
-        <div className="shrink-0 flex items-center gap-2">
-          {!isLoading && (
-            user ? (
-              <AccountMenu />
-            ) : (
-              <button
-                type="button"
-                onClick={openAuthModal}
-                className="h-9 px-4 rounded-xl text-sm font-medium bg-ink-900 dark:bg-white text-white dark:text-ink-900 hover:bg-ink-700 dark:hover:bg-ink-100 active:bg-ink-800 dark:active:bg-ink-200 transition-colors"
-              >
-                Sign in
-              </button>
-            )
-          )}
-          <ThemeToggle />
-        </div>
       </div>
 
       {/* Mobile controls row — style + color; hidden on md+ */}

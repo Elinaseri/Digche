@@ -2,32 +2,32 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getPublishedDbIcons } from "@/lib/services/publicIcons";
 import LoginPageClient from "./LoginPageClient";
+import type { ShowcaseIcon } from "./LoginPageClient";
 
 export const metadata = { title: "Sign in — Digche Icons" };
 
 export default async function LoginPage() {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (user) redirect("/");
 
-  let floatingIcons: { svgBody: string; slug: string }[] = [];
+  let showcaseIcons: ShowcaseIcon[] = [];
   try {
     const published = await getPublishedDbIcons();
-    // Prefer Linear/Outline for clean look; shuffle for variety
+    // Pick icons that have at least 2 styles for a richer showcase
     const candidates = published
-      .filter((i) => i.variants.length > 0)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 12);
-    floatingIcons = candidates.map((i) => {
-      const variant =
-        i.variants.find((v) => v.style === "Linear") ??
-        i.variants.find((v) => v.style === "Outline") ??
-        i.variants[0];
-      return { slug: i.slug, svgBody: variant.svgBody };
-    });
+      .filter((i) => i.variants.length >= 2)
+      .slice(0, 30);
+    showcaseIcons = candidates.map((i) => ({
+      slug: i.slug,
+      name: i.name,
+      bodies: Object.fromEntries(i.variants.map((v) => [v.style, v.svgBody])),
+    }));
   } catch {
-    // DB unavailable — left panel shows with no icons
+    // DB unavailable — showcase renders without icons
   }
 
-  return <LoginPageClient floatingIcons={floatingIcons} />;
+  return <LoginPageClient showcaseIcons={showcaseIcons} />;
 }

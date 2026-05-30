@@ -14,7 +14,7 @@ export default function ThemeToggle() {
       aria-checked={isDark}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       title={isDark ? "Light mode" : "Dark mode"}
-      className="inline-flex items-center justify-center w-11 h-11 rounded-xl border border-ink-200 bg-white text-ink-700 hover:border-ink-300 active:bg-ink-100 dark:bg-ink-800 dark:border-ink-700 dark:text-ink-100 dark:hover:border-ink-600 dark:active:bg-ink-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 dark:focus-visible:ring-white"
+      className="inline-flex items-center justify-center w-9 h-9 rounded-xl border border-ink-200 bg-white text-ink-700 hover:border-ink-300 active:bg-ink-100 dark:bg-ink-800 dark:border-ink-700 dark:text-ink-100 dark:hover:border-ink-600 dark:active:bg-ink-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 dark:focus-visible:ring-white"
     >
       {isDark ? (
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>

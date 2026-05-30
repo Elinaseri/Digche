@@ -12,6 +12,7 @@ import IconDetail from "./IconDetail";
 import IconTile from "./IconTile";
 import Toolbar from "./Toolbar";
 import Sidebar from "./Sidebar";
+import UserNavBar from "./UserNavBar";
 
 const STYLES: IconStyle[] = ["Bold", "Bulk", "Linear", "Outline"];
 const SIZE_OPTIONS = [16, 20, 24, 32, 48];
@@ -142,6 +143,7 @@ export default function IconGallery({ manifest, bodies }: Props) {
 
   return (
     <div className="h-screen flex flex-col overflow-hidden">
+      <UserNavBar />
       <Toolbar
         query={query}
         onQueryChange={setQuery}
