@@ -56,7 +56,7 @@ export default function UserNavBar() {
   }, []);
 
   return (
-    <div className="shrink-0 border-b border-ink-100 dark:border-ink-800 bg-white dark:bg-ink-950 px-4 md:px-8 h-12 flex items-center justify-end gap-1">
+    <div className="shrink-0 border-b border-ink-100 dark:border-ink-800 bg-white dark:bg-ink-900 px-4 md:px-8 h-12 flex items-center justify-end gap-1">
       <ThemeToggle />
 
       {!isLoading && user && (

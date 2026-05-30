@@ -84,14 +84,14 @@ export default function LoginPageClient({ showcaseIcons }: Props) {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="h-screen flex overflow-hidden">
       {/* ── Left panel — interactive showcase ─────────────────────────── */}
-      <div className="hidden lg:flex lg:w-[45%] relative bg-ink-950 overflow-hidden flex-col">
+      <div className="hidden lg:flex lg:w-[45%] flex-col overflow-hidden">
         <IconShowcase icons={showcaseIcons} />
       </div>
 
       {/* ── Right panel — form ──────────────────────────────────────────── */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 bg-white dark:bg-ink-950 min-h-screen">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 bg-white dark:bg-ink-950 overflow-y-auto">
         <div className="w-full max-w-sm">
           {/* Logo */}
           <div className="mb-8 text-center lg:text-left">
@@ -221,12 +221,15 @@ export default function LoginPageClient({ showcaseIcons }: Props) {
 
 // ── Icon Showcase ────────────────────────────────────────────────────────────
 
+const MENU_LABELS = [
+  "Dashboard", "Projects", "Calendar", "Analytics",
+  "Messages", "Files", "Team", "Settings", "Profile",
+];
+
 function IconShowcase({ icons }: { icons: ShowcaseIcon[] }) {
   const [style, setStyle] = useState<IconStyle>("Linear");
   const [visible, setVisible] = useState(true);
   const [darkPreview, setDarkPreview] = useState(true);
-
-  // Fade out → change style → fade in
   const [pendingStyle, setPendingStyle] = useState<IconStyle | null>(null);
 
   function switchStyle(s: IconStyle) {
@@ -241,165 +244,119 @@ function IconShowcase({ icons }: { icons: ShowcaseIcon[] }) {
         setStyle(pendingStyle);
         setPendingStyle(null);
         setVisible(true);
-      }, 180);
+      }, 160);
       return () => clearTimeout(t);
     }
   }, [visible, pendingStyle]);
 
-  // Pick icons that have the selected style; fallback to any available style
-  const grid = icons.slice(0, 25).map((icon) => ({
-    slug: icon.slug,
-    name: icon.name,
-    body: icon.bodies[style] ?? Object.values(icon.bodies)[0] ?? "",
-    hasStyle: !!icon.bodies[style],
+  const menuItems = MENU_LABELS.slice(0, Math.max(icons.length, 6)).map((label, i) => ({
+    label,
+    body: icons[i] ? (icons[i].bodies[style] ?? Object.values(icons[i].bodies)[0] ?? "") : "",
+    active: i === 0,
   }));
 
-  const iconColor = darkPreview ? "#e2e8f0" : "#1e293b";
-  const tileBg = darkPreview
-    ? "bg-ink-800 hover:bg-ink-700"
-    : "bg-slate-100 hover:bg-slate-200";
+  const mainItems = menuItems.slice(0, 6);
+  const bottomItems = menuItems.slice(6);
+
+  const dark = darkPreview;
+  const cardBg = dark ? "bg-ink-800/60" : "bg-white";
+  const cardBorder = dark ? "border-ink-700/60" : "border-slate-200";
+  const headerBg = dark ? "bg-ink-800" : "bg-slate-50 border-b border-slate-200";
+  const itemActive = dark ? "bg-ink-700 text-white" : "bg-ink-900 text-white";
+  const itemHover = dark ? "hover:bg-ink-700/50 text-ink-300 hover:text-white" : "hover:bg-slate-100 text-slate-600 hover:text-slate-900";
+  const iconColor = dark ? "#cbd5e1" : "#334155";
+  const iconActiveColor = "#ffffff";
+  const dividerColor = dark ? "bg-ink-700/60" : "bg-slate-200";
 
   return (
-    <div
-      className={
-        "flex flex-col h-full transition-colors duration-300 " +
-        (darkPreview ? "bg-ink-950" : "bg-slate-50")
-      }
-    >
-      {/* Controls bar */}
-      <div className="flex items-center justify-between px-8 pt-8 pb-4">
-        {/* Style tabs */}
-        <div
-          className={
-            "inline-flex items-center p-1 rounded-xl gap-0.5 " +
-            (darkPreview ? "bg-ink-800" : "bg-white shadow-sm border border-slate-200")
-          }
-        >
+    <div className={"flex flex-col h-full overflow-hidden transition-colors duration-300 " + (dark ? "bg-ink-900" : "bg-slate-100")}>
+
+      {/* Top controls */}
+      <div className="flex items-center justify-between px-8 pt-7 pb-5 shrink-0">
+        {/* Style switcher */}
+        <div className={"inline-flex items-center p-1 rounded-xl gap-0.5 " + (dark ? "bg-ink-800" : "bg-white shadow-sm border border-slate-200")}>
           {STYLES.map((s) => (
-            <button
-              key={s}
-              type="button"
-              onClick={() => switchStyle(s)}
-              className={
-                "px-3 h-7 text-xs rounded-lg transition-all font-medium " +
-                (style === s
-                  ? darkPreview
-                    ? "bg-ink-600 text-white shadow-sm"
-                    : "bg-ink-900 text-white shadow-sm"
-                  : darkPreview
-                  ? "text-ink-400 hover:text-ink-200"
-                  : "text-slate-500 hover:text-slate-800")
-              }
-            >
+            <button key={s} type="button" onClick={() => switchStyle(s)}
+              className={"px-3 h-7 text-xs rounded-lg transition-all font-medium " + (style === s
+                ? (dark ? "bg-ink-600 text-white shadow-sm" : "bg-ink-900 text-white shadow-sm")
+                : (dark ? "text-ink-400 hover:text-ink-200" : "text-slate-500 hover:text-slate-800"))}>
               {s}
             </button>
           ))}
         </div>
-
-        {/* Dark/light preview toggle */}
-        <button
-          type="button"
-          onClick={() => setDarkPreview((v) => !v)}
-          title={darkPreview ? "Switch to light preview" : "Switch to dark preview"}
-          className={
-            "w-8 h-8 rounded-lg flex items-center justify-center transition-colors " +
-            (darkPreview
-              ? "bg-ink-800 text-ink-300 hover:bg-ink-700 hover:text-white"
-              : "bg-white border border-slate-200 text-slate-500 hover:border-slate-400 hover:text-slate-800")
-          }
-        >
-          {darkPreview ? <SunIcon /> : <MoonIcon />}
+        {/* Light/dark toggle */}
+        <button type="button" onClick={() => setDarkPreview((v) => !v)}
+          className={"w-8 h-8 rounded-lg flex items-center justify-center transition-colors " + (dark
+            ? "bg-ink-800 text-ink-300 hover:bg-ink-700 hover:text-white"
+            : "bg-white border border-slate-200 text-slate-500 hover:border-slate-400")}>
+          {dark ? <SunIcon /> : <MoonIcon />}
         </button>
       </div>
 
-      {/* Icon grid */}
-      <div className="flex-1 px-8 overflow-hidden">
-        {icons.length === 0 ? (
-          <EmptyShowcase darkPreview={darkPreview} />
-        ) : (
-          <div
-            className="grid gap-2 transition-opacity duration-180"
-            style={{
-              gridTemplateColumns: "repeat(5, 1fr)",
-              opacity: visible ? 1 : 0,
-              transition: "opacity 180ms ease",
-            }}
-          >
-            {grid.map((icon) => (
-              <div
-                key={icon.slug}
-                title={icon.name}
-                className={
-                  "aspect-square rounded-2xl flex items-center justify-center transition-colors cursor-default " +
-                  (icon.hasStyle ? "" : "opacity-30 ") +
-                  tileBg
-                }
-              >
-                <span
-                  className="icon-svg"
-                  style={{ width: 28, height: 28, color: iconColor, display: "flex" }}
-                  dangerouslySetInnerHTML={{ __html: icon.body }}
-                />
+      {/* Mock navigation card — centered */}
+      <div className="flex-1 flex items-center justify-center px-10 overflow-hidden">
+        <div
+          className={"w-full max-w-[240px] rounded-2xl border overflow-hidden shadow-lg " + cardBg + " " + cardBorder}
+          style={{ opacity: visible ? 1 : 0, transition: "opacity 160ms ease" }}
+        >
+          {/* App header */}
+          <div className={"px-4 py-3 flex items-center gap-2.5 " + headerBg}>
+            <div className={"w-6 h-6 rounded-md flex items-center justify-center shrink-0 " + (dark ? "bg-ink-600" : "bg-ink-900")}>
+              <svg viewBox="0 0 40 40" width="14" height="14">
+                <circle cx="20" cy="20" r="9" fill="none" stroke="white" strokeWidth="2.4"/>
+                <path d="M13.5 21.6 A6.6 6.6 0 0 1 26.2 18.4 Z" fill="white" stroke="none"/>
+              </svg>
+            </div>
+            <span className={"text-xs font-semibold " + (dark ? "text-white" : "text-slate-800")}>Workspace</span>
+          </div>
+
+          {/* Main nav items */}
+          <div className="px-2 pt-2 pb-1">
+            {mainItems.map((item, i) => (
+              <div key={i}
+                className={"flex items-center gap-2.5 px-2.5 h-8 rounded-lg mb-0.5 transition-colors cursor-default " + (item.active ? itemActive : itemHover)}>
+                {item.body ? (
+                  <span style={{ width: 16, height: 16, color: item.active ? iconActiveColor : iconColor, display: "flex", flexShrink: 0 }}
+                    dangerouslySetInnerHTML={{ __html: item.body }} />
+                ) : (
+                  <span style={{ width: 16, height: 16, background: item.active ? "rgba(255,255,255,0.3)" : (dark ? "#334155" : "#e2e8f0"), borderRadius: 4, flexShrink: 0 }} />
+                )}
+                <span className="text-xs font-medium truncate">{item.label}</span>
               </div>
             ))}
           </div>
-        )}
+
+          {bottomItems.length > 0 && (
+            <>
+              <div className={"mx-3 my-1 h-px " + dividerColor} />
+              <div className="px-2 pb-2">
+                {bottomItems.map((item, i) => (
+                  <div key={i}
+                    className={"flex items-center gap-2.5 px-2.5 h-8 rounded-lg mb-0.5 transition-colors cursor-default " + itemHover}>
+                    {item.body ? (
+                      <span style={{ width: 16, height: 16, color: iconColor, display: "flex", flexShrink: 0 }}
+                        dangerouslySetInnerHTML={{ __html: item.body }} />
+                    ) : (
+                      <span style={{ width: 16, height: 16, background: dark ? "#334155" : "#e2e8f0", borderRadius: 4, flexShrink: 0 }} />
+                    )}
+                    <span className="text-xs font-medium truncate">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
-      {/* Bottom brand text */}
-      <div className="px-8 pb-10 pt-6">
-        <p
-          className={
-            "text-2xl font-bold tracking-tight " +
-            (darkPreview ? "text-white" : "text-ink-900")
-          }
-        >
+      {/* Brand text */}
+      <div className="px-8 pb-8 pt-5 shrink-0">
+        <p className={"text-2xl font-bold tracking-tight " + (dark ? "text-white" : "text-ink-900")}>
           Digche Icons
         </p>
-        <p className={darkPreview ? "text-sm text-ink-400 mt-1" : "text-sm text-slate-500 mt-1"}>
-          {icons.length > 0
-            ? `${icons.length}+ icons · Bold, Bulk, Linear & Outline`
-            : "Beautiful, consistent icons for designers & developers."}
+        <p className={"text-sm mt-1 " + (dark ? "text-ink-400" : "text-slate-500")}>
+          {icons.length > 0 ? `${icons.length}+ icons · Bold, Bulk, Linear & Outline` : "Beautiful icons for designers & developers."}
         </p>
       </div>
-    </div>
-  );
-}
-
-function EmptyShowcase({ darkPreview }: { darkPreview: boolean }) {
-  return (
-    <div className="flex flex-col items-center justify-center h-full pb-16 gap-3">
-      <div
-        className={
-          "w-16 h-16 rounded-2xl flex items-center justify-center " +
-          (darkPreview ? "bg-ink-800" : "bg-white shadow-sm border border-slate-200")
-        }
-      >
-        <svg
-          viewBox="0 0 24 24"
-          width="28"
-          height="28"
-          fill="none"
-          stroke={darkPreview ? "#94a3b8" : "#64748b"}
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <rect x="3" y="3" width="7" height="7" rx="1" />
-          <rect x="14" y="3" width="7" height="7" rx="1" />
-          <rect x="3" y="14" width="7" height="7" rx="1" />
-          <rect x="14" y="14" width="7" height="7" rx="1" />
-        </svg>
-      </div>
-      <p
-        className={
-          "text-sm text-center " + (darkPreview ? "text-ink-400" : "text-slate-500")
-        }
-      >
-        Icons will appear here
-        <br />
-        once published.
-      </p>
     </div>
   );
 }

@@ -122,7 +122,7 @@ function CategoryButton({
       className={
         "flex items-center justify-between px-3 h-9 rounded-lg text-sm transition-colors text-start " +
         (active
-          ? "bg-ink-900 text-white dark:bg-white dark:text-ink-900"
+          ? "bg-ink-900 text-white dark:bg-ink-700 dark:text-white"
           : "text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-800 active:bg-ink-200 dark:active:bg-ink-700")
       }
     >
@@ -130,7 +130,7 @@ function CategoryButton({
       <span
         className={
           "ml-2 tabular-nums text-xs " +
-          (active ? "text-white/70 dark:text-ink-900/60" : "text-ink-400")
+          (active ? "text-white/60" : "text-ink-400")
         }
       >
         {count}
