@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/services/auth";
 import { signOutAction } from "./actions";
 import DigLogo from "@/components/DigLogo";
 import AdminNav from "./AdminNav";
+import AdminLightMode from "./AdminLightMode";
 
 export default async function ProtectedAdminLayout({
   children,
@@ -12,7 +13,8 @@ export default async function ProtectedAdminLayout({
   const user = await requireAdmin();
 
   return (
-    <div className="min-h-screen bg-ink-50 dark:bg-ink-900 flex flex-col">
+    <div className="min-h-screen bg-ink-50 flex flex-col">
+      <AdminLightMode />
       <header className="h-14 shrink-0 bg-white dark:bg-ink-800 border-b border-ink-200 dark:border-ink-700 flex items-center px-6 gap-4">
         <Link
           href="/admin/dashboard"
