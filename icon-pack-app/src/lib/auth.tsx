@@ -52,7 +52,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const currentUser = session?.user ?? null;
       setUser(currentUser);
       if (currentUser) {
-        await fetchPlan(currentUser.id);
+        try {
+          await fetchPlan(currentUser.id);
+        } catch {
+          setPlan("free");
+        }
       } else {
         setPlan("free");
       }

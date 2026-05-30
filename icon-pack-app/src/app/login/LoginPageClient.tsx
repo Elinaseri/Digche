@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition, useMemo } from "react";
-import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { signInWithEmailAction, signUpWithEmailAction } from "./actions";
 
@@ -66,7 +65,6 @@ const ICON_COLORS = [
 ];
 
 export default function LoginPageClient({ showcaseIcons }: Props) {
-  const router = useRouter();
   const [tab, setTab] = useState<Tab>("login");
   const [isPending, startTransition] = useTransition();
 
@@ -100,8 +98,7 @@ export default function LoginPageClient({ showcaseIcons }: Props) {
       startTransition(async () => {
         const res = await signInWithEmailAction(email, password);
         if (res.error) { setError(res.error); return; }
-        router.push("/");
-        router.refresh();
+        window.location.href = "/";
       });
     } else {
       if (!name.trim()) { setError("Please enter your name."); return; }
@@ -113,8 +110,7 @@ export default function LoginPageClient({ showcaseIcons }: Props) {
           switchTab("login");
           return;
         }
-        router.push("/");
-        router.refresh();
+        window.location.href = "/";
       });
     }
   }
