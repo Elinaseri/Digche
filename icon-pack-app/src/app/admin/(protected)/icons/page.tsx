@@ -26,17 +26,31 @@ export default async function AdminIconsPage() {
               : "No icons yet."}
           </p>
         </div>
-        <Link
-          href="/admin/icons/new"
-          className="h-9 px-4 rounded-xl bg-ink-900 dark:bg-white text-white dark:text-ink-900 text-sm font-medium hover:bg-ink-700 dark:hover:bg-ink-100 active:bg-ink-800 dark:active:bg-ink-200 transition-colors flex items-center gap-1.5 shrink-0"
-        >
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
-            stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-            className="shrink-0">
-            <path d="M12 5v14M5 12h14" />
-          </svg>
-          New Icon
-        </Link>
+        <div className="flex items-center gap-2 shrink-0">
+          <Link
+            href="/admin/icons/bulk-upload"
+            className="h-9 px-4 rounded-xl border border-ink-200 dark:border-ink-700 text-sm font-medium text-ink-700 dark:text-ink-200 hover:bg-ink-50 dark:hover:bg-ink-700/50 transition-colors flex items-center gap-1.5"
+          >
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
+              stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+              strokeLinejoin="round" className="shrink-0">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+              <path d="M12 11v6M9 14l3-3 3 3" />
+            </svg>
+            Bulk Upload
+          </Link>
+          <Link
+            href="/admin/icons/new"
+            className="h-9 px-4 rounded-xl bg-ink-900 dark:bg-white text-white dark:text-ink-900 text-sm font-medium hover:bg-ink-700 dark:hover:bg-ink-100 active:bg-ink-800 dark:active:bg-ink-200 transition-colors flex items-center gap-1.5"
+          >
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
+              stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+              className="shrink-0">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            New Icon
+          </Link>
+        </div>
       </div>
 
       {fetchError && (
