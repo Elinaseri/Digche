@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useTransition, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { signInWithEmailAction, signUpWithEmailAction } from "./actions";
 
 type Tab = "login" | "register";
 type IconStyle = "Linear" | "Bold" | "Outline" | "Bulk";
@@ -66,7 +65,7 @@ const ICON_COLORS = [
 
 export default function LoginPageClient({ showcaseIcons }: Props) {
   const [tab, setTab] = useState<Tab>("login");
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -89,29 +88,38 @@ export default function LoginPageClient({ showcaseIcons }: Props) {
     });
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     setInfo(null);
+    setIsPending(true);
 
-    if (tab === "login") {
-      startTransition(async () => {
-        const res = await signInWithEmailAction(email, password);
-        if (res.error) { setError(res.error); return; }
+    try {
+      const supabase = createClient();
+
+      if (tab === "login") {
+        const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+        if (authError) { setError(authError.message); return; }
         window.location.href = "/";
-      });
-    } else {
-      if (!name.trim()) { setError("Please enter your name."); return; }
-      startTransition(async () => {
-        const res = await signUpWithEmailAction(name, email, password);
-        if (res.error) { setError(res.error); return; }
-        if (res.needsConfirmation) {
+      } else {
+        if (!name.trim()) { setError("Please enter your name."); return; }
+        const { data, error: authError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { data: { full_name: name.trim() } },
+        });
+        if (authError) { setError(authError.message); return; }
+        if (!data.session) {
           setInfo("Check your email to confirm your account, then log in.");
           switchTab("login");
           return;
         }
         window.location.href = "/";
-      });
+      }
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setIsPending(false);
     }
   }
 
