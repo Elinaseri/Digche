@@ -1,14 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { useAuth } from "@/lib/auth";
 import ThemeToggle from "./ThemeToggle";
+import { signOutAction } from "@/app/actions/signout";
 
 const APP_VERSION = "1.0.0";
 
 export default function UserNavBar() {
-  const { user, plan, signOut, isLoading } = useAuth();
+  const { user, plan, isLoading } = useAuth();
   const [open, setOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -46,11 +48,12 @@ export default function UserNavBar() {
     .slice(0, 2)
     .toUpperCase();
 
-  const handleSignOut = useCallback(async () => {
+  const handleSignOut = useCallback(() => {
     setOpen(false);
-    await signOut();
-    window.location.href = "/login";
-  }, [signOut]);
+    startTransition(async () => {
+      await signOutAction();
+    });
+  }, []);
 
   return (
     <div className="shrink-0 border-b border-ink-100 dark:border-ink-800 bg-white dark:bg-ink-950 px-4 md:px-8 h-12 flex items-center justify-end gap-1">
@@ -155,9 +158,10 @@ export default function UserNavBar() {
               <button
                 role="menuitem"
                 onClick={handleSignOut}
-                className="w-full text-left px-3 h-9 rounded-lg text-sm text-ink-500 dark:text-ink-400 hover:bg-ink-50 dark:hover:bg-ink-700 hover:text-ink-900 dark:hover:text-white active:bg-ink-100 dark:active:bg-ink-600 active:text-ink-900 dark:active:text-white transition-colors"
+                disabled={isPending}
+                className="w-full text-left px-3 h-9 rounded-lg text-sm text-ink-500 dark:text-ink-400 hover:bg-ink-50 dark:hover:bg-ink-700 hover:text-ink-900 dark:hover:text-white active:bg-ink-100 dark:active:bg-ink-600 active:text-ink-900 dark:active:text-white disabled:opacity-50 transition-colors"
               >
-                Sign out
+                {isPending ? "Signing out…" : "Sign out"}
               </button>
             </div>
           )}
