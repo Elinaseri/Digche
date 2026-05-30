@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useEffect } from "react";
+import { useState, useTransition, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { signInWithEmailAction, signUpWithEmailAction } from "./actions";
@@ -20,27 +20,50 @@ interface Props {
 
 const STYLES: IconStyle[] = ["Linear", "Bold", "Outline", "Bulk"];
 
-// Semantic keyword map for each menu slot
-const MENU_CONFIG: { label: string; keywords: string[] }[] = [
-  { label: "Dashboard",      keywords: ["category", "dashboard", "home", "grid", "overview"] },
-  { label: "My Orders",      keywords: ["bag-tick", "bag-shop", "bag-star", "bag", "shopping", "cart", "order"] },
-  { label: "Calendar",       keywords: ["calendar"] },
-  { label: "Notifications",  keywords: ["notification", "bell", "alarm", "cloud-notif", "alert"] },
-  { label: "Messages",       keywords: ["sms", "direct", "chat", "comment", "message"] },
-  { label: "My Files",       keywords: ["folder"] },
-  { label: "Settings",       keywords: ["setting", "gear", "settings"] },
-  { label: "Profile",        keywords: ["user"] },
+const FLOAT_SLOTS = [
+  { top: "6%",  left: "4%",  size: 88,  delay: 0.0 },
+  { top: "4%",  left: "36%", size: 72,  delay: 0.5 },
+  { top: "5%",  left: "64%", size: 96,  delay: 1.1 },
+  { top: "27%", left: "14%", size: 80,  delay: 1.6 },
+  { top: "29%", left: "52%", size: 68,  delay: 0.3 },
+  { top: "26%", left: "77%", size: 72,  delay: 0.9 },
+  { top: "52%", left: "2%",  size: 72,  delay: 1.3 },
+  { top: "50%", left: "33%", size: 88,  delay: 0.7 },
+  { top: "49%", left: "67%", size: 76,  delay: 1.9 },
+  { top: "72%", left: "10%", size: 96,  delay: 0.4 },
+  { top: "70%", left: "46%", size: 72,  delay: 1.2 },
+  { top: "72%", left: "75%", size: 84,  delay: 0.8 },
 ];
 
-function findIcon(icons: ShowcaseIcon[], keywords: string[]): ShowcaseIcon | undefined {
-  for (const kw of keywords) {
-    const found = icons.find(
-      (i) => i.slug.toLowerCase().includes(kw) || i.name.toLowerCase().includes(kw)
-    );
-    if (found) return found;
-  }
-  return undefined;
-}
+const PASTEL_BG = [
+  "bg-blue-100",
+  "bg-purple-100",
+  "bg-pink-100",
+  "bg-green-100",
+  "bg-amber-100",
+  "bg-orange-100",
+  "bg-teal-100",
+  "bg-indigo-100",
+  "bg-rose-100",
+  "bg-cyan-100",
+  "bg-violet-100",
+  "bg-emerald-100",
+];
+
+const ICON_COLORS = [
+  "#3b82f6",
+  "#8b5cf6",
+  "#ec4899",
+  "#10b981",
+  "#f59e0b",
+  "#f97316",
+  "#14b8a6",
+  "#6366f1",
+  "#f43f5e",
+  "#06b6d4",
+  "#7c3aed",
+  "#059669",
+];
 
 export default function LoginPageClient({ showcaseIcons }: Props) {
   const router = useRouter();
@@ -205,122 +228,94 @@ export default function LoginPageClient({ showcaseIcons }: Props) {
 
 function IconShowcase({ icons }: { icons: ShowcaseIcon[] }) {
   const [style, setStyle] = useState<IconStyle>("Linear");
-  const [darkPreview, setDarkPreview] = useState(true);
 
-  // Map each menu slot to the best matching icon from DB
-  const menuItems = MENU_CONFIG.map((cfg, i) => {
-    const icon = findIcon(icons, cfg.keywords) ?? icons[i];
-    return {
-      label: cfg.label,
-      body: icon ? (icon.bodies[style] ?? Object.values(icon.bodies)[0] ?? "") : "",
-      active: i === 0,
-    };
-  });
-
-  const mainItems = menuItems.slice(0, 5);
-  const bottomItems = menuItems.slice(5);
-
-  const dark = darkPreview;
-  const panelBg   = dark ? "bg-ink-900" : "bg-slate-100";
-  const cardBg    = dark ? "bg-ink-800/70 border-ink-700/50" : "bg-white border-slate-200";
-  const headerBg  = dark ? "bg-ink-800 border-b border-ink-700/50" : "bg-slate-50 border-b border-slate-200";
-  const appName   = dark ? "text-white" : "text-slate-800";
-  const itemActive = dark ? "bg-ink-600 text-white" : "bg-ink-900 text-white";
-  const itemNormal = dark ? "text-ink-300 hover:bg-ink-700/60 hover:text-white" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900";
-  const iconActiveC = "#ffffff";
-  const iconNormalC = dark ? "#94a3b8" : "#64748b";
-  const divider   = dark ? "bg-ink-700/50" : "bg-slate-200";
-  const tabActive = dark ? "bg-ink-700 text-white shadow-sm" : "bg-ink-900 text-white shadow-sm";
-  const tabNormal = dark ? "text-ink-400 hover:text-ink-100" : "text-slate-500 hover:text-slate-800";
-  const tabBg     = dark ? "bg-ink-800" : "bg-white shadow-sm border border-slate-200";
-  const toggleBtn = dark
-    ? "bg-ink-800 text-ink-300 hover:bg-ink-700 hover:text-white"
-    : "bg-white border border-slate-200 text-slate-500 hover:border-slate-400 hover:text-slate-800";
+  const tiles = useMemo(() => {
+    if (icons.length === 0) return [];
+    const n = Math.min(icons.length, FLOAT_SLOTS.length);
+    const step = Math.max(1, Math.floor(icons.length / n));
+    return Array.from({ length: n }, (_, i) => icons[(i * step) % icons.length]).filter(Boolean);
+  }, [icons]);
 
   return (
-    <div className={"flex flex-col h-full overflow-hidden transition-colors duration-200 " + panelBg}>
+    <div className="relative flex flex-col h-full bg-ink-50 overflow-hidden">
+      <style>{`
+        @keyframes digche-float {
+          0%, 100% { transform: translateY(0px); }
+          50%       { transform: translateY(-14px); }
+        }
+        .digche-float-icon > svg {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+      `}</style>
 
-      {/* Style switcher + theme toggle */}
-      <div className="flex items-center justify-between px-8 pt-7 pb-5 shrink-0">
-        <div className={"inline-flex items-center p-1 rounded-xl gap-0.5 " + tabBg}>
+      {/* Floating tiles */}
+      <div className="absolute inset-0">
+        {tiles.map((icon, i) => {
+          const slot = FLOAT_SLOTS[i];
+          if (!slot) return null;
+          const body = icon.bodies[style] ?? Object.values(icon.bodies)[0] ?? "";
+          const iconSize = Math.round(slot.size * 0.48);
+          return (
+            <div
+              key={icon.slug}
+              style={{
+                position: "absolute",
+                top: slot.top,
+                left: slot.left,
+                width: slot.size,
+                height: slot.size,
+                animationName: "digche-float",
+                animationDuration: "3.6s",
+                animationTimingFunction: "ease-in-out",
+                animationIterationCount: "infinite",
+                animationDelay: `${slot.delay}s`,
+              }}
+              className={"rounded-2xl flex items-center justify-center shadow-sm " + PASTEL_BG[i % PASTEL_BG.length]}
+            >
+              {body && (
+                <span
+                  className="digche-float-icon"
+                  style={{
+                    width: iconSize,
+                    height: iconSize,
+                    color: ICON_COLORS[i % ICON_COLORS.length],
+                    opacity: 0.75,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                  }}
+                  dangerouslySetInnerHTML={{ __html: body }}
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Bottom bar: brand left, style switcher right */}
+      <div className="absolute bottom-8 left-8 right-8 z-10 flex items-end justify-between">
+        <div>
+          <p className="text-2xl font-bold tracking-tight text-ink-900">Digche Icons</p>
+          <p className="text-sm mt-1 text-slate-500">
+            {icons.length > 0
+              ? `${icons.length}+ icons · Bold, Bulk, Linear & Outline`
+              : "Beautiful icons for designers & developers."}
+          </p>
+        </div>
+        <div className="inline-flex items-center p-1 rounded-xl bg-white shadow-sm border border-slate-200 gap-0.5 mb-1">
           {STYLES.map((s) => (
             <button key={s} type="button" onClick={() => setStyle(s)}
-              className={"px-3 h-7 text-xs rounded-lg transition-colors font-medium " + (style === s ? tabActive : tabNormal)}>
+              className={"px-3 h-7 text-xs rounded-lg transition-colors font-medium " +
+                (style === s
+                  ? "bg-ink-900 text-white shadow-sm"
+                  : "text-slate-500 hover:text-slate-800")}>
               {s}
             </button>
           ))}
         </div>
-        <button type="button" onClick={() => setDarkPreview((v) => !v)}
-          className={"w-8 h-8 rounded-lg flex items-center justify-center transition-colors " + toggleBtn}>
-          {dark ? <SunIcon /> : <MoonIcon />}
-        </button>
-      </div>
-
-      {/* Mock navigation card */}
-      <div className="flex-1 flex items-center justify-center px-10 overflow-hidden">
-        <div className={"w-full max-w-[220px] rounded-2xl border overflow-hidden shadow-xl " + cardBg}>
-
-          {/* App header */}
-          <div className={"px-4 py-3 flex items-center gap-2.5 " + headerBg}>
-            <div className={"w-6 h-6 rounded-md flex items-center justify-center shrink-0 " + (dark ? "bg-ink-600" : "bg-ink-900")}>
-              <svg viewBox="0 0 40 40" width="14" height="14">
-                <circle cx="20" cy="20" r="9" fill="none" stroke="white" strokeWidth="2.4" />
-                <path d="M13.5 21.6 A6.6 6.6 0 0 1 26.2 18.4 Z" fill="white" />
-              </svg>
-            </div>
-            <span className={"text-xs font-semibold " + appName}>Workspace</span>
-          </div>
-
-          {/* Main nav */}
-          <div className="px-2 pt-2 pb-1">
-            {mainItems.map((item, i) => (
-              <div key={i}
-                className={"flex items-center gap-2.5 px-2.5 h-8 rounded-lg mb-0.5 transition-colors cursor-default " +
-                  (item.active ? itemActive : itemNormal)}>
-                {item.body ? (
-                  <span style={{ width: 15, height: 15, color: item.active ? iconActiveC : iconNormalC, display: "flex", flexShrink: 0 }}
-                    dangerouslySetInnerHTML={{ __html: item.body }} />
-                ) : (
-                  <span style={{ width: 15, height: 15, background: item.active ? "rgba(255,255,255,0.25)" : (dark ? "#334155" : "#e2e8f0"), borderRadius: 3, flexShrink: 0 }} />
-                )}
-                <span className="text-xs font-medium truncate">{item.label}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Bottom nav */}
-          {bottomItems.length > 0 && (
-            <>
-              <div className={"mx-3 my-1 h-px " + divider} />
-              <div className="px-2 pb-2">
-                {bottomItems.map((item, i) => (
-                  <div key={i}
-                    className={"flex items-center gap-2.5 px-2.5 h-8 rounded-lg mb-0.5 transition-colors cursor-default " + itemNormal}>
-                    {item.body ? (
-                      <span style={{ width: 15, height: 15, color: iconNormalC, display: "flex", flexShrink: 0 }}
-                        dangerouslySetInnerHTML={{ __html: item.body }} />
-                    ) : (
-                      <span style={{ width: 15, height: 15, background: dark ? "#334155" : "#e2e8f0", borderRadius: 3, flexShrink: 0 }} />
-                    )}
-                    <span className="text-xs font-medium truncate">{item.label}</span>
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Brand */}
-      <div className="px-8 pb-8 pt-5 shrink-0">
-        <p className={"text-2xl font-bold tracking-tight " + (dark ? "text-white" : "text-ink-900")}>
-          Digche Icons
-        </p>
-        <p className={"text-sm mt-1 " + (dark ? "text-ink-400" : "text-slate-500")}>
-          {icons.length > 0
-            ? `${icons.length}+ icons · Bold, Bulk, Linear & Outline`
-            : "Beautiful icons for designers & developers."}
-        </p>
       </div>
     </div>
   );
@@ -351,23 +346,6 @@ function LockIcon() {
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
       <rect x="5" y="11" width="14" height="10" rx="2" />
       <path d="M8 11V7a4 4 0 0 1 8 0v4" />
-    </svg>
-  );
-}
-
-function SunIcon() {
-  return (
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
-    </svg>
-  );
-}
-
-function MoonIcon() {
-  return (
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
     </svg>
   );
 }

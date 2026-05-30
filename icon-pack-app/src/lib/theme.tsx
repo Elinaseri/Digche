@@ -27,7 +27,7 @@ function applyTheme(theme: Theme) {
 }
 
 /** Inline, render-blocking script that sets the theme before paint (no flash). */
-export const themeInitScript = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}var r=document.documentElement;r.classList.toggle('dark',t==='dark');r.style.colorScheme=t;}catch(e){}})();`;
+export const themeInitScript = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');if(!t){t='light';}var r=document.documentElement;r.classList.toggle('dark',t==='dark');r.style.colorScheme=t;}catch(e){}})();`;
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Start with a stable default for SSR; sync from DOM on mount.

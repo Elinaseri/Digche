@@ -148,7 +148,7 @@ export default function DownloadDropdown({
 
   const triggerClasses =
     variant === "solid"
-      ? "bg-ink-900 text-white hover:bg-ink-700 dark:bg-ink-100 dark:text-ink-900 dark:hover:bg-ink-200"
+      ? "bg-ink-900 text-white hover:bg-ink-700 dark:bg-ink-700 dark:text-white dark:hover:bg-ink-600"
       : "bg-white text-ink-800 border border-ink-200 hover:border-ink-900 dark:bg-ink-800 dark:text-ink-100 dark:border-ink-700 dark:hover:border-ink-500";
 
   return (
