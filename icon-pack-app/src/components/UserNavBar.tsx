@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth";
 import ThemeToggle from "./ThemeToggle";
 
@@ -8,6 +9,7 @@ const APP_VERSION = "1.0.0";
 
 export default function UserNavBar() {
   const { user, plan, signOut, isLoading } = useAuth();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -49,7 +51,9 @@ export default function UserNavBar() {
   const handleSignOut = useCallback(async () => {
     setOpen(false);
     await signOut();
-  }, [signOut]);
+    router.push("/login");
+    router.refresh();
+  }, [signOut, router]);
 
   return (
     <div className="shrink-0 border-b border-ink-100 dark:border-ink-800 bg-white dark:bg-ink-950 px-4 md:px-8 h-12 flex items-center justify-end gap-1">
