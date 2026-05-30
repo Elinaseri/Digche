@@ -36,23 +36,32 @@ interface ImportResult {
   errors: string[];
 }
 
-async function parseFiles(files: FileList): Promise<ParseResult> {
+async function parseFiles(files: FileList): Promise<ParseResult & { samplePaths: string[] }> {
   const iconMap = new Map<string, ParsedVariant[]>();
   let rawCategoryName = "";
   const skipped: string[] = [];
+  const samplePaths: string[] = [];
 
   for (const file of Array.from(files)) {
-    const parts = file.webkitRelativePath.split("/");
-    if (parts.length < 3) continue;
-    if (!rawCategoryName) rawCategoryName = parts[0];
+    const rel = file.webkitRelativePath;
+    if (samplePaths.length < 5) samplePaths.push(rel);
 
-    const iconFolder = parts[1];
+    const parts = rel.split("/");
+    // support both 3-level (Cat/Icon/file.svg) and 2-level (Icon/file.svg)
+    if (parts.length < 2) continue;
+
+    const isThreeLevel = parts.length >= 3;
+    if (!rawCategoryName && isThreeLevel) rawCategoryName = parts[0];
+
+    const iconFolder = isThreeLevel ? parts[parts.length - 2] : parts[0];
     const filename = parts[parts.length - 1];
-    const match = filename.match(/-(Bold|Bulk|Linear|Outline)\.svg$/i);
+
+    // Match: Bold.svg / Arrow-Bold.svg / Arrow_Bold.svg / Arrow Bold.svg
+    const match = filename.match(/(?:^|[-_\s])(Bold|Bulk|Linear|Outline)\.svg$/i);
 
     if (!match) {
       if (!filename.startsWith(".") && filename.toLowerCase().endsWith(".svg")) {
-        skipped.push(file.webkitRelativePath);
+        skipped.push(rel);
       }
       continue;
     }
@@ -86,6 +95,7 @@ async function parseFiles(files: FileList): Promise<ParseResult> {
     categoryChanged: cat.changed,
     icons,
     skipped,
+    samplePaths,
   };
 }
 
@@ -93,6 +103,7 @@ export default function BulkUploadForm() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [parsed, setParsed] = useState<ParseResult | null>(null);
   const [parseError, setParseError] = useState<string | null>(null);
+  const [samplePaths, setSamplePaths] = useState<string[]>([]);
   const [isParsing, setIsParsing] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [progress, setProgress] = useState<ImportProgress | null>(null);
@@ -102,17 +113,19 @@ export default function BulkUploadForm() {
   async function process(files: FileList) {
     setIsParsing(true);
     setParseError(null);
+    setSamplePaths([]);
     setParsed(null);
     setResult(null);
     setProgress(null);
     try {
       const r = await parseFiles(files);
-      if (!r.categoryName) {
-        setParseError("No valid folder structure found. Expected: CategoryName / IconName / IconName-Bold.svg");
-        return;
-      }
+      setSamplePaths(r.samplePaths);
       if (r.icons.length === 0) {
-        setParseError("No icons found. SVG files must end with a style suffix, e.g. Arrow-Bold.svg");
+        setParseError(
+          r.samplePaths.length === 0
+            ? "No files found. Make sure you selected a folder."
+            : "No icons found. SVG files must contain a style name: Bold, Bulk, Linear, or Outline."
+        );
         return;
       }
       setParsed(r);
@@ -169,6 +182,7 @@ export default function BulkUploadForm() {
     setParsed(null);
     setResult(null);
     setParseError(null);
+    setSamplePaths([]);
     setProgress(null);
     if (inputRef.current) inputRef.current.value = "";
   }
@@ -223,9 +237,17 @@ export default function BulkUploadForm() {
       )}
 
       {parseError && (
-        <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl px-4 py-3">
-          {parseError}
-        </p>
+        <div className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl px-4 py-3 space-y-2">
+          <p>{parseError}</p>
+          {samplePaths.length > 0 && (
+            <div>
+              <p className="text-xs text-red-500 dark:text-red-400 font-medium mb-1">Paths found in your folder:</p>
+              <ul className="text-[11px] font-mono text-red-500 dark:text-red-400 space-y-0.5">
+                {samplePaths.map((p, i) => <li key={i}>{p}</li>)}
+              </ul>
+            </div>
+          )}
+        </div>
       )}
 
       {/* Progress */}
