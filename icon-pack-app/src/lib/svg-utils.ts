@@ -61,3 +61,24 @@ export function toPascalCase(s: string): string {
     .map((w) => w[0].toUpperCase() + w.slice(1).toLowerCase())
     .join("");
 }
+
+export function normalizeIconName(raw: string): { name: string; slug: string; changed: boolean } {
+  // Split camelCase / PascalCase: ArrowRight → Arrow Right
+  let s = raw.replace(/([a-z])([A-Z])/g, "$1 $2");
+  // Replace common separators with spaces
+  s = s.replace(/[_\-.]+/g, " ");
+  // Collapse whitespace
+  s = s.replace(/\s+/g, " ").trim();
+  // Title case each word
+  const name = s
+    .split(" ")
+    .filter(Boolean)
+    .map((w) => w[0].toUpperCase() + w.slice(1).toLowerCase())
+    .join(" ");
+  const slug = name
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-");
+  return { name, slug, changed: name !== raw };
+}

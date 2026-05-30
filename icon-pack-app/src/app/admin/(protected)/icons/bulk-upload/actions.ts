@@ -12,7 +12,7 @@ interface BulkVariant {
   svgContent: string;
 }
 
-interface BulkIconInput {
+export interface BulkIconInput {
   name: string;
   slug: string;
   pascalName: string;
@@ -21,50 +21,41 @@ interface BulkIconInput {
   variants: BulkVariant[];
 }
 
-export async function bulkCreateIconsAction(
-  icons: BulkIconInput[]
-): Promise<{ created: number; skipped: string[]; errors: string[] }> {
-  let created = 0;
-  const skipped: string[] = [];
-  const errors: string[] = [];
+export async function createOneIconAction(
+  icon: BulkIconInput
+): Promise<{ error?: string }> {
+  try {
+    const available = await checkSlugAvailable(icon.slug);
+    if (!available) return { error: "slug_exists" };
 
-  for (const icon of icons) {
-    try {
-      const available = await checkSlugAvailable(icon.slug);
-      if (!available) {
-        skipped.push(icon.name);
-        continue;
-      }
+    const newIcon = await createDraftIcon({
+      name: icon.name,
+      slug: icon.slug,
+      pascalName: icon.pascalName,
+      category: icon.category,
+      categorySlug: icon.categorySlug,
+      tags: [],
+      isPremium: false,
+    });
 
-      const newIcon = await createDraftIcon({
-        name: icon.name,
-        slug: icon.slug,
-        pascalName: icon.pascalName,
-        category: icon.category,
-        categorySlug: icon.categorySlug,
-        tags: [],
-        isPremium: false,
+    for (const variant of icon.variants) {
+      if (!VALID_STYLES.includes(variant.style)) continue;
+      await addVariantToIcon({
+        iconId: newIcon.id,
+        iconSlug: newIcon.slug,
+        style: variant.style,
+        svgContent: variant.svgContent,
       });
-
-      for (const variant of icon.variants) {
-        if (!VALID_STYLES.includes(variant.style)) continue;
-        await addVariantToIcon({
-          iconId: newIcon.id,
-          iconSlug: newIcon.slug,
-          style: variant.style,
-          svgContent: variant.svgContent,
-        });
-      }
-
-      created++;
-    } catch (err) {
-      errors.push(`${icon.name}: ${err instanceof Error ? err.message : "Unknown error"}`);
     }
-  }
 
+    return {};
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Unknown error" };
+  }
+}
+
+export async function finalizeImportAction(): Promise<void> {
   revalidatePath("/admin/icons");
   revalidatePath("/admin/dashboard");
   revalidateTag(PUBLIC_ICONS_TAG);
-
-  return { created, skipped, errors };
 }
