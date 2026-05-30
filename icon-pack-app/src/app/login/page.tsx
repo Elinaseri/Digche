@@ -16,11 +16,8 @@ export default async function LoginPage() {
   let showcaseIcons: ShowcaseIcon[] = [];
   try {
     const published = await getPublishedDbIcons();
-    // Pick icons that have at least 2 styles for a richer showcase
-    const candidates = published
-      .filter((i) => i.variants.length >= 2)
-      .slice(0, 30);
-    showcaseIcons = candidates.map((i) => ({
+    // Pass all published icons so keyword matching finds the best fit
+    showcaseIcons = published.map((i) => ({
       slug: i.slug,
       name: i.name,
       bodies: Object.fromEntries(i.variants.map((v) => [v.style, v.svgBody])),

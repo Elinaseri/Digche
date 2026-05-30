@@ -22,14 +22,14 @@ const STYLES: IconStyle[] = ["Linear", "Bold", "Outline", "Bulk"];
 
 // Semantic keyword map for each menu slot
 const MENU_CONFIG: { label: string; keywords: string[] }[] = [
-  { label: "Dashboard",  keywords: ["dashboard", "home", "grid", "overview"] },
-  { label: "Projects",   keywords: ["folder", "project", "briefcase", "bag", "work"] },
-  { label: "Calendar",   keywords: ["calendar", "schedule", "date", "event"] },
-  { label: "Analytics",  keywords: ["chart", "analytics", "graph", "stat", "bar"] },
-  { label: "Messages",   keywords: ["message", "chat", "mail", "inbox", "comment"] },
-  { label: "Files",      keywords: ["file", "document", "doc", "copy", "paper"] },
-  { label: "Settings",   keywords: ["setting", "gear", "config", "edit", "sliders"] },
-  { label: "Profile",    keywords: ["user", "profile", "account", "person", "badge"] },
+  { label: "Dashboard",      keywords: ["category", "dashboard", "home", "grid", "overview"] },
+  { label: "My Orders",      keywords: ["bag-tick", "bag-shop", "bag-star", "bag", "shopping", "cart", "order"] },
+  { label: "Calendar",       keywords: ["calendar"] },
+  { label: "Notifications",  keywords: ["notification", "bell", "alarm", "cloud-notif", "alert"] },
+  { label: "Messages",       keywords: ["sms", "direct", "chat", "comment", "message"] },
+  { label: "My Files",       keywords: ["folder"] },
+  { label: "Settings",       keywords: ["setting", "gear", "settings"] },
+  { label: "Profile",        keywords: ["user"] },
 ];
 
 function findIcon(icons: ShowcaseIcon[], keywords: string[]): ShowcaseIcon | undefined {
