@@ -36,6 +36,11 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
+  // Auth signout route — always pass through (handled by route handler)
+  if (pathname === "/auth/signout") {
+    return NextResponse.next();
+  }
+
   // Gallery requires auth — redirect to /login if no session
   if (pathname === "/" && !user) {
     return NextResponse.redirect(new URL("/login", request.url));
