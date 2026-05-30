@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { normalizeIconName } from "@/lib/svg-utils";
 import { createOneIconAction, finalizeImportAction } from "./actions";
 import type { IconStyle } from "@/lib/domain/types";
@@ -8,46 +8,72 @@ import type { IconStyle } from "@/lib/domain/types";
 const STYLES: IconStyle[] = ["Bold", "Bulk", "Linear", "Outline"];
 const STYLE_SHORT: Record<IconStyle, string> = { Bold: "B", Bulk: "Bk", Linear: "L", Outline: "O" };
 
-interface ParsedVariant { style: IconStyle; svgContent: string; }
-interface ParsedIcon {
-  originalName: string;
-  name: string;
-  slug: string;
-  pascalName: string;
-  nameChanged: boolean;
-  variants: ParsedVariant[];
-}
-interface ParseResult {
-  originalCategoryName: string;
-  categoryName: string;
-  categorySlug: string;
-  categoryChanged: boolean;
-  icons: ParsedIcon[];
-  skipped: string[];
-}
-interface ImportProgress {
-  total: number;
-  done: number;
-  current: string;
-}
-interface ImportResult {
-  created: number;
-  skipped: string[];
-  errors: string[];
+// ── Folder reading ────────────────────────────────────────────────────────────
+
+interface FileWithPath { file: File; path: string; }
+
+function getFile(entry: FileSystemFileEntry): Promise<File> {
+  return new Promise((res, rej) => entry.file(res, rej));
 }
 
-async function parseFiles(files: FileList): Promise<ParseResult & { samplePaths: string[] }> {
+async function readDir(dir: FileSystemDirectoryEntry, base: string): Promise<FileWithPath[]> {
+  const result: FileWithPath[] = [];
+  const reader = dir.createReader();
+  let batch: FileSystemEntry[];
+  // readEntries() returns at most 100 entries per call; loop until empty
+  do {
+    batch = await new Promise<FileSystemEntry[]>((res, rej) => reader.readEntries(res, rej));
+    for (const entry of batch) {
+      const path = `${base}/${entry.name}`;
+      if (entry.isFile) {
+        result.push({ file: await getFile(entry as FileSystemFileEntry), path });
+      } else if (entry.isDirectory) {
+        result.push(...await readDir(entry as FileSystemDirectoryEntry, path));
+      }
+    }
+  } while (batch.length > 0);
+  return result;
+}
+
+async function fromDataTransfer(items: DataTransferItemList): Promise<FileWithPath[]> {
+  const result: FileWithPath[] = [];
+  for (const item of Array.from(items)) {
+    const entry = item.webkitGetAsEntry?.();
+    if (!entry) continue;
+    if (entry.isDirectory) {
+      result.push(...await readDir(entry as FileSystemDirectoryEntry, entry.name));
+    } else if (entry.isFile) {
+      result.push({ file: await getFile(entry as FileSystemFileEntry), path: entry.name });
+    }
+  }
+  return result;
+}
+
+function fromFileList(list: FileList): FileWithPath[] {
+  return Array.from(list).map((f) => ({ file: f, path: f.webkitRelativePath || f.name }));
+}
+
+// ── Parsing ───────────────────────────────────────────────────────────────────
+
+interface ParsedVariant { style: IconStyle; svgContent: string; }
+interface ParsedIcon {
+  originalName: string; name: string; slug: string; pascalName: string;
+  nameChanged: boolean; variants: ParsedVariant[];
+}
+interface ParseResult {
+  originalCategoryName: string; categoryName: string; categorySlug: string;
+  categoryChanged: boolean; icons: ParsedIcon[]; skipped: string[];
+  samplePaths: string[];
+}
+
+async function parseEntries(entries: FileWithPath[]): Promise<ParseResult> {
   const iconMap = new Map<string, ParsedVariant[]>();
   let rawCategoryName = "";
   const skipped: string[] = [];
-  const samplePaths: string[] = [];
+  const samplePaths = entries.slice(0, 6).map((e) => e.path);
 
-  for (const file of Array.from(files)) {
-    const rel = file.webkitRelativePath;
-    if (samplePaths.length < 5) samplePaths.push(rel);
-
-    const parts = rel.split("/");
-    // support both 3-level (Cat/Icon/file.svg) and 2-level (Icon/file.svg)
+  for (const { file, path } of entries) {
+    const parts = path.split("/").filter(Boolean);
     if (parts.length < 2) continue;
 
     const isThreeLevel = parts.length >= 3;
@@ -61,7 +87,7 @@ async function parseFiles(files: FileList): Promise<ParseResult & { samplePaths:
 
     if (!match) {
       if (!filename.startsWith(".") && filename.toLowerCase().endsWith(".svg")) {
-        skipped.push(rel);
+        skipped.push(path);
       }
       continue;
     }
@@ -72,32 +98,29 @@ async function parseFiles(files: FileList): Promise<ParseResult & { samplePaths:
     iconMap.get(iconFolder)!.push({ style, svgContent: content });
   }
 
-  const cat = normalizeIconName(rawCategoryName);
+  const cat = normalizeIconName(rawCategoryName || (entries[0]?.path.split("/")[0] ?? ""));
 
   const icons: ParsedIcon[] = Array.from(iconMap.entries())
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([original, variants]) => {
       const n = normalizeIconName(original);
       return {
-        originalName: original,
-        name: n.name,
-        slug: n.slug,
-        pascalName: n.name.replace(/\s+/g, ""),
-        nameChanged: n.changed,
-        variants,
+        originalName: original, name: n.name, slug: n.slug,
+        pascalName: n.name.replace(/\s+/g, ""), nameChanged: n.changed, variants,
       };
     });
 
   return {
     originalCategoryName: rawCategoryName,
-    categoryName: cat.name,
-    categorySlug: cat.slug,
-    categoryChanged: cat.changed,
-    icons,
-    skipped,
-    samplePaths,
+    categoryName: cat.name, categorySlug: cat.slug, categoryChanged: cat.changed,
+    icons, skipped, samplePaths,
   };
 }
+
+// ── Component ─────────────────────────────────────────────────────────────────
+
+interface ImportProgress { total: number; done: number; current: string; }
+interface ImportResult { created: number; skipped: string[]; errors: string[]; }
 
 export default function BulkUploadForm() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -110,7 +133,12 @@ export default function BulkUploadForm() {
   const [result, setResult] = useState<ImportResult | null>(null);
   const [dragging, setDragging] = useState(false);
 
-  async function process(files: FileList) {
+  // webkitdirectory is non-standard; set it imperatively to avoid TS errors
+  useEffect(() => {
+    inputRef.current?.setAttribute("webkitdirectory", "");
+  }, []);
+
+  async function process(entries: FileWithPath[]) {
     setIsParsing(true);
     setParseError(null);
     setSamplePaths([]);
@@ -118,32 +146,33 @@ export default function BulkUploadForm() {
     setResult(null);
     setProgress(null);
     try {
-      const r = await parseFiles(files);
+      const r = await parseEntries(entries);
       setSamplePaths(r.samplePaths);
       if (r.icons.length === 0) {
         setParseError(
           r.samplePaths.length === 0
-            ? "No files found. Make sure you selected a folder."
-            : "No icons found. SVG files must contain a style name: Bold, Bulk, Linear, or Outline."
+            ? "No files found. Make sure you selected a folder (not individual files)."
+            : "No icons found. SVG files must contain a style name in the filename: Bold, Bulk, Linear, or Outline."
         );
         return;
       }
       setParsed(r);
-    } catch {
-      setParseError("Failed to read folder.");
+    } catch (e) {
+      setParseError("Failed to read folder: " + (e instanceof Error ? e.message : String(e)));
     } finally {
       setIsParsing(false);
     }
   }
 
   function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.files?.length) process(e.target.files);
+    if (e.target.files?.length) process(fromFileList(e.target.files));
   }
 
-  function handleDrop(e: React.DragEvent) {
+  async function handleDrop(e: React.DragEvent) {
     e.preventDefault();
     setDragging(false);
-    if (e.dataTransfer.files?.length) process(e.dataTransfer.files);
+    const entries = await fromDataTransfer(e.dataTransfer.items);
+    if (entries.length > 0) process(entries);
   }
 
   async function handleImport() {
@@ -156,16 +185,11 @@ export default function BulkUploadForm() {
     for (let i = 0; i < parsed.icons.length; i++) {
       const icon = parsed.icons[i];
       setProgress({ total: parsed.icons.length, done: i, current: icon.name });
-
       const res = await createOneIconAction({
-        name: icon.name,
-        slug: icon.slug,
-        pascalName: icon.pascalName,
-        category: parsed.categoryName,
-        categorySlug: parsed.categorySlug,
+        name: icon.name, slug: icon.slug, pascalName: icon.pascalName,
+        category: parsed.categoryName, categorySlug: parsed.categorySlug,
         variants: icon.variants,
       });
-
       if (res.error === "slug_exists") skipped.push(icon.name);
       else if (res.error) errors.push(`${icon.name}: ${res.error}`);
       else created++;
@@ -179,11 +203,8 @@ export default function BulkUploadForm() {
   }
 
   function reset() {
-    setParsed(null);
-    setResult(null);
-    setParseError(null);
-    setSamplePaths([]);
-    setProgress(null);
+    setParsed(null); setResult(null); setParseError(null);
+    setSamplePaths([]); setProgress(null);
     if (inputRef.current) inputRef.current.value = "";
   }
 
@@ -226,13 +247,7 @@ export default function BulkUploadForm() {
               </p>
             </>
           )}
-          <input
-            ref={inputRef}
-            type="file"
-            className="sr-only"
-            onChange={handleInput}
-            {...({ webkitdirectory: "" } as object)}
-          />
+          <input ref={inputRef} type="file" className="sr-only" onChange={handleInput} />
         </div>
       )}
 
@@ -241,12 +256,13 @@ export default function BulkUploadForm() {
           <p>{parseError}</p>
           {samplePaths.length > 0 && (
             <div>
-              <p className="text-xs text-red-500 dark:text-red-400 font-medium mb-1">Paths found in your folder:</p>
-              <ul className="text-[11px] font-mono text-red-500 dark:text-red-400 space-y-0.5">
+              <p className="text-xs font-medium mb-1">Paths detected in your folder:</p>
+              <ul className="text-[11px] font-mono space-y-0.5">
                 {samplePaths.map((p, i) => <li key={i}>{p}</li>)}
               </ul>
             </div>
           )}
+          <button type="button" onClick={reset} className="text-xs underline">Try again</button>
         </div>
       )}
 
@@ -255,21 +271,14 @@ export default function BulkUploadForm() {
         <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 space-y-3">
           <div className="flex items-center justify-between text-xs">
             <span className="text-ink-500 dark:text-ink-400">
-              {progress.done < progress.total ? (
-                <>Importing <span className="font-medium text-ink-700 dark:text-ink-200">{progress.current}</span>…</>
-              ) : (
-                <span className="text-ink-700 dark:text-ink-200">Finishing up…</span>
-              )}
+              {progress.done < progress.total
+                ? <>Importing <span className="font-medium text-ink-700 dark:text-ink-200">{progress.current}</span>…</>
+                : <span className="text-ink-700 dark:text-ink-200">Finishing up…</span>}
             </span>
-            <span className="text-ink-500 dark:text-ink-400 tabular-nums font-medium">
-              {progress.done} / {progress.total}
-            </span>
+            <span className="tabular-nums font-medium text-ink-500 dark:text-ink-400">{progress.done} / {progress.total}</span>
           </div>
           <div className="h-2 bg-ink-100 dark:bg-ink-700 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-ink-900 dark:bg-white rounded-full transition-all duration-200"
-              style={{ width: `${progressPct}%` }}
-            />
+            <div className="h-full bg-ink-900 dark:bg-white rounded-full transition-all duration-200" style={{ width: `${progressPct}%` }} />
           </div>
           <p className="text-[11px] text-ink-400 dark:text-ink-500">{progressPct}% complete</p>
         </div>
@@ -291,11 +300,7 @@ export default function BulkUploadForm() {
               </h2>
               <p className="text-xs text-ink-400 dark:text-ink-500 mt-0.5">
                 {parsed.icons.length} icon{parsed.icons.length !== 1 ? "s" : ""}
-                {renamedCount > 0 && (
-                  <span className="ml-2 text-amber-600 dark:text-amber-400">
-                    · {renamedCount} name{renamedCount !== 1 ? "s" : ""} normalized
-                  </span>
-                )}
+                {renamedCount > 0 && <span className="ml-2 text-amber-600 dark:text-amber-400">· {renamedCount} name{renamedCount !== 1 ? "s" : ""} normalized</span>}
               </p>
             </div>
             <div className="flex items-center gap-2 shrink-0">
@@ -324,22 +329,15 @@ export default function BulkUploadForm() {
                   <tr key={icon.slug} className="border-t border-ink-50 dark:border-ink-700/40">
                     <td className="px-4 py-2.5">
                       <div className="text-xs font-medium text-ink-900 dark:text-white">{icon.name}</div>
-                      {icon.nameChanged && (
-                        <div className="text-[10px] text-amber-600 dark:text-amber-400 mt-0.5">
-                          was: {icon.originalName}
-                        </div>
-                      )}
+                      {icon.nameChanged && <div className="text-[10px] text-amber-600 dark:text-amber-400 mt-0.5">was: {icon.originalName}</div>}
                     </td>
-                    <td className="px-4 py-2.5 text-[11px] font-mono text-ink-400 dark:text-ink-500">
-                      {icon.slug}
-                    </td>
+                    <td className="px-4 py-2.5 text-[11px] font-mono text-ink-400 dark:text-ink-500">{icon.slug}</td>
                     <td className="px-4 py-2.5">
                       <div className="flex gap-0.5">
                         {STYLES.map((s) => {
                           const has = icon.variants.some((v) => v.style === s);
                           return (
-                            <span key={s} title={s}
-                              className={"text-[10px] px-1.5 py-0.5 rounded " + (has ? "bg-ink-100 dark:bg-ink-700 text-ink-600 dark:text-ink-300" : "text-ink-300 dark:text-ink-600")}>
+                            <span key={s} title={s} className={"text-[10px] px-1.5 py-0.5 rounded " + (has ? "bg-ink-100 dark:bg-ink-700 text-ink-600 dark:text-ink-300" : "text-ink-300 dark:text-ink-600")}>
                               {STYLE_SHORT[s]}
                             </span>
                           );
@@ -354,9 +352,8 @@ export default function BulkUploadForm() {
 
           {parsed.skipped.length > 0 && (
             <p className="text-xs text-ink-400 dark:text-ink-500">
-              <span className="font-medium">{parsed.skipped.length} SVG file{parsed.skipped.length !== 1 ? "s" : ""} skipped</span> (no style suffix):{" "}
-              {parsed.skipped.slice(0, 3).join(", ")}
-              {parsed.skipped.length > 3 ? ` +${parsed.skipped.length - 3} more` : ""}
+              <span className="font-medium">{parsed.skipped.length} file{parsed.skipped.length !== 1 ? "s" : ""} skipped</span> (no style suffix):{" "}
+              {parsed.skipped.slice(0, 3).join(", ")}{parsed.skipped.length > 3 ? ` +${parsed.skipped.length - 3} more` : ""}
             </p>
           )}
         </div>
@@ -389,16 +386,12 @@ export default function BulkUploadForm() {
               {result.errors.map((e, i) => <li key={i}>{e}</li>)}
             </ul>
           )}
-          {result.skipped.length > 0 && (
-            <p className="text-xs text-ink-400 dark:text-ink-500">Skipped: {result.skipped.join(", ")}</p>
-          )}
+          {result.skipped.length > 0 && <p className="text-xs text-ink-400 dark:text-ink-500">Skipped: {result.skipped.join(", ")}</p>}
           <div className="flex items-center gap-3">
-            <a href="/admin/icons"
-              className="h-9 px-5 rounded-xl bg-ink-900 dark:bg-white text-white dark:text-ink-900 text-sm font-medium hover:bg-ink-700 dark:hover:bg-ink-100 transition-colors inline-flex items-center">
+            <a href="/admin/icons" className="h-9 px-5 rounded-xl bg-ink-900 dark:bg-white text-white dark:text-ink-900 text-sm font-medium hover:bg-ink-700 dark:hover:bg-ink-100 transition-colors inline-flex items-center">
               View icons
             </a>
-            <button type="button" onClick={reset}
-              className="h-9 px-4 rounded-xl border border-ink-200 dark:border-ink-700 text-sm text-ink-600 dark:text-ink-300 hover:bg-ink-50 dark:hover:bg-ink-700/50 transition-colors">
+            <button type="button" onClick={reset} className="h-9 px-4 rounded-xl border border-ink-200 dark:border-ink-700 text-sm text-ink-600 dark:text-ink-300 hover:bg-ink-50 dark:hover:bg-ink-700/50 transition-colors">
               Upload another folder
             </button>
           </div>
@@ -406,8 +399,7 @@ export default function BulkUploadForm() {
       )}
 
       <div>
-        <a href="/admin/icons"
-          className="text-sm text-ink-500 hover:text-ink-900 dark:text-ink-400 dark:hover:text-white transition-colors">
+        <a href="/admin/icons" className="text-sm text-ink-500 hover:text-ink-900 dark:text-ink-400 dark:hover:text-white transition-colors">
           ← Back to icons
         </a>
       </div>
