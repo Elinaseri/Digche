@@ -104,10 +104,11 @@ export default function IconUploadForm({ categories }: Props) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex flex-col lg:flex-row lg:items-start gap-8">
+      <div className="flex flex-col gap-8">
+      <div className="flex flex-col lg:flex-row lg:items-stretch gap-8">
 
         {/* ── Left column ─────────────────────────────────────────── */}
-        <div className="flex-1 min-w-0 max-w-2xl space-y-8">
+        <div className="flex-1 min-w-0 max-w-2xl flex flex-col gap-8">
 
           {/* Metadata */}
           <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 space-y-5">
@@ -212,7 +213,7 @@ export default function IconUploadForm({ categories }: Props) {
           </div>
 
           {/* SVG Variants */}
-          <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 space-y-5">
+          <div className="flex-1 bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 space-y-5">
             <div>
               <h2 className="text-sm font-semibold text-ink-900 dark:text-white">
                 SVG Variants
@@ -237,33 +238,12 @@ export default function IconUploadForm({ categories }: Props) {
             </div>
           </div>
 
-          {error && (
-            <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl px-4 py-3">
-              {error}
-            </p>
-          )}
-
-          <div className="flex items-center gap-3">
-            <button
-              type="submit"
-              disabled={pending}
-              className="h-9 px-5 rounded-xl bg-ink-900 dark:bg-white text-white dark:text-ink-900 text-sm font-medium hover:bg-ink-700 dark:hover:bg-ink-100 active:bg-ink-800 dark:active:bg-ink-200 disabled:opacity-50 transition-colors"
-            >
-              {pending ? "Saving…" : "Save as Draft"}
-            </button>
-            <a
-              href="/admin/icons"
-              className="text-sm text-ink-500 hover:text-ink-900 dark:text-ink-400 dark:hover:text-white transition-colors"
-            >
-              Cancel
-            </a>
-          </div>
         </div>
 
         {/* ── Right column: code editor ───────────────────────────── */}
         {activeStyle && (
-          <div className="lg:w-80 xl:w-96 flex-shrink-0 lg:sticky lg:top-8">
-            <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 flex flex-col gap-4">
+          <div className="lg:w-80 xl:w-96 flex-shrink-0 flex flex-col">
+            <div className="flex-1 bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-ink-900 dark:text-white">
                   {activeStyle} — SVG code
@@ -284,7 +264,7 @@ export default function IconUploadForm({ categories }: Props) {
                     [activeStyle]: e.target.value || null,
                   }))
                 }
-                className="w-full min-h-[260px] p-3 rounded-xl border border-ink-200 dark:border-ink-700 bg-ink-50 dark:bg-ink-900 text-xs font-mono text-ink-800 dark:text-ink-200 resize-y focus:outline-none focus:border-ink-400 dark:focus:border-ink-500 leading-relaxed"
+                className="flex-1 min-h-[120px] p-3 rounded-xl border border-ink-200 dark:border-ink-700 bg-ink-50 dark:bg-ink-900 text-xs font-mono text-ink-800 dark:text-ink-200 resize-none focus:outline-none focus:border-ink-400 dark:focus:border-ink-500 leading-relaxed"
                 placeholder={'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">\n  ...\n</svg>'}
                 spellCheck={false}
               />
@@ -295,6 +275,29 @@ export default function IconUploadForm({ categories }: Props) {
           </div>
         )}
 
+      </div>
+
+        {error && (
+          <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl px-4 py-3">
+            {error}
+          </p>
+        )}
+
+        <div className="flex items-center gap-3">
+          <button
+            type="submit"
+            disabled={pending}
+            className="h-9 px-5 rounded-xl bg-ink-900 dark:bg-white text-white dark:text-ink-900 text-sm font-medium hover:bg-ink-700 dark:hover:bg-ink-100 active:bg-ink-800 dark:active:bg-ink-200 disabled:opacity-50 transition-colors"
+          >
+            {pending ? "Saving…" : "Save as Draft"}
+          </button>
+          <a
+            href="/admin/icons"
+            className="text-sm text-ink-500 hover:text-ink-900 dark:text-ink-400 dark:hover:text-white transition-colors"
+          >
+            Cancel
+          </a>
+        </div>
       </div>
     </form>
   );

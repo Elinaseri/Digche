@@ -113,10 +113,11 @@ export default function EditIconForm({ icon }: Props) {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row lg:items-start gap-8">
+    <div className="flex flex-col gap-8">
+    <div className="flex flex-col lg:flex-row lg:items-stretch gap-8">
 
       {/* ── Left column: metadata + variants ─────────────────────── */}
-      <div className="flex-1 min-w-0 max-w-2xl space-y-8">
+      <div className="flex-1 min-w-0 max-w-2xl flex flex-col gap-8">
 
         {/* Metadata */}
         <form
@@ -182,7 +183,7 @@ export default function EditIconForm({ icon }: Props) {
         </form>
 
         {/* SVG Variants */}
-        <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 space-y-5">
+        <div className="flex-1 bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 space-y-5">
           <div>
             <h2 className="text-sm font-semibold text-ink-900 dark:text-white">SVG Variants</h2>
             <p className="text-xs text-ink-400 dark:text-ink-500 mt-0.5">
@@ -203,18 +204,12 @@ export default function EditIconForm({ icon }: Props) {
           </div>
         </div>
 
-        <div>
-          <a href="/admin/icons"
-            className="text-sm text-ink-500 hover:text-ink-900 dark:text-ink-400 dark:hover:text-white transition-colors">
-            ← Back to icons
-          </a>
-        </div>
       </div>
 
-      {/* ── Right column: code editor (sticky) ───────────────────── */}
+      {/* ── Right column: code editor ────────────────────────────── */}
       {activeStyle && (
-        <div className="lg:w-80 xl:w-96 flex-shrink-0 lg:sticky lg:top-8">
-          <div className="bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 flex flex-col gap-4">
+        <div className="lg:w-80 xl:w-96 flex-shrink-0 flex flex-col">
+          <div className="flex-1 bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-2xl p-6 flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold text-ink-900 dark:text-white">
                 {activeStyle} — SVG code
@@ -227,7 +222,7 @@ export default function EditIconForm({ icon }: Props) {
             <textarea
               value={pendingCode}
               onChange={(e) => setPendingCode(e.target.value)}
-              className="w-full min-h-[260px] p-3 rounded-xl border border-ink-200 dark:border-ink-700 bg-ink-50 dark:bg-ink-900 text-xs font-mono text-ink-800 dark:text-ink-200 resize-y focus:outline-none focus:border-ink-400 dark:focus:border-ink-500 leading-relaxed"
+              className="flex-1 min-h-[120px] p-3 rounded-xl border border-ink-200 dark:border-ink-700 bg-ink-50 dark:bg-ink-900 text-xs font-mono text-ink-800 dark:text-ink-200 resize-none focus:outline-none focus:border-ink-400 dark:focus:border-ink-500 leading-relaxed"
               placeholder={'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">\n  ...\n</svg>'}
               spellCheck={false}
             />
@@ -242,6 +237,14 @@ export default function EditIconForm({ icon }: Props) {
         </div>
       )}
 
+    </div>
+
+      <div>
+        <a href="/admin/icons"
+          className="text-sm text-ink-500 hover:text-ink-900 dark:text-ink-400 dark:hover:text-white transition-colors">
+          ← Back to icons
+        </a>
+      </div>
     </div>
   );
 }
